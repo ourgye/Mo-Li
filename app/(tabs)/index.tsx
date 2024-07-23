@@ -7,7 +7,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <HomeCalendar />
-      <View>
+      <View style = {{flex: 1}}>
         <ArchiveList />
       </View>
     </SafeAreaView>
@@ -17,6 +17,7 @@ export default function HomeScreen() {
 // styles, 임시 스타일 변경 가능
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "#f8f8f8",
     paddingHorizontal: 24,
     height: "100%",

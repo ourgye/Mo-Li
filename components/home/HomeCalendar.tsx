@@ -3,8 +3,9 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useRef, Fragment, useState, useCallback, useMemo } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Calendar, CalendarUtils, LocaleConfig } from "react-native-calendars";
+import { Calendar, CalendarUtils } from "react-native-calendars";
 import { Dimensions } from "react-native";
+import { CalendarDropDown } from "./CalendarDropDown";
 
 const INITIAL_DATE = new Date();
 const daysKo = {
@@ -96,6 +97,7 @@ export function HomeCalendar() {
       return (
         // @ts-expect-error
         <View ref={ref} {...props}>
+            <View style={styles.customHeaderWrapper}>
           <View style={styles.customHeader}>
             <TouchableOpacity onPress={movePrevious}>
               <MaterialCommunityIcons name="chevron-left" size={24} />
@@ -104,6 +106,8 @@ export function HomeCalendar() {
             <TouchableOpacity onPress={moveNext}>
               <MaterialCommunityIcons name="chevron-right" size={24} />
             </TouchableOpacity>
+          </View>
+          <CalendarDropDown />
           </View>
           {renderDayNames()}
         </View>
@@ -167,6 +171,12 @@ const styles = StyleSheet.create({
     marginHorizontal: -4,
     padding: 8,
   },
+  customHeaderWrapper: {
+    flexDirection: "row", 
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 12,
+  }, 
   customHeaderText: {
     fontSize: 24,
   },
