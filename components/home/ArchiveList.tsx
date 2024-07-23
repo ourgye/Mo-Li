@@ -6,6 +6,7 @@ import {
   type ItemData,
   type ArchiveListItemProps,
 } from "./ArchiveListItem";
+import { AddArchiveButton } from "@/components/home/AddArchiveButton";
 
 // 인자는 수정 필요 혹은 제대로 이해해야 함
 export function ArchiveList() {
@@ -29,15 +30,14 @@ export function ArchiveList() {
   ];
 
   return (
-    <View style={{ height: "100%"}}>
         <FlatList
         data={archiveList}
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         renderItem={({ item }) => (
             <ArchiveListItem item={item} onPress={() => {}} />
         )}
+        ListFooterComponent={<AddArchiveButton />}
         scrollEnabled={true}
         />
-    </View> 
   );
 }

@@ -21,10 +21,10 @@ export function ArchiveListItem({ item, onPress }: ArchiveListItemProps) {
   return (
     <View >
       <Pressable onPress={onPress} style={styles.itemWrapper}>
-        <Text>{item.title}</Text>
+        <Text style={styles.itemTextTitle}>{item.title}</Text>
         <View style={styles.itemRight}>
-            <Text>{item.total + '개'} | {item.recentDate}</Text>
-            <MaterialCommunityIcons name="chevron-right" size={24} color="#888888" />
+            <Text style={styles.itemTextRight}>{item.total + '개'} | {item.recentDate}</Text>
+            <MaterialCommunityIcons name="chevron-right" size={20} color="#888888" />
         </View>
       </Pressable>
     </View>
@@ -47,5 +47,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8, 
+    },
+    itemTextTitle: {
+        fontSize: 16,
+    }, 
+    itemTextRight: {
+      fontSize: 12, 
+      color: '#888888'
     }
 }); 
