@@ -24,8 +24,8 @@ export function CalendarDropDown(){
     return (
         <View style={styles.container}>
           <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.dropdownContainer}
+            style={styles.dropdown} // 위에 선택된 드롭다운 스타일
+            containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
             selectedTextStyle={styles.selectedTextStyle}
             itemTextStyle={styles.itemTextStyle}
             renderItem={(item: Item) => {

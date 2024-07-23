@@ -1,14 +1,22 @@
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArchiveList } from "@/components/home/ArchiveList";
+import { HomeRecordList } from "@/components/home/HomeRecordList";
 import { HomeCalendar } from "@/components/home/HomeCalendar";
+import { FloatingAddRecordButton } from "@/components/floatingAddRecordButton";
+import { useState } from "react";
+
 
 export default function HomeScreen() {
+
+
   return (
     <SafeAreaView style={styles.container}>
+      <FloatingAddRecordButton />
       <HomeCalendar />
       <View style = {{flex: 1}}>
-        <ArchiveList />
+        {/* <ArchiveList /> */}
+        <HomeRecordList />
       </View>
     </SafeAreaView>
   );
