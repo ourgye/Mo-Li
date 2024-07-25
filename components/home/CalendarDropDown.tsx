@@ -16,7 +16,6 @@ type CalendarDropDownProps = {
 
 
 export function CalendarDropDown({data, current, setCurrent}: CalendarDropDownProps){
-    const [value, setValue] = useState<string | null>('0');
     const [isFocus, setIsFocus] = useState<boolean>(false);
 
     return (
@@ -30,7 +29,7 @@ export function CalendarDropDown({data, current, setCurrent}: CalendarDropDownPr
                 return (
                 <View style={styles.itemContainer}>
                     <View style={styles.iconWrapper}>
-                        {item.value == value && <MaterialCommunityIcons name="chevron-right" size={16} color="#00CFF9" />}
+                        {item.value == current.value && <MaterialCommunityIcons name="chevron-right" size={16} color="#00CFF9" />}
                     </View>
                     <Text>{item.label}</Text>
                 </View>); 
