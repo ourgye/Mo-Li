@@ -1,91 +1,102 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
 
-export type DropdownItem ={
-    label: string;
-    value: string;
-}
+export type DropdownItem = {
+  label: string;
+  value: string;
+};
 
 type CustomDropDownProps = {
-    data: DropdownItem[];
-    current: DropdownItem;
-    setCurrent: (current: DropdownItem) => void;
-}
+  data: DropdownItem[];
+  current: DropdownItem;
+  setCurrent: (current: DropdownItem) => void;
+};
 
+export function CustomDropDown({
+  data,
+  current,
+  setCurrent,
+}: CustomDropDownProps) {
+  const [isFocus, setIsFocus] = useState<boolean>(false);
 
-export function CustomDropDown({data, current, setCurrent}: CustomDropDownProps){
-    const [isFocus, setIsFocus] = useState<boolean>(false);
-
-    return (
-        <View style={styles.container}>
-          <Dropdown
-            style={styles.dropdown} // 위에 선택된 드롭다운 스타일
-            containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
-            selectedTextStyle={styles.selectedTextStyle}
-            itemTextStyle={styles.itemTextStyle}
-            renderItem={(item: DropdownItem) => {
-                return (
-                <View style={styles.itemContainer}>
-                    <View style={styles.iconWrapper}>
-                        {item.value == current.value && <MaterialCommunityIcons name="chevron-right" size={16} color="#00CFF9" />}
-                    </View>
-                    <Text>{item.label}</Text>
-                </View>); 
-            }}
-            data={data}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholderStyle={styles.selectedTextStyle}
-            placeholder={current.label}
-            value={current.value}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item: DropdownItem) => {
-              setCurrent(item);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-      );
+  return (
+    <View style={styles.container}>
+      <Dropdown
+        style={styles.dropdown} // 위에 선택된 드롭다운 스타일
+        containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
+        selectedTextStyle={styles.selectedTextStyle}
+        itemTextStyle={styles.itemTextStyle}
+        renderItem={(item: DropdownItem) => {
+          return (
+            <View style={styles.itemContainer}>
+              <View style={styles.iconWrapper}>
+                {item.value == current.value && (
+                  <MaterialCommunityIcons
+                    name="chevron-right"
+                    size={16}
+                    color="#00CFF9"
+                  />
+                )}
+              </View>
+              <Text>{item.label}</Text>
+            </View>
+          );
+        }}
+        data={data}
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholderStyle={styles.selectedTextStyle}
+        placeholder={current.label}
+        value={current.value}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        onChange={(item: DropdownItem) => {
+          setCurrent(item);
+          setIsFocus(false);
+        }}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-container: {
-},
-dropdownContainer:{
+  container: {},
+  dropdownContainer: {
     width: 200,
-    backgroundColor: '#FCFCFC',
+    backgroundColor: "#FCFCFC",
     borderRadius: 16,
-},
-dropdown: {
+    overflow: "hidden",
+    position: "relative",
+  },
+  dropdown: {
     width: 200,
     alignSelf: "flex-start",
     borderRadius: 16,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: "#EFEFEF", 
-},
-itemContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    backgroundColor: "#EFEFEF",
+  },
+  itemContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
     height: 32,
     padding: 8,
-},
-selectedTextStyle: {
+  },
+  selectedTextStyle: {
     fontSize: 14,
-},
-iconWrapper: {
+  },
+  iconWrapper: {
     width: 24,
-    height: 'auto',
+    height: "auto",
     paddingRight: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-},
-itemTextStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  itemTextStyle: {
     fontSize: 14,
-}
+  },
 });

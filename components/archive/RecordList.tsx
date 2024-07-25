@@ -1,7 +1,7 @@
 import MasonryList from "@react-native-seoul/masonry-list";
 import { RecordItem, type RecordItemData } from "./RecordItem";
 
-export function RecordList({ data }: { data: RecordItemData[] }) {
+export function RecordList({ data, ListHeaderComponent }: { data: RecordItemData[], ListHeaderComponent?: React.ReactNode }) {
   return (
     <MasonryList
       data={data}
@@ -12,6 +12,7 @@ export function RecordList({ data }: { data: RecordItemData[] }) {
       numColumns={3}
       showsVerticalScrollIndicator={false}
       refreshControl={false}
+      ListHeaderComponent={ListHeaderComponent}
     />
   );
 }

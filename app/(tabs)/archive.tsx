@@ -4,6 +4,7 @@ import { FloatingAddRecordButton } from "@/components/FloatingAddRecordButton";
 import { ArchiveTitle } from "@/components/archive/ArchiveTitle";
 import { ArchiveList } from "@/components/archive/ArchiveList";
 import { RecordList } from "@/components/archive/RecordList";
+import { CustomDropDown, type DropdownItem } from "@/components/CustomDropDown";
 
 // 여기는 홈 컴포넌트의 아카이브 리스트 아이템에 정의된 타입을 가져오고 있음. 추후에 변경 필요.
 import { type ItemData } from "@/components/home/ArchiveListItem";
@@ -97,9 +98,17 @@ const wholeData: RecordItemData[] = [
   },
 ];
 
+const dropDownData: DropdownItem[] = [
+  { label: "최신순", value: "0" },
+  { label: "과거순", value: "1" },
+];
+
 export default function TabTwoScreen() {
   const [current, setCurrent] = useState<ItemData>(archiveList[0]);
   const [showArchives, setShowArchives] = useState<boolean>(false);
+  const [currentOrder, setCurrentOrder] = useState<DropdownItem>(
+    dropDownData[0],
+  );
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
@@ -110,8 +119,8 @@ export default function TabTwoScreen() {
           onPress={() => setShowArchives(!showArchives)}
         />
       </View>
+      {showArchives &&(
       <View>
-        {showArchives && (
           <ArchiveList
             data={archiveList}
             current={current}
@@ -120,14 +129,21 @@ export default function TabTwoScreen() {
               setShowArchives(false);
             }}
           />
-        )}
-      </View>
-      <View style={styles.bodyHeader}>
-        <Text>{current.total}개 레코드</Text>
-        <Text>드롭다운</Text>
-      </View>
+      </View>)}
       <View style={styles.body}>
-        <RecordList data={wholeData} />
+        <RecordList
+          data={wholeData}
+          ListHeaderComponent={
+            <View style={styles.bodyHeader}>
+              <Text>{current.total}개 레코드</Text>
+              <CustomDropDown
+                data={dropDownData}
+                current={currentOrder}
+                setCurrent={setCurrentOrder}
+              />
+            </View>
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -138,12 +154,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F8F8",
     paddingHorizontal: 24,
-    gap: 16,
+    gap: 24,
   },
   bodyHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 16,
   },
   body: {
     flex: 1,
