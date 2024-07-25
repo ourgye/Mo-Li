@@ -1,33 +1,23 @@
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ArchiveList } from "@/components/home/ArchiveList";
-import { HomeRecordList } from "@/components/home/HomeRecordList";
-import { HomeCalendar } from "@/components/home/HomeCalendar";
-import { FloatingAddRecordButton } from "@/components/floatingAddRecordButton";
-import { useState } from "react";
-
+import { HomeList } from "@/components/home/HomeList";
+import { FloatingAddRecordButton } from "@/components/FloatingAddRecordButton";
 
 export default function HomeScreen() {
-
-
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['right', 'top', 'left']}>
       <FloatingAddRecordButton />
-      <HomeCalendar />
-      <View style = {{flex: 1}}>
-        {/* <ArchiveList /> */}
-        <HomeRecordList />
+      <View style={{ flex: 1 }}>
+        <HomeList />
       </View>
     </SafeAreaView>
   );
 }
 
-// styles, 임시 스타일 변경 가능
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f8f8",
     paddingHorizontal: 24,
-    height: "100%",
+    backgroundColor: "#F8F8F8",
   },
 });

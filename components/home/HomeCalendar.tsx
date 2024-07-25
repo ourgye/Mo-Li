@@ -5,9 +5,8 @@ import React, { useRef, Fragment, useState, useCallback, useMemo } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Calendar, CalendarUtils } from "react-native-calendars";
 import { Dimensions } from "react-native";
-import { CalendarDropDown } from "./CalendarDropDown";
+import { CalendarDropDown, type DropdownItem } from "./CalendarDropDown";
 
-const INITIAL_DATE = new Date();
 const daysKo = {
   monthNames: [
     "1월",
@@ -35,37 +34,34 @@ const daysKo = {
   dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
 };
 
-export function HomeCalendar() {
+export type HomeCalendarProps = {
+  selectedDate: string;
+  markedDates: any;
+  setSelectedDate: (date: string) => void;
+  dropDownData: DropdownItem[];
+  currentArchive: DropdownItem;
+  setCurrentArchive: (current: DropdownItem) => void;
+};
+
+export function HomeCalendar({
+  selectedDate,
+  markedDates,
+  setSelectedDate,
+  dropDownData,
+  currentArchive,
+  setCurrentArchive,
+}: HomeCalendarProps) {
   const customHeaderProps: any = useRef();
-  const [selected, setSelected] = useState(
-    CalendarUtils.getCalendarDateString(INITIAL_DATE),
-  );
-  const [currentMonth, setCurrentMonth] = useState(INITIAL_DATE.getMonth() + 1);
-
-  const onDayPress = useCallback(
-    (day: { dateString: React.SetStateAction<string> }) => {
-      setSelected(day.dateString);
-    },
-    [],
-  );
-
-  const marked = useMemo(() => {
-    return {
-      [selected]: {
-        selected: true,
-        disableTouchEvent: true,
-        selectedColor: "#00CFF9",
-        selectedTextColor: "white",
-      },
-    };
-  }, [selected]);
+  const [currentMonth, setCurrentMonth] = useState<number>(
+    parseInt(selectedDate.split("-")[1]) - 1,
+  ); // for printing month name in header
 
   const setCustomHeaderNewMonth = (next = false) => {
     const add = next ? 1 : -1;
     const month = new Date(customHeaderProps?.current?.month);
     const newMonth = new Date(month.setMonth(month.getMonth() + add));
     customHeaderProps?.current?.addMonth(add);
-    setCurrentMonth(newMonth.getMonth() + 1);
+    setCurrentMonth(newMonth.getMonth());
   };
 
   const moveNext = () => {
@@ -76,7 +72,7 @@ export function HomeCalendar() {
     setCustomHeaderNewMonth(false);
   };
 
-  const renderDayNames = () => {
+  const DayNames = React.memo(() => {
     return (
       <View style={styles.dayNamesStyle}>
         {daysKo.dayNamesShort.map((day) => (
@@ -88,7 +84,7 @@ export function HomeCalendar() {
         ))}
       </View>
     );
-  };
+  });
 
   const renderCalendarWithCustomHeader = () => {
     const CustomHeader = React.forwardRef((props, ref) => {
@@ -97,47 +93,38 @@ export function HomeCalendar() {
       return (
         // @ts-expect-error
         <View ref={ref} {...props}>
-            <View style={styles.customHeaderWrapper}>
-          <View style={styles.customHeader}>
-            <TouchableOpacity onPress={movePrevious}>
-              <MaterialCommunityIcons name="chevron-left" size={24} />
-            </TouchableOpacity>
-            <Text style={styles.customHeaderText}>{currentMonth}월</Text>
-            <TouchableOpacity onPress={moveNext}>
-              <MaterialCommunityIcons name="chevron-right" size={24} />
-            </TouchableOpacity>
+          <View style={styles.customHeaderWrapper}>
+            <View style={styles.customHeader}>
+              <TouchableOpacity onPress={movePrevious}>
+                <MaterialCommunityIcons name="chevron-left" size={24} />
+              </TouchableOpacity>
+              <Text style={styles.customHeaderText}>
+                {daysKo.monthNames[currentMonth]}
+              </Text>
+              <TouchableOpacity onPress={moveNext}>
+                <MaterialCommunityIcons name="chevron-right" size={24} />
+              </TouchableOpacity>
+            </View>
+            <CalendarDropDown
+              data={dropDownData}
+              current={currentArchive}
+              setCurrent={setCurrentArchive}
+            />
           </View>
-          <CalendarDropDown />
-          </View>
-          {renderDayNames()}
+          <DayNames />
         </View>
       );
     });
 
     return (
       <Calendar
-        initialDate={INITIAL_DATE}
+        initialDate={selectedDate}
         style={[styles.customCalendar]}
         customHeader={CustomHeader}
-        onDayPress={onDayPress}
-        // dayComponent={({ date, state }: any) => {
-        //   return (
-        //     <View style={styles.customDayContainer}>
-        //       <Text
-        //         style={[
-        //           styles.customDay,
-        //           state === "disabled"
-        //             ? styles.disabledText
-        //             : styles.defaultText,
-        //         ]}
-        //       >
-        //         {date?.day}
-        //       </Text>
-        //     </View>
-        //   );
-        // }}
-        hideWeekdayNames={false}
-        markedDates={marked}
+        onDayPress={(day: any) => {
+          setSelectedDate(day.dateString);
+        }}
+        markedDates={markedDates}
       />
     );
   };
@@ -172,11 +159,11 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   customHeaderWrapper: {
-    flexDirection: "row", 
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 12,
-  }, 
+  },
   customHeaderText: {
     fontSize: 24,
   },
