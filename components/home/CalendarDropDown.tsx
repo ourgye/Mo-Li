@@ -3,21 +3,19 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
-type Item ={
+export type DropdownItem ={
     label: string;
     value: string;
 }
 
-// hardcoded data for now
-const data : Item[] = [
-    {label: '전체', value: '0'}, 
-    {label: '하이랄 정복기', value: '1'},
-    {label: '귀농 in 스타듀밸리', value: '2'},
-    {label: '가포는 최고의 호랑이', value: '3'},
-]
+type CalendarDropDownProps = {
+    data: DropdownItem[];
+    current: DropdownItem;
+    setCurrent: (current: DropdownItem) => void;
+}
 
 
-export function CalendarDropDown(){
+export function CalendarDropDown({data, current, setCurrent}: CalendarDropDownProps){
     const [value, setValue] = useState<string | null>('0');
     const [isFocus, setIsFocus] = useState<boolean>(false);
 
@@ -28,7 +26,7 @@ export function CalendarDropDown(){
             containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
             selectedTextStyle={styles.selectedTextStyle}
             itemTextStyle={styles.itemTextStyle}
-            renderItem={(item: Item) => {
+            renderItem={(item: DropdownItem) => {
                 return (
                 <View style={styles.itemContainer}>
                     <View style={styles.iconWrapper}>
@@ -41,12 +39,13 @@ export function CalendarDropDown(){
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={!isFocus ? 'Select item' : '...'}
-            value={value}
+            placeholderStyle={styles.selectedTextStyle}
+            placeholder={current.label}
+            value={current.value}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
-            onChange={(item: Item) => {
-              setValue(item.value);
+            onChange={(item: DropdownItem) => {
+              setCurrent(item);
               setIsFocus(false);
             }}
           />

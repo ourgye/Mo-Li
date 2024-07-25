@@ -2,21 +2,21 @@
 import { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, View, Text } from "react-native";
 
-export type ItemData = {
+export type RecordItemData = {
   date: string;
   image: string;
   title: string;
   body: string;
 };
 
-export function HomeRecordItem(item: ItemData) {
+export function HomeRecordItem(item: RecordItemData) {
   const [height, setHeight] = useState<number>(0);
   // line height + font size = 32 (추후 제대로 계산해야함)
   // text 자를 때 사용
   const line = 32;
+  const fixedWidth = 142; // 고정된 너비
 
   const DynamicImage = (uri: string) => {
-    const fixedWidth = 142; // 고정된 너비
 
     useEffect(() => {
       // 이미지의 원본 크기를 가져옴
@@ -30,11 +30,13 @@ export function HomeRecordItem(item: ItemData) {
 
     return (
       <View style={styles.imageWrapper}>
-        {height > 0 && (
+        {height > 0 ? (
           <Image
             source={{ uri }}
             style={[styles.image, { width: fixedWidth, height: height }]}
           />
+        ) : (
+          <View style={{ width: fixedWidth, height: fixedWidth }}></View>
         )}
       </View>
     );
@@ -53,7 +55,7 @@ export function HomeRecordItem(item: ItemData) {
           <Text
             style={styles.bodyText}
             ellipsizeMode="tail"
-            numberOfLines={Math.ceil(height / line)}
+            numberOfLines={height >0 ? Math.ceil(height / line) : Math.ceil(fixedWidth / line)}
           >
             {item.body}
           </Text>

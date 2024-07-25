@@ -1,15 +1,12 @@
 // 메인 페이지에서 선택한 날짜에 컨텐츠가 없을 때 캘린더 하단에 뜨는 아카이브 리스트
 // 저장소랑 연결
 import { FlatList, View, type FlatListProps } from "react-native";
-import {
-  ArchiveListItem,
-  type ItemData,
-  type ArchiveListItemProps,
-} from "./ArchiveListItem";
+import { ArchiveListItem, type ItemData } from "./ArchiveListItem";
 import { AddArchiveButton } from "@/components/home/AddArchiveButton";
+import { HomeCalendar, type HomeCalendarProps } from "./HomeCalendar";
 
 // 인자는 수정 필요 혹은 제대로 이해해야 함
-export function ArchiveList() {
+export function ArchiveList({ ...props }: HomeCalendarProps) {
   // hard coded data: 3 (from flow)
   const archiveList: ItemData[] = [
     {
@@ -30,14 +27,15 @@ export function ArchiveList() {
   ];
 
   return (
-        <FlatList
-        data={archiveList}
-        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-        renderItem={({ item }) => (
-            <ArchiveListItem item={item} onPress={() => {}} />
-        )}
-        ListFooterComponent={<AddArchiveButton />}
-        scrollEnabled={true}
-        />
+    <FlatList
+      ListHeaderComponent={<HomeCalendar {...props} />}
+      data={archiveList}
+      ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+      renderItem={({ item }) => (
+        <ArchiveListItem item={item} onPress={() => {}} />
+      )}
+      ListFooterComponent={<AddArchiveButton />}
+      scrollEnabled={true}
+    />
   );
 }
