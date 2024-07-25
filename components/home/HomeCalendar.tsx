@@ -5,7 +5,7 @@ import React, { useRef, Fragment, useState, useCallback, useMemo } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Calendar, CalendarUtils } from "react-native-calendars";
 import { Dimensions } from "react-native";
-import { CalendarDropDown, type DropdownItem } from "./CalendarDropDown";
+import { CustomDropDown, type DropdownItem } from "../CustomDropDown";
 
 const daysKo = {
   monthNames: [
@@ -105,7 +105,7 @@ export function HomeCalendar({
                 <MaterialCommunityIcons name="chevron-right" size={24} />
               </TouchableOpacity>
             </View>
-            <CalendarDropDown
+            <CustomDropDown
               data={dropDownData}
               current={currentArchive}
               setCurrent={setCurrentArchive}

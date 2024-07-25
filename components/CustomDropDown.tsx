@@ -8,14 +8,14 @@ export type DropdownItem ={
     value: string;
 }
 
-type CalendarDropDownProps = {
+type CustomDropDownProps = {
     data: DropdownItem[];
     current: DropdownItem;
     setCurrent: (current: DropdownItem) => void;
 }
 
 
-export function CalendarDropDown({data, current, setCurrent}: CalendarDropDownProps){
+export function CustomDropDown({data, current, setCurrent}: CustomDropDownProps){
     const [isFocus, setIsFocus] = useState<boolean>(false);
 
     return (
