@@ -1,10 +1,11 @@
 import { Pressable, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Link } from "expo-router";
 
-export function FloatingAddRecordButton() {
-  return <Pressable style={styles.addFloatingButton} onPress={() => {}}>
+export function FloatingCreateRecordButton() {
+  return <Link style={styles.addFloatingButton} href='/create-record'>
     <MaterialCommunityIcons name="plus" size={36} color="white" />
-  </Pressable>;
+  </Link>;
 }
 
 const styles = StyleSheet.create({

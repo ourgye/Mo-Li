@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FloatingAddRecordButton } from "@/components/FloatingAddRecordButton";
+import { FloatingCreateRecordButton } from "@/components/FloatingCreateRecordButton";
 import { ArchiveTitle } from "@/components/archive/ArchiveTitle";
 import { ArchiveList } from "@/components/archive/ArchiveList";
 import { RecordList } from "@/components/archive/RecordList";
@@ -112,7 +112,7 @@ export default function TabTwoScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <FloatingAddRecordButton />
+      <FloatingCreateRecordButton />
       <View>
         <ArchiveTitle
           current={current.title}
