@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { useMemo, useState } from "react";
 import { CalendarUtils } from "react-native-calendars";
 import { RecordItemData } from "./HomeRecordItem";
-import { type DropdownItem } from "./CalendarDropDown";
+import { type DropdownItem } from "../CustomDropDown";
 
 // hard coded data: 3 (from flow) for now
 const wholeData: RecordItemData[] = [

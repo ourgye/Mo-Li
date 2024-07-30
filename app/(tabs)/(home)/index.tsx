@@ -1,12 +1,12 @@
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeList } from "@/components/home/HomeList";
-import { FloatingAddRecordButton } from "@/components/FloatingAddRecordButton";
+import { FloatingCreateRecordButton } from "@/components/FloatingCreateRecordButton";
 
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['right', 'top', 'left']}>
-      <FloatingAddRecordButton />
+      <FloatingCreateRecordButton />
       <View style={{ flex: 1 }}>
         <HomeList />
       </View>
