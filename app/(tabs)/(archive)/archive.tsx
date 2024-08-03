@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FloatingCreateRecordButton } from "@/components/FloatingCreateRecordButton";
 import { ArchiveTitle } from "@/components/archive/ArchiveTitle";
@@ -26,6 +26,46 @@ const archiveList: ItemData[] = [
     title: "가포는 최고의 호랑이",
     total: 9,
     recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.22",
+  },  {
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.23",
+  },{
+    title: "가포는 최고의 호랑이",
+    total: 9,
+    recentDate: "2024.07.23",
   },
 ];
 
@@ -38,7 +78,7 @@ const wholeData: RecordItemData[] = [
   },
   {
     date: "2024.07.22",
-    image: "https://picsum.photos/300/200",
+    image: "https://picsum.photos/300",
     title: "귀농 in 스타듀밸리",
     body: "귀농은 끝나지 않는다.",
   },
@@ -95,6 +135,36 @@ const wholeData: RecordItemData[] = [
     image: "https://picsum.photos/400/300",
     title: "가포는 최고의 호랑이",
     body: "가포는 최고의 호랑이인데 왜 이렇게 무시받는 걸까? 갑호는 정말 속상하다. 매일 밤 울고 있다.",
+  },  {
+    date: "2024.07.22",
+    image: "https://picsum.photos/400/300",
+    title: "가포는 최고의 호랑이",
+    body: "가포는 최고의 호랑이인데 왜 이렇게 무시받는 걸까? 갑호는 정말 속상하다. 매일 밤 울고 있다.",
+  },  {
+    date: "2024.07.22",
+    image: "https://picsum.photos/400/300",
+    title: "가포는 최고의 호랑이",
+    body: "가포는 최고의 호랑이인데 왜 이렇게 무시받는 걸까? 갑호는 정말 속상하다. 매일 밤 울고 있다.",
+  },  {
+    date: "2024.07.22",
+    image: "https://picsum.photos/400/300",
+    title: "가포는 최고의 호랑이",
+    body: "가포는 최고의 호랑이인데 왜 이렇게 무시받는 걸까? 갑호는 정말 속상하다. 매일 밤 울고 있다.",
+  },  {
+    date: "2024.07.22",
+    image: "https://picsum.photos/400/300",
+    title: "가포는 최고의 호랑이",
+    body: "가포는 최고의 호랑이인데 왜 이렇게 무시받는 걸까? 갑호는 정말 속상하다. 매일 밤 울고 있다.",
+  },  {
+    date: "2024.07.22",
+    image: "https://picsum.photos/400/300",
+    title: "가포는 최고의 호랑이",
+    body: "가포는 최고의 호랑이인데 왜 이렇게 무시받는 걸까? 갑호는 정말 속상하다. 매일 밤 울고 있다.",
+  },  {
+    date: "2024.07.22",
+    image: "https://picsum.photos/400/300",
+    title: "가포는 최고의 호랑이",
+    body: "가포는 최고의 호랑이인데 왜 이렇게 무시받는 걸까? 갑호는 정말 속상하다. 매일 밤 울고 있다.",
   },
 ];
 
@@ -113,6 +183,7 @@ export default function TabTwoScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <FloatingCreateRecordButton />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View>
         <ArchiveTitle
           current={current.title}
@@ -145,6 +216,7 @@ export default function TabTwoScreen() {
           }
         />
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -153,6 +225,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F8F8F8",
+  },
+  scrollContainer: {
     paddingHorizontal: 24,
     gap: 24,
   },

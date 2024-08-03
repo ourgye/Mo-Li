@@ -15,6 +15,7 @@ export function HomeRecordList({ data, calendarProps }: HomeRecordListProps) {
       renderItem={({ item }) => <HomeRecordItem {...item} />}
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={<HomeCalendar {...calendarProps}/>}
+      ListFooterComponent={<View style={{ height: 16 }} />}
     />
   );
 }

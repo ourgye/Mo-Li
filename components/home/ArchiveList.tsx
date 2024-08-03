@@ -23,6 +23,42 @@ export function ArchiveList({ ...props }: HomeCalendarProps) {
       title: "가포는 최고의 호랑이",
       total: 9,
       recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
+    },    {
+      title: "가포는 최고의 호랑이",
+      total: 9,
+      recentDate: "2024.07.22",
     },
   ];
 
@@ -36,6 +72,7 @@ export function ArchiveList({ ...props }: HomeCalendarProps) {
       )}
       ListFooterComponent={<AddArchiveButton />}
       scrollEnabled={true}
+      showsVerticalScrollIndicator={false}
     />
   );
 }

@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
         marginTop: 16, // 없으면 위에 리스트랑 간격이 없음
         paddingVertical: 16, 
         paddingHorizontal: 32, 
-        alignSelf: "center"
+        alignSelf: "center",
+        marginBottom: 16,
     },
     buttonFont: {
         fontSize: 16,
