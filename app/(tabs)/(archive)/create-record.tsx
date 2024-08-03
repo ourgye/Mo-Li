@@ -11,25 +11,11 @@ import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
-import { RecordForm } from "@/components/create_record/RecordForm";
+import { RecordForm } from "@/components/create-record/RecordForm";
+import { Header } from "@/components/create-record/Header";
 import * as ImagePicker from "expo-image-picker";
 
 export default function CreateRecord() {
-  const Header = () => {
-    return (
-      <View style={styles.headerContainer}>
-        {/* 사이즈가 플로우랑 다름 (플로우에는 16, 여기서는 32로 설정함) */}
-        <Link asChild href={""}>
-          <MaterialCommunityIcons name="chevron-left" size={32} color="black" />
-        </Link>
-        {/* 게시 버튼 */}
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonTitle}>게시</Text>
-        </Pressable>
-      </View>
-    );
-  };
-
   // image 따로 컴포넌트 빼서 추후에 다시 작성
   // any data type으로 설정해놓음
   const [image, setImage] = useState<any>(null);
@@ -68,12 +54,12 @@ export default function CreateRecord() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["left", "right", "top"]}>
+    <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior="position">
         <Header />
         {/* 여기 스타일 너무 하드코딩된 듯... 15 기준으로 작성됨 */}
         <ScrollView
-          contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 88, backgroundColor: "skyblue" }}
+          contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 48, backgroundColor: "lightpink" }}
           showsVerticalScrollIndicator={false}
         >
           <RecordImage />
@@ -85,24 +71,6 @@ export default function CreateRecord() {
 }
 
 const styles = StyleSheet.create({
-  // header
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingBottom: 8,
-  },
-  button: {
-    backgroundColor: "#00CFF9",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 16,
-  },
-  buttonTitle: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "semibold",
-  },
   // body
   container: {
     backgroundColor: "#F8F8F8",
