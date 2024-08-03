@@ -24,14 +24,13 @@ export function CommonList({ data }: { data: CommonListItemProps[] }) {
       ItemSeparatorComponent={() => (
         <View style={{ height: 0.7, backgroundColor: "#CBCBCB" }} />
       )}
-      style={styles.container}
+      contentContainerStyle={styles.container}
     />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "white",
     borderRadius: 16,
     paddingHorizontal: 16,

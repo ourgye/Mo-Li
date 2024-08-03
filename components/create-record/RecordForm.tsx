@@ -70,6 +70,7 @@ const [date, setDate] = useState<Date>(new Date());
           <TextInput
             editable
             multiline
+            scrollEnabled
             style={[styles.text16, styles.textArea]}
             placeholder="내용을 입력해주세요"
             spellCheck={false}
@@ -108,5 +109,6 @@ const styles = StyleSheet.create({
   },
   textArea: {
     height: 164,
+    flex: 1,
   },
 });
