@@ -5,6 +5,7 @@ import {
   Pressable,
   Image,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -67,12 +68,18 @@ export default function CreateRecord() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['left','right', 'top']}>
-      <Header />
-      <ScrollView contentContainerStyle={{gap: 24}} showsVerticalScrollIndicator={false}>
-        <RecordImage />
-        <RecordForm />
-      </ScrollView>
+    <SafeAreaView style={styles.container} edges={["left", "right", "top"]}>
+      <KeyboardAvoidingView behavior="position">
+        <Header />
+        {/* 여기 스타일 너무 하드코딩된 듯... 15 기준으로 작성됨 */}
+        <ScrollView
+          contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 88, backgroundColor: "skyblue" }}
+          showsVerticalScrollIndicator={false}
+        >
+          <RecordImage />
+          <RecordForm />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -83,6 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingBottom: 8,
   },
   button: {
     backgroundColor: "#00CFF9",

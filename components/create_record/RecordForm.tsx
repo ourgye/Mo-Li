@@ -37,6 +37,7 @@ export function RecordForm() {
             multiline
             style={[styles.text16, styles.textArea]}  
             placeholder="내용을 입력해주세요"
+            spellCheck={false}
             autoComplete="off"
             autoCorrect={false}
             autoCapitalize="none"
