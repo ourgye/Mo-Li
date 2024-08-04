@@ -2,7 +2,7 @@ import {View,Pressable,Text,StyleSheet} from "react-native";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {router} from "expo-router";
 
-export function HeaerWithTitle({title}: {title: string}) {
+export function HeaderWithTitle({title}: {title: string | undefined}) {
     return (
       <View style={styles.headerContainer}>
         {/* 사이즈가 플로우랑 다름 (플로우에는 16, 여기서는 32로 설정함) */}
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "yellow",
     alignItems: "center",
     paddingVertical: 8,
   },

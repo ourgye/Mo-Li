@@ -11,6 +11,7 @@ export default function HomeLayout() {
       <Stack>
         <Stack.Screen name="index" options={{headerShown: false}} />
         <Stack.Screen name="create-record" options={{ headerShown: false }} />
+        <Stack.Screen name="select-archive" options={{ headerShown: false }} />
       </Stack>
   );
 }

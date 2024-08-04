@@ -7,7 +7,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 export function RecordForm() {
   const [isDatePickerVisible, setDatePickerVisibility] =
     useState<boolean>(false);
-const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date>(new Date());
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -39,7 +39,12 @@ const [date, setDate] = useState<Date>(new Date());
       {/* 아카이브 */}
       <View style={styles.bottomLine}>
         <Text style={[styles.text16]}>아카이브</Text>
-        <Pressable style={[styles.inputContainer]} onPress={()=>{router.navigate('select-archive')}}>
+        <Pressable
+          style={[styles.inputContainer]}
+          onPress={() => {
+            router.navigate("./select-archive");
+          }}
+        >
           {/* value from state management */}
           <Text style={[styles.text16]}>하이랄 구하기</Text>
           <MaterialCommunityIcons
@@ -49,12 +54,12 @@ const [date, setDate] = useState<Date>(new Date());
           />
         </Pressable>
       </View>
-        {/* 날짜 */}
+      {/* 날짜 */}
       <View style={styles.bottomLine}>
         <Text style={[styles.text16]}>날짜</Text>
         <Pressable style={[styles.inputContainer]} onPress={showDatePicker}>
           {/* value from state management */}
-          <Text style={styles.text16}>{date.toISOString().split('T')[0]}</Text>
+          <Text style={styles.text16}>{date.toISOString().split("T")[0]}</Text>
           <MaterialCommunityIcons
             name="chevron-right"
             size={24}
@@ -62,7 +67,7 @@ const [date, setDate] = useState<Date>(new Date());
           />
         </Pressable>
       </View>
-        {/* 내용 */}
+      {/* 내용 */}
       <View style={[styles.bottomLine]}>
         <Text style={[styles.text16]}>내용</Text>
         <View style={[styles.inputContainer]}>

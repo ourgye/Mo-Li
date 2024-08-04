@@ -1,5 +1,6 @@
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, Text, useWindowDimensions, View } from "react-native";
+import { Image, Pressable, useWindowDimensions, View } from "react-native";
 
 export type RecordItemData = {
     date: string;
@@ -19,9 +20,13 @@ export function RecordItem(item: RecordItemData) {
         });
     }); 
 
+    const onPressItem = () => {
+        router.navigate("(archive)/하이랄 정복기");
+    };
+
     return (
-        <View style={{alignItems: "center"}}>
+        <Pressable style={{alignItems: "center"}} onPress={onPressItem}>
             <Image style={{width: _width, height: height, marginHorizontal: 4, marginBottom: 8, borderRadius: 8}} source={{uri: item.image ? item.image : 'https://picsum.photos/300'}} />
-        </View>
+        </Pressable>
     );
 }

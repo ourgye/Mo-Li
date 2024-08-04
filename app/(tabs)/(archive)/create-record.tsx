@@ -59,7 +59,7 @@ export default function CreateRecord() {
         <Header />
         {/* 여기 스타일 너무 하드코딩된 듯... 15 기준으로 작성됨 */}
         <ScrollView
-          contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 48, backgroundColor: "lightpink" }}
+          contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 56}}
           showsVerticalScrollIndicator={false}
         >
           <RecordImage />

@@ -182,7 +182,7 @@ export default function TabTwoScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <FloatingCreateRecordButton />
+      <FloatingCreateRecordButton from="(archive)" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View>
         <ArchiveTitle
