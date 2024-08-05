@@ -10,6 +10,7 @@ export default function SettingLayout() {
   return (
       <Stack>
         <Stack.Screen name="setting" options={{headerShown: false}} />
+        <Stack.Screen name="select-archive" options={{headerShown: false}} />
       </Stack>
   );
 }

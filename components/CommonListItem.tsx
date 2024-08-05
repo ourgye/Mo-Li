@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 
 export type CommonListItemProps = {
   leftIcon: "none" | "chevron-right" | "menu";
+  rightIcon: "chevron-right" | "dots-horizontal-circle";
   selected?: boolean;
   setSelected?: (title: string | null) => void;
   title: string;
@@ -10,6 +11,7 @@ export type CommonListItemProps = {
 
 export function CommonListItem({
   leftIcon,
+  rightIcon,
   selected,
   setSelected,
   title,
@@ -48,7 +50,7 @@ export function CommonListItem({
         </View>
       </Pressable>
       <MaterialCommunityIcons
-        name="dots-horizontal-circle"
+        name={rightIcon}
         size={16}
         color="grey"
       />
