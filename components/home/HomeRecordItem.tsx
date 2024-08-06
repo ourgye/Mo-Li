@@ -1,15 +1,10 @@
 // 메인화면 레코드 아이템 컴포넌트
+import { RecordData } from "@/constants/types.interface";
 import { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, View, Text } from "react-native";
 
-export type RecordItemData = {
-  date: string;
-  image: string;
-  title: string;
-  body: string;
-};
 
-export function HomeRecordItem(item: RecordItemData) {
+export function HomeRecordItem(item: RecordData) {
   const [height, setHeight] = useState<number>(0);
   // line height + font size = 32 (추후 제대로 계산해야함)
   // text 자를 때 사용
@@ -44,13 +39,13 @@ export function HomeRecordItem(item: RecordItemData) {
 
   return (
     <Pressable style={styles.itemWrapper}>
-      <Text style={styles.dateText}>{item.date}</Text>
+      <Text style={styles.dateText}>{item.date.toDateString()}</Text>
       <View style={styles.itemBodyWrapper}>
         {/* 기본 이미지 필요?  */}
-        {DynamicImage(item.image)}
+        {DynamicImage(item.imagePath)}
         <View style={styles.itemTextWrapper}>
           <Text style={styles.titleText} ellipsizeMode="tail" numberOfLines={1}>
-            {item.title}
+            {item.archive.name}
           </Text>
           <Text
             style={styles.bodyText}

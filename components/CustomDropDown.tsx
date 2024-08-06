@@ -1,17 +1,14 @@
+import { ArchiveData } from "@/constants/types.interface";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-export type DropdownItem = {
-  label: string;
-  value: string;
-};
 
 type CustomDropDownProps = {
-  data: DropdownItem[];
-  current: DropdownItem;
-  setCurrent: (current: DropdownItem) => void;
+  data: ArchiveData[] | undefined;
+  current: ArchiveData;
+  setCurrent: (current: ArchiveData) => void;
 };
 
 export function CustomDropDown({
@@ -28,11 +25,11 @@ export function CustomDropDown({
         containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
         selectedTextStyle={styles.selectedTextStyle}
         itemTextStyle={styles.itemTextStyle}
-        renderItem={(item: DropdownItem) => {
+        renderItem={(item: ArchiveData) => {
           return (
             <View style={styles.itemContainer}>
               <View style={styles.iconWrapper}>
-                {item.value == current.value && (
+                {item._id == current._id && (
                   <MaterialCommunityIcons
                     name="chevron-right"
                     size={16}
@@ -40,20 +37,20 @@ export function CustomDropDown({
                   />
                 )}
               </View>
-              <Text>{item.label}</Text>
+              <Text>{item.name}</Text>
             </View>
           );
         }}
-        data={data}
+        data={data ?? [current]}
         maxHeight={300}
-        labelField="label"
-        valueField="value"
+        labelField="_id"
+        valueField="name"
         placeholderStyle={styles.selectedTextStyle}
-        placeholder={current.label}
-        value={current.value}
+        placeholder={current.name}
+        value={current.name}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
-        onChange={(item: DropdownItem) => {
+        onChange={(item: ArchiveData) => {
           setCurrent(item);
           setIsFocus(false);
         }}

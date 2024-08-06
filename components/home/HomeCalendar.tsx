@@ -1,11 +1,12 @@
 // 메인 페이지에 나오는 캘린더
 // 앱 부팅시 캘린더에 오늘 날짜 표시
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useRef, Fragment, useState, useCallback, useMemo } from "react";
+import React, { useRef, useState} from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Calendar, CalendarUtils } from "react-native-calendars";
 import { Dimensions } from "react-native";
-import { CustomDropDown, type DropdownItem } from "../CustomDropDown";
+import { CustomDropDown } from "../CustomDropDown";
+import { ArchiveData } from "@/constants/types.interface";
 
 const daysKo = {
   monthNames: [
@@ -35,12 +36,12 @@ const daysKo = {
 };
 
 export type HomeCalendarProps = {
-  selectedDate: string;
+  selectedDate: Date;
   markedDates: any;
-  setSelectedDate: (date: string) => void;
-  dropDownData: DropdownItem[];
-  currentArchive: DropdownItem;
-  setCurrentArchive: (current: DropdownItem) => void;
+  setSelectedDate: (date: Date) => void;
+  dropDownData: ArchiveData[] | null;
+  currentArchive: ArchiveData;
+  setCurrentArchive: (current: ArchiveData) => void;
 };
 
 export function HomeCalendar({
@@ -53,7 +54,7 @@ export function HomeCalendar({
 }: HomeCalendarProps) {
   const customHeaderProps: any = useRef();
   const [currentMonth, setCurrentMonth] = useState<number>(
-    parseInt(selectedDate.split("-")[1]) - 1,
+    selectedDate.getMonth()
   ); // for printing month name in header
 
   const setCustomHeaderNewMonth = (next = false) => {
@@ -118,11 +119,11 @@ export function HomeCalendar({
 
     return (
       <Calendar
-        initialDate={selectedDate}
+        initialDate={CalendarUtils.getCalendarDateString(selectedDate)}
         style={[styles.customCalendar]}
         customHeader={CustomHeader}
         onDayPress={(day: any) => {
-          setSelectedDate(day.dateString);
+          setSelectedDate(new Date(day.dateString));
         }}
         markedDates={markedDates}
       />

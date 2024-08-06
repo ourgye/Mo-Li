@@ -1,19 +1,13 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { type ItemData } from "../home/ArchiveListItem";
+import { ArchiveDataAll} from "@/constants/types.interface";
 
-export type ArchiveItemProps = {
-  current: string;
-  data: ItemData;
-  onPress: (title: string) => void;
-};
-
-export function ArchiveItem({ current, data, onPress }: ArchiveItemProps) {
+export function ArchiveItem({ isSelected, data, onPress }: { isSelected: boolean | undefined, data: ArchiveDataAll, onPress: (title: string) => void }) {
   return (
-    <Pressable style={styles.container} onPress={()=>{onPress(data.title)}}>
+    <Pressable style={styles.container} onPress={()=>{onPress(data.name)}}>
       <View style={styles.titleWrapper}>
         <View style={styles.iconWrapper}>
-          {current == data.title && (
+          {isSelected && (
             <MaterialCommunityIcons
               name="chevron-right"
               size={16}
@@ -21,12 +15,12 @@ export function ArchiveItem({ current, data, onPress }: ArchiveItemProps) {
             />
           )}
         </View>
-        <Text style={[styles.title, current == data.title && styles.clicked]}>
-          {data.title}
+        <Text style={[styles.title, isSelected && styles.clicked]}>
+          {data.name}
         </Text>
       </View>
       <View style={styles.totalDateWrapper}>
-        <Text style={styles.totalDate}>{data.total + "개"} | {data.recentDate}</Text>
+        <Text style={styles.totalDate}>{data.total.toString()} 개 | {data.recent.toDateString()}</Text>
       </View>
     </Pressable>
   );

@@ -1,9 +1,11 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import { HomeRecordItem, type RecordItemData } from "./HomeRecordItem";
+import { HomeRecordItem } from "./HomeRecordItem";
+import { RecordData } from "@/constants/types.interface";
 import { HomeCalendar, type HomeCalendarProps } from "./HomeCalendar";
+import { Results } from "realm";
 
 type HomeRecordListProps = {
-  data: RecordItemData[];
+  data: RecordData[];
   calendarProps: HomeCalendarProps;
 };
 
