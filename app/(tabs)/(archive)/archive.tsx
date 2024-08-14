@@ -12,7 +12,8 @@ import { getArchiveData, getFirstArchive } from "@/db/archive-method";
 import { BSON } from "realm";
 
 export default function Archive() {
-  const [archiveList, setArchiveList] = useState<ArchiveData[]>(getArchiveData());
+  const [archiveList, setArchiveList] =
+    useState<ArchiveData[]>(getArchiveData());
   const [current, setCurrent] = useState<ArchiveData>();
   const [recordList, setRecordList] = useState<RecordData[]>();
   const [showArchives, setShowArchives] = useState<boolean>(false);
@@ -25,7 +26,8 @@ export default function Archive() {
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <FloatingCreateRecordButton from="(archive)" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View>         <ArchiveTitle
+        <View>
+          <ArchiveTitle
             current={current?.name}
             onPress={() => setShowArchives(!showArchives)}
           />
@@ -35,7 +37,7 @@ export default function Archive() {
             <ArchiveList
               current={current}
               onPress={(item: ArchiveData) => {
-                setCurrent(item)
+                setCurrent(item);
                 setShowArchives(false);
               }}
             />

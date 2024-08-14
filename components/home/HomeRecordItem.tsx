@@ -10,6 +10,7 @@ export function HomeRecordItem(item: RecordData) {
   // text 자를 때 사용
   const line = 32;
   const fixedWidth = 142; // 고정된 너비
+  console.log(item);
 
   const DynamicImage = (uri: string) => {
 
@@ -39,7 +40,7 @@ export function HomeRecordItem(item: RecordData) {
 
   return (
     <Pressable style={styles.itemWrapper}>
-      <Text style={styles.dateText}>{item.date.toDateString()}</Text>
+      <Text style={styles.dateText}>{item.date}</Text>
       <View style={styles.itemBodyWrapper}>
         {/* 기본 이미지 필요?  */}
         {DynamicImage(item.imagePath)}

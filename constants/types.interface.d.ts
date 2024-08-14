@@ -1,13 +1,13 @@
 export interface RecordData{
     _id: Realm.BSON.ObjectId;
-    date: Date;
+    date: string;
     imagePath: string;
     body: string;
     archive: Archive;
 }
 
 export interface RecordDataWOID{
-    date: Date;
+    date: string;
     imagePath: string;
     body: string;
     archive: Archive;
@@ -25,6 +25,5 @@ export interface ArchiveDataWOID{
 export interface ArchiveDataAll{
     _id: Realm.BSON.ObjectId;
     name: string;
-    recent: Date;
-    total: number;
+    records: RecordData[];
 }

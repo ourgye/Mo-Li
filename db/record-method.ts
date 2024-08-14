@@ -1,6 +1,5 @@
 import { RecordDataWOID, RecordData } from "@/constants/types.interface";
 import { useObject, useQuery, useRealm } from "@realm/react";
-import ObjectID from "bson-objectid";
 import { Record, Archive } from "./entities";
 
 // 레코드 생성
@@ -11,7 +10,7 @@ export function createRecord({
   archive,
 }: RecordDataWOID) {
   const realm = useRealm();
-  const id = ObjectID();
+  const id = new Realm.BSON.ObjectID();
 
   realm.write(() => {
     realm.create("Record", {
@@ -45,15 +44,6 @@ export function updateRecord({
   });
 }
 
-// 날짜로 레코드 조회
-export function getRecordByDate(date: Date) {
-  const records = useQuery(Record, (Records) => {
-    return Records.filtered(`date = $0`, date);
-  });
-
-  return Array.from(records);
-}
-
 // 아카이브로 레코드 조회
 export function getRecordByArchive(archive: Archive) {
   const records = useQuery(Record, (Records) => {
@@ -72,10 +62,27 @@ export function getRecordByArchiveId(archiveId: Realm.BSON.ObjectId) {
   return Array.from(records);
 }
 
+export function getRecordByDate(date: Date) {
+  const formattedDate = date.toISOString().split("T")[0];
+  const records = getAllRecords();
+
+  return records.filter((record) => record.date === formattedDate);
+}
+
 // 아카이브와 날짜로 레코드 조회
-export function getRecordByArchiveDate(archive: Archive, date: Date): Record[] {
+export function getRecordByArchiveDate(
+  archiveId: Realm.BSON.ObjectId | undefined,
+  date: Date,
+): Record[] {
+  if (!archiveId) return getRecordByDate(date);
+
+  const formattedDate = date.toISOString().split("T")[0];
   const records = useQuery(Record, (Records) => {
-    return Records.filtered(`archive = $0 AND date = $1`, archive, date);
+    return Records.filtered(
+      `archive._id = $0 AND date = $1`,
+      archiveId,
+      date.toISOString().split("T")[0],
+    );
   });
 
   return Array.from(records);
@@ -91,4 +98,13 @@ export function deleteRecord(_id: Realm.BSON.ObjectId) {
       realm.delete(currRecord);
     }
   });
+}
+
+// 모든 레코드 가져오기
+export function getAllRecords() {
+  const records = useQuery(Record, (Records) => {
+    return Records; // 모든 레코드
+  });
+
+  return Array.from(records);
 }

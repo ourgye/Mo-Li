@@ -1,13 +1,10 @@
-import { RecordDataWOID, RecordData } from "@/constants/types.interface";
 import { useObject, useQuery, useRealm } from "@realm/react";
-import ObjectID from "bson-objectid";
-import { Record, Archive } from "./entities";
-import { BSON } from "realm";
+import { Archive } from "./entities";
 
 // 아카이브 생성
 export function createArchive({ name }: { name: string }) {
   const realm = useRealm();
-  const id = ObjectID();
+  const id = new Realm.BSON.ObjectID();
 
   realm.write(() => {
     realm.create("Archive", {
@@ -41,12 +38,12 @@ export function getAllArchives() {
   const archives = useQuery(Archive, (Archives) => {
     return Archives.sorted("name");
   });
-
-  return Array.from(archives);
+  console.log("archive", archives[0].records);
+  return archives;
 }
 
 // 아카이브 _id와 이름만 가져오기
-export function getArchiveData() {
+export function getArchiveNameID() {
   const archives = useQuery(Archive, (Archives) => {
     return Archives.sorted("name");
   });
@@ -67,7 +64,7 @@ export function getFirstArchive() {
 
   if (archives.length === 0) {
     return {
-      _id: new BSON.ObjectId(),
+      _id: new Realm.BSON.ObjectId(),
       name: "아카이브가 없습니다.",
     };
   }

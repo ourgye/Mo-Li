@@ -2,7 +2,7 @@ import Realm, { ObjectSchema } from "realm";
 
 export class Record extends Realm.Object<Record> {
   _id!: Realm.BSON.ObjectId;
-  date!: Date;
+  date!: string;
   imagePath!: string;
   body!: string;
   archive!: Archive; 
@@ -11,14 +11,10 @@ export class Record extends Realm.Object<Record> {
     name: "Record",
     properties: {
       _id: "objectId",
-      date: "date",
+      date: "string",
       imagePath: "string",
       body: "string",
-      archive: {
-        type: "linkingObjects",
-        objectType: "Archive",
-        property: "records",
-      }
+      archive: "Archive",
     },
     primaryKey: "_id",
   };
@@ -27,8 +23,8 @@ export class Record extends Realm.Object<Record> {
 export class Archive extends Realm.Object<Archive> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
-  total: number = 0; 
-  recent!: Date;
+  // total: number = 0;
+  // recent!: Date;
   records!: Realm.List<Record>;
 
   static schema: ObjectSchema = {
@@ -36,9 +32,11 @@ export class Archive extends Realm.Object<Archive> {
     properties: {
         _id: "objectId",
       name: "string",
-      records: "Record[]",
-      total: "int",
-      recent: "date",
+      records: {
+        type: "linkingObjects",
+        objectType: "Record",
+        property: "archive",
+      }
     },
     primaryKey: "_id",
   };

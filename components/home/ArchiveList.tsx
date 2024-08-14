@@ -4,17 +4,19 @@ import { FlatList, View } from "react-native";
 import { ArchiveListItem } from "./ArchiveListItem";
 import { AddArchiveButton } from "@/components/home/AddArchiveButton";
 import { type ArchiveDataAll } from "@/constants/types.interface";
-import { HomeCalendar, type HomeCalendarProps } from "./HomeCalendar";
+import { HomeCalendar } from "./HomeCalendar";
+import { getAllArchives } from "@/db/archive-method";
 
 // 인자는 수정 필요 혹은 제대로 이해해야 함
-export function ArchiveList({ ...props }: HomeCalendarProps) {
-  // hard coded data: 3 (from flow)
-  const archiveList: ArchiveDataAll[] = [
-  ];
+export function ArchiveList() {
+  const archiveList: ArchiveDataAll[] = Array.from(getAllArchives(), (archive) => ({
+    ...archive,
+    records: Array.from(archive.records),
+  }));
 
   return (
     <FlatList
-      ListHeaderComponent={<HomeCalendar {...props} />}
+      ListHeaderComponent={<HomeCalendar />}
       data={archiveList}
       ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
       renderItem={({ item }) => (

@@ -1,12 +1,15 @@
 // 메인 페이지에 나오는 캘린더
 // 앱 부팅시 캘린더에 오늘 날짜 표시
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Calendar, CalendarUtils } from "react-native-calendars";
 import { Dimensions } from "react-native";
 import { CustomDropDown } from "../CustomDropDown";
 import { ArchiveData } from "@/constants/types.interface";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { setSelectedDate, setCurrentArchive } from "@/slices/calendarSlice";
+import { getAllRecords } from "@/db/record-method";
 
 const daysKo = {
   monthNames: [
@@ -36,26 +39,29 @@ const daysKo = {
 };
 
 export type HomeCalendarProps = {
-  selectedDate: Date;
-  markedDates: any;
-  setSelectedDate: (date: Date) => void;
   dropDownData: ArchiveData[] | null;
-  currentArchive: ArchiveData;
-  setCurrentArchive: (current: ArchiveData) => void;
 };
 
-export function HomeCalendar({
-  selectedDate,
-  markedDates,
-  setSelectedDate,
-  dropDownData,
-  currentArchive,
-  setCurrentArchive,
-}: HomeCalendarProps) {
+export function HomeCalendar() {
+  const dispatch = useAppDispatch();
   const customHeaderProps: any = useRef();
+  const selectedDate = useAppSelector((state) => state.calendar.selectedDate);
   const [currentMonth, setCurrentMonth] = useState<number>(
-    selectedDate.getMonth()
+    new Date(selectedDate).getMonth(),
   ); // for printing month name in header
+
+  // get all the record from db
+  const allRecords = getAllRecords();
+
+  // set marked dates for the calendar
+  const markedDates = {
+    [CalendarUtils.getCalendarDateString(selectedDate)]: {
+      selected: true,
+      disableTouchEvent: true,
+      selectedColor: "#00CFF9",
+      selectedTextColor: "white",
+    },
+  };
 
   const setCustomHeaderNewMonth = (next = false) => {
     const add = next ? 1 : -1;
@@ -106,11 +112,7 @@ export function HomeCalendar({
                 <MaterialCommunityIcons name="chevron-right" size={24} />
               </TouchableOpacity>
             </View>
-            <CustomDropDown
-              data={dropDownData}
-              current={currentArchive}
-              setCurrent={setCurrentArchive}
-            />
+            <CustomDropDown />
           </View>
           <DayNames />
         </View>
@@ -120,10 +122,11 @@ export function HomeCalendar({
     return (
       <Calendar
         initialDate={CalendarUtils.getCalendarDateString(selectedDate)}
+        theme={{ "stylesheet.calendar.main": { borderRadius: 16 } }}
         style={[styles.customCalendar]}
         customHeader={CustomHeader}
-        onDayPress={(day: any) => {
-          setSelectedDate(new Date(day.dateString));
+        onDayPress={(date: any) => {
+          dispatch(setSelectedDate(date.dateString));
         }}
         markedDates={markedDates}
       />

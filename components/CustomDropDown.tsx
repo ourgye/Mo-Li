@@ -3,20 +3,18 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
+import { setCurrentArchive } from "@/slices/calendarSlice";
+import { getArchiveNameID } from "@/db/archive-method";
 
-
-type CustomDropDownProps = {
-  data: ArchiveData[] | undefined;
-  current: ArchiveData;
-  setCurrent: (current: ArchiveData) => void;
-};
-
-export function CustomDropDown({
-  data,
-  current,
-  setCurrent,
-}: CustomDropDownProps) {
+export function CustomDropDown() {
+  const currentArchive = useAppSelector(
+    (state) => state.calendar.currentArchive,
+  );
+  console.log("currentArchive: ", currentArchive);
+  const dispatch = useAppDispatch();
   const [isFocus, setIsFocus] = useState<boolean>(false);
+  const data = getArchiveNameID();
 
   return (
     <View style={styles.container}>
@@ -29,7 +27,7 @@ export function CustomDropDown({
           return (
             <View style={styles.itemContainer}>
               <View style={styles.iconWrapper}>
-                {item._id == current._id && (
+                {item._id.toHexString() == currentArchive?._id.toHexString() && (
                   <MaterialCommunityIcons
                     name="chevron-right"
                     size={16}
@@ -41,18 +39,17 @@ export function CustomDropDown({
             </View>
           );
         }}
-        data={data ?? [current]}
+        data={data}
         maxHeight={300}
-        labelField="_id"
-        valueField="name"
+        labelField="name"
+        valueField="_id"
         placeholderStyle={styles.selectedTextStyle}
-        placeholder={current.name}
-        value={current.name}
+        placeholder={currentArchive != undefined ? currentArchive.name : "전체"}
+        value={currentArchive != undefined ? currentArchive.name : "전체"}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item: ArchiveData) => {
-          setCurrent(item);
-          setIsFocus(false);
+          dispatch(setCurrentArchive({_id: item._id, name: item.name}));
         }}
       />
     </View>
