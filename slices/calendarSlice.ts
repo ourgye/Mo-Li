@@ -10,7 +10,7 @@ export type CalendarState = {
 };
 
 const initialState: CalendarState = {
-  selectedDate: new Date().toDateString(),
+  selectedDate: new Date().toISOString().split("T")[0],
   currentArchive: undefined,
 };
 

@@ -24,7 +24,7 @@ export function insertDummy() {
 
   const records: RecordDataWOID[] = [
     {
-      date: new Date().toISOString().split("T")[0],
+      date: new Date('2024-08-10').toISOString().split("T")[0],
       imagePath: "https://picsum.photos/600/400",
       body: "body1",
       archive: archivesAll[0],

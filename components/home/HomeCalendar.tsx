@@ -50,12 +50,28 @@ export function HomeCalendar() {
     new Date(selectedDate).getMonth(),
   ); // for printing month name in header
 
+  const records = {color: "grey", selectedDotColor: "white" };
   // get all the record from db
   const allRecords = getAllRecords();
-
   // set marked dates for the calendar
-  const markedDates = {
-    [CalendarUtils.getCalendarDateString(selectedDate)]: {
+
+  const dotsDates: { [key: string]: any } = {};
+  // use memo?
+  allRecords.forEach((record: { date: string }) => {
+    const date: string = record.date;
+    if (dotsDates[date] === undefined) {
+      dotsDates[date] = {};
+    }
+    if (dotsDates[date].dots === undefined) {
+      dotsDates[date].dots = [];
+    }
+    dotsDates[date].dots.push(records);
+  });
+
+  const markedDates: any = {
+    ...dotsDates,
+    [selectedDate]: {
+      ...dotsDates[selectedDate],
       selected: true,
       disableTouchEvent: true,
       selectedColor: "#00CFF9",
@@ -121,7 +137,8 @@ export function HomeCalendar() {
 
     return (
       <Calendar
-        initialDate={CalendarUtils.getCalendarDateString(selectedDate)}
+        markingType={"multi-dot"}
+        initialDate={selectedDate}
         theme={{ "stylesheet.calendar.main": { borderRadius: 16 } }}
         style={[styles.customCalendar]}
         customHeader={CustomHeader}
