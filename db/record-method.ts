@@ -1,4 +1,4 @@
-import { RecordDataWOID, RecordData } from "@/constants/types.interface";
+import { RecordDataWOID, RecordData, ArchiveData } from "@/constants/types.interface";
 import { useObject, useQuery, useRealm } from "@realm/react";
 import { Record, Archive } from "./entities";
 
@@ -45,11 +45,14 @@ export function updateRecord({
 }
 
 // 아카이브로 레코드 조회
-export function getRecordByArchive(archive: Archive) {
-  const records = useQuery(Record, (Records) => {
-    return Records.filtered(`archive = $0`, archive);
+export function getRecordByArchive(archive: ArchiveData | undefined) {
+  if (!archive) return getAllRecords();
+  const records = useQuery({
+    type: Record,
+    query: (Records) => {
+      return Records.filtered(`archive._id = $0`, archive._id);
+    },
   });
-
   return records;
 }
 
@@ -72,7 +75,7 @@ export function getRecordByDate(date: Date) {
 // 아카이브와 날짜로 레코드 조회
 export function getRecordByArchiveDate(
   archiveId: Realm.BSON.ObjectId | undefined,
-  date: Date,
+  date: Date
 ): Record[] {
   if (!archiveId) return getRecordByDate(date);
 
@@ -81,7 +84,7 @@ export function getRecordByArchiveDate(
     return Records.filtered(
       `archive._id = $0 AND date = $1`,
       archiveId,
-      date.toISOString().split("T")[0],
+      date.toISOString().split("T")[0]
     );
   });
 

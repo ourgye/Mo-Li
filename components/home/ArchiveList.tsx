@@ -3,16 +3,13 @@
 import { FlatList, View } from "react-native";
 import { ArchiveListItem } from "./ArchiveListItem";
 import { AddArchiveButton } from "@/components/home/AddArchiveButton";
-import { type ArchiveDataAll } from "@/constants/types.interface";
+import {  ArchiveDataWithRecentDateWORecords, type ArchiveDataAll } from "@/constants/types.interface";
 import { HomeCalendar } from "./HomeCalendar";
-import { getAllArchives } from "@/db/archive-method";
+import { getArchiveWORecord } from "@/db/archive-method";
 
 // 인자는 수정 필요 혹은 제대로 이해해야 함
 export function ArchiveList() {
-  const archiveList: ArchiveDataAll[] = Array.from(getAllArchives(), (archive) => ({
-    ...archive,
-    records: Array.from(archive.records),
-  }));
+  const archiveList: ArchiveDataWithRecentDateWORecords[] = getArchiveWORecord();
 
   return (
     <FlatList

@@ -7,18 +7,18 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-import { useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
-import { RecordForm } from "@/components/create-record/RecordForm";
-import { Header } from "@/components/create-record/Header";
+import { RecordForm } from "@/components/create-record/RecordFormArchive";
+import { Header } from "@/components/create-record/HeaderArchive";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { selectRecordImage, setRecordImage } from "@/slices/archiveRecordSlice";
 import * as ImagePicker from "expo-image-picker";
 
 export default function CreateRecord() {
   // image 따로 컴포넌트 빼서 추후에 다시 작성
   // any data type으로 설정해놓음
-  const [image, setImage] = useState<any>(null);
+  const image = useAppSelector(selectRecordImage);
+  const dispatch = useAppDispatch();
 
   const handleImagePicker = async () => {
     try {
@@ -27,11 +27,10 @@ export default function CreateRecord() {
         // allowsEditing: true,
       });
       if (image.canceled) throw new Error("Image picker canceled");
-      console.log(image);
-      setImage(image);
+      dispatch(setRecordImage(image));
     } catch (e) {
       console.log(e);
-      setImage(null);
+      dispatch(setRecordImage(undefined));
     }
   };
 
@@ -41,7 +40,7 @@ export default function CreateRecord() {
         style={[styles.recordImage, !image && { height: 234 }]}
         onPress={handleImagePicker}
       >
-        {image && (
+        {image?.assets && (
           <Image
             source={{ uri: image.assets[0].uri }}
             width={234}
@@ -55,11 +54,11 @@ export default function CreateRecord() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior="position">
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-16}>
         <Header />
         {/* 여기 스타일 너무 하드코딩된 듯... 15 기준으로 작성됨 */}
         <ScrollView
-          contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 56}}
+          contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 72 }}
           showsVerticalScrollIndicator={false}
         >
           <RecordImage />

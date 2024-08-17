@@ -1,6 +1,5 @@
-import { getFirstArchive } from "@/db/archive-method";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { setRecordDate, setRecordBody, setRecordArchive, selectRecordArchive, selectRecordDate, selectRecordBody } from "@/slices/homeRecordSlice";
+import { setRecordDate, setRecordBody, selectRecordArchive, selectRecordDate, selectRecordBody } from "@/slices/archiveRecordSlice";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";

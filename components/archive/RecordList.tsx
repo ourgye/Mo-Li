@@ -1,13 +1,13 @@
 import MasonryList from "@react-native-seoul/masonry-list";
 import { RecordItem } from "./RecordItem";
-import { type RecordData } from "@/constants/types.interface";
+import { RecordDataWOArchive, type RecordData } from "@/constants/types.interface";
 import { Text } from "react-native";
 
 export function RecordList({
   data,
   ListHeaderComponent,
 }: {
-  data: RecordData[] | undefined;
+  data: RecordDataWOArchive[] | undefined;
   ListHeaderComponent?: React.ReactNode;
 }) {
   if (!data) return <Text>데이터가 없습니다.</Text>;
@@ -16,7 +16,7 @@ export function RecordList({
     <MasonryList
       data={data}
       renderItem={({ item, i }: { item: any; i: number }) => (
-        <RecordItem {...item} />
+        <RecordItem item={item} index={i}/>
       )}
       contentContainerStyle={{
         alignItems: "stretch",

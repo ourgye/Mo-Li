@@ -5,7 +5,9 @@ export default function SettingLayout() {
   return (
       <Stack>
         <Stack.Screen name="setting" options={{headerShown: false}} />
-        <Stack.Screen name="select-archive" options={{headerShown: false}} />
+        <Stack.Screen name="archive-manage" options={{headerShown: false}} />
+        <Stack.Screen name="notification" options={{headerShown: false}} />
+        <Stack.Screen name="help" options={{headerShown: false}} />
       </Stack>
   );
 }

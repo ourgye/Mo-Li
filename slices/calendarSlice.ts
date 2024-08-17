@@ -27,7 +27,7 @@ const calendarSlice = createSlice({
         state.selectedDate = action.payload.toDateString();
       }
     },
-    setCurrentArchive(state, action: PayloadAction<ArchiveData>) {
+    setCurrentArchive(state, action: PayloadAction<ArchiveData | undefined>) {
       state.currentArchive = action.payload;
     },
   },

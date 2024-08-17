@@ -5,8 +5,9 @@ export type CommonListItemProps = {
   leftIcon: "none" | "chevron-right" | "menu";
   rightIcon: "chevron-right" | "dots-horizontal-circle";
   selected?: boolean;
-  setSelected?: (title: string | null) => void;
-  title: string;
+  setSelected?: ()=>{};
+  name: string;
+  _id: string;
 };
 
 export function CommonListItem({
@@ -14,14 +15,13 @@ export function CommonListItem({
   rightIcon,
   selected,
   setSelected,
-  title,
+  name,
+  _id='',
 }: CommonListItemProps) {
   return (
     <View style={styles.container}>
       <Pressable
-        onPress={() => {
-          if (setSelected) setSelected(title);
-        }}
+        onPress={setSelected}
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -45,7 +45,7 @@ export function CommonListItem({
         )}
         <View>
           <Text style={[styles.title, selected && { color: "#00CFF9" }]}>
-            {title}
+            {name}
           </Text>
         </View>
       </Pressable>

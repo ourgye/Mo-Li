@@ -5,8 +5,13 @@ import { StyleSheet } from "react-native";
 
 // for dummy data
 import { insertDummy } from "@/db/insertDummy";
+import { getAllArchives } from "@/db/archive-method";
 
 export default function TabLayout() {
+  const archives = getAllArchives();
+  if(archives.length === 0) {
+    insertDummy();
+  }
   // insertDummy();
 
   return (

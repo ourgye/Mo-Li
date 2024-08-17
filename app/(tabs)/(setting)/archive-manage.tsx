@@ -3,31 +3,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { HeaderWithTitle } from "@/components/HeaderWithTitle";
 import { CommonList as ArchiveList } from "@/components/CommonList";
 import { type CommonListItemProps } from "@/components/CommonListItem";
-import { getAllArchives } from "@/db/archive-method";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import {
-  selectRecordArchive,
-  setRecordArchive,
-} from "@/slices/archiveRecordSlice";
+import { ArchiveData } from "@/constants/types.interface";
+import { getArchiveWORecord } from "@/db/archive-method";
 
 export default function SelectArchive() {
-  const archiveData = getAllArchives();
-  const dispatch = useAppDispatch();
-  const currentArchive = useAppSelector(selectRecordArchive);
-
-  const data: CommonListItemProps[] = archiveData.map((archive) => ({
-    leftIcon: "chevron-right",
-    name: archive.name,
-    _id: archive._id.toHexString(),
-    rightIcon: "dots-horizontal-circle",
-    setSelected: () => dispatch(setRecordArchive(archive)),
-    selected: archive._id.toHexString() === currentArchive?._id.toHexString(),
+  const archiveData: ArchiveData[] = getArchiveWORecord();
+  const data: CommonListItemProps[] = archiveData.map((item) => ({
+    leftIcon: "menu",
+    name: item.name,
+    rightIcon: "chevron-right",
+    _id: item._id.toString(),
+    setSelected: (): {} => ({  }),
   }));
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <HeaderWithTitle title="아카이브" />
-      <ArchiveList data={data} />
+        <ArchiveList data={data}/>
     </SafeAreaView>
   );
 }

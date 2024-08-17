@@ -6,8 +6,12 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { CommonListItem, type CommonListItemProps } from "./CommonListItem";
 import { useState } from "react";
 
-export function CommonList({ data, scrollEnabled=true }: { data: CommonListItemProps[], scrollEnabled?: boolean }) {
-  const [selected, setSelected] = useState<string | null>(data[0].title || null);
+interface CommonListProp {
+  data: CommonListItemProps[];
+  scrollEnabled?: boolean;
+}
+
+export function CommonList({ data, scrollEnabled=true }: CommonListProp) {
 
   return (
     <FlatList
@@ -15,12 +19,10 @@ export function CommonList({ data, scrollEnabled=true }: { data: CommonListItemP
       renderItem={({ item }) => (
         <CommonListItem
           {...item}
-          setSelected={setSelected}
-          selected={item.title === selected}
         />
       )}
       scrollEnabled={scrollEnabled}
-      keyExtractor={(item) => item.title}
+      keyExtractor={(item) => item._id}
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => (
         <View style={{ height: 0.7, backgroundColor: "#CBCBCB" }} />

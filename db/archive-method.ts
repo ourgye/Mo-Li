@@ -1,5 +1,6 @@
 import { useObject, useQuery, useRealm } from "@realm/react";
 import { Archive } from "./entities";
+import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
 
 // 아카이브 생성
 export function createArchive({ name }: { name: string }) {
@@ -32,14 +33,75 @@ export function updateArchive({
   });
 }
 
-// 모든 아카이브 가져오기
 export function getAllArchives() {
-  // sorting 어떻게 할 지 정해야 함(현재는 이름으로)
-  const archives = useQuery(Archive, (Archives) => {
-    return Archives.sorted("name");
+  const archives = useQuery({
+    type: Archive,
+    query: (Archives) => {
+      return Archives.sorted("name");
+    },
   });
-  console.log("archive", archives[0].records);
-  return archives;
+
+  const noRecordArchives = archives.map((archive) => {
+    return {
+      _id: archive._id,
+      name: archive.name,
+    };
+  }); // 레코드가 없는 아카이브만 가져오기
+
+  return noRecordArchives;
+}
+
+// 아카이브 레코드 없이 가져오기
+export function getArchiveWORecord() {
+  const archives = useQuery({
+    type: Archive,
+    query: (Archives) => {
+      return Archives.sorted("name");
+    },
+  });
+
+  return archives.map((archive) => {
+    const records = archive.records.sorted("date", true);
+    const recentDate = records.length === 0 ? "" : records[0].date;
+
+    return {
+      _id: archive._id,
+      name: archive.name,
+      recentDate: recentDate,
+      recordLength: records.length,
+    };
+  });
+}
+
+// 아카이브의 모든 정보 가져오기
+export function getArchiveWithRecentDates(): ArchiveDataWithRecentDate[] {
+  // 아카이브는 이름 순으로
+  const archive = useQuery({
+    type: Archive,
+    query: (Archives) => {
+      return Archives.sorted("name");
+    },
+  });
+
+  return archive.map((archive) => {
+    const records = archive.records.sorted("date", true).map((record) => {
+      return {
+        _id: record._id,
+        date: record.date,
+        imagePath: record.imagePath,
+        body: record.body,
+      };
+    });
+    const recentDate = records.length === 0 ? "" : records[0].date;
+
+    return {
+      _id: archive._id,
+      name: archive.name,
+      recentDate,
+      recordLength: records.length,
+      records: records,
+    };
+  });
 }
 
 // 아카이브 _id와 이름만 가져오기
@@ -85,6 +147,21 @@ export function deleteArchive({ _id }: { _id: Realm.BSON.ObjectId }) {
   realm.write(() => {
     realm.delete(archive);
   });
+}
+
+// 아카이브의 가장 최근 레코드 날짜 가져오기
+export function getRecentRecordDate({ _id }: { _id: Realm.BSON.ObjectId }) {
+  const archive = useObject(Archive, _id);
+  if (!archive) {
+    return "";
+  }
+
+  const records = archive.records.sorted("date", true);
+  if (records.length === 0) {
+    return "";
+  }
+
+  return records[0].date;
 }
 
 // 아카이브 순서 변경

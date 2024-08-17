@@ -4,17 +4,18 @@ import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
-import { setCurrentArchive } from "@/slices/calendarSlice";
+import {
+  selectCurrentArchive,
+  setCurrentArchive,
+} from "@/slices/calendarSlice";
 import { getArchiveNameID } from "@/db/archive-method";
 
 export function CustomDropDown() {
-  const currentArchive = useAppSelector(
-    (state) => state.calendar.currentArchive,
-  );
-  console.log("currentArchive: ", currentArchive);
+  const currentArchive = useAppSelector(selectCurrentArchive);
   const dispatch = useAppDispatch();
   const [isFocus, setIsFocus] = useState<boolean>(false);
-  const data = getArchiveNameID();
+  const data: ArchiveData[] = getArchiveNameID();
+  data.unshift({ _id: new Realm.BSON.ObjectId(), name: "전체" });
 
   return (
     <View style={styles.container}>
@@ -27,13 +28,22 @@ export function CustomDropDown() {
           return (
             <View style={styles.itemContainer}>
               <View style={styles.iconWrapper}>
-                {item._id.toHexString() == currentArchive?._id.toHexString() && (
+                {item._id.toHexString() ==
+                  currentArchive?._id.toHexString() && (
                   <MaterialCommunityIcons
                     name="chevron-right"
                     size={16}
                     color="#00CFF9"
                   />
                 )}
+                {!currentArchive &&
+                  item._id.toHexString() == data[0]._id.toHexString() && (
+                    <MaterialCommunityIcons
+                      name="chevron-right"
+                      size={16}
+                      color="#00CFF9"
+                    />
+                  )}
               </View>
               <Text>{item.name}</Text>
             </View>
@@ -44,12 +54,15 @@ export function CustomDropDown() {
         labelField="name"
         valueField="_id"
         placeholderStyle={styles.selectedTextStyle}
-        placeholder={currentArchive != undefined ? currentArchive.name : "전체"}
-        value={currentArchive != undefined ? currentArchive.name : "전체"}
+        placeholder={
+          currentArchive != undefined ? currentArchive.name : data[0].name
+        }
+        value={currentArchive != undefined ? currentArchive.name : data[0].name}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item: ArchiveData) => {
-          dispatch(setCurrentArchive({_id: item._id, name: item.name}));
+          if (item.name == "전체") dispatch(setCurrentArchive(undefined));
+          else dispatch(setCurrentArchive({ _id: item._id, name: item.name }));
         }}
       />
     </View>

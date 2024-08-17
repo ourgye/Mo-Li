@@ -2,8 +2,20 @@ import { Text, StyleSheet, View } from "react-native";
 import { CommonList, CommonList as SettingList } from "@/components/CommonList";
 import { type CommonListItemProps } from "@/components/CommonListItem";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MyPageData from "@/constants/MyPage";
+import { useRouter } from "expo-router";
 
 export default function Setting() {
+  const router = useRouter();
+
+  const data: CommonListItemProps[] = MyPageData.map((item) => ({
+    leftIcon: "none",
+    name: item.name,
+    rightIcon: "chevron-right",
+    _id: item._id.toString(),
+    setSelected: (): {} => ({ router: router.navigate(item.path) }),
+  }));
+
   const Header = () => {
     return (
       <View style={styles.headerContainer}>
@@ -11,14 +23,6 @@ export default function Setting() {
       </View>
     );
   };
-
-  const data: CommonListItemProps[] = [
-    { leftIcon: "none", title: "아카이브 관리", rightIcon: "chevron-right" },
-    { leftIcon: "none", title: "iCloud 동기화", rightIcon: "chevron-right" },
-    { leftIcon: "none", title: "알림", rightIcon: "chevron-right" },
-    { leftIcon: "none", title: "언어", rightIcon: "chevron-right" },
-    { leftIcon: "none", title: "도움말", rightIcon: "chevron-right" },
-  ];
 
   return (
     <SafeAreaView style={styles.container}>

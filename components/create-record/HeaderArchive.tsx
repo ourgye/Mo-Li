@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import * as FileSystem from "expo-file-system";
-import { resetRecord, selectRecord } from "@/slices/homeRecordSlice";
+import { resetRecord, selectRecord } from "@/slices/archiveRecordSlice";
 import { useRealm } from "@realm/react";
 
 export function Header() {
@@ -54,7 +54,7 @@ export function Header() {
             imagePath: imagePath,
             body: recordData.body,
             archive: recordData.archive,
-          },true);
+          }, true);
         });
       })
       .catch((e) => {
@@ -66,8 +66,8 @@ export function Header() {
       //redux state 초기화
       dispatch(resetRecord());
 
-      // 레코드 저장 후 홈으로 이동
-      router.navigate("/(tabs)/(home)/");
+      // 레코드 저장 후 아카이브 페이지로 이동
+      router.push('/(tabs)/archive'); 
   };
 
   return (

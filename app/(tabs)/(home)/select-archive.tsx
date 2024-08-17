@@ -3,106 +3,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { HeaderWithTitle } from "@/components/HeaderWithTitle";
 import { CommonList as ArchiveList } from "@/components/CommonList";
 import { type CommonListItemProps } from "@/components/CommonListItem";
-
-// hardcoded data
-//     leftIcon: "none" | "chevron-right" | "menu";
-// selected?: boolean;
-// title: string;
-const data: CommonListItemProps[] = [
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 1월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 2월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 3월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 4월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 5월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 6월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 7월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 8월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2021년 9월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  // repeat
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 1월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 2월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 3월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 4월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 5월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 6월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 7월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 8월",
-    rightIcon: "dots-horizontal-circle",
-  },
-  {
-    leftIcon: "chevron-right",
-    title: "2022년 9월",
-    rightIcon: "dots-horizontal-circle",
-  },
-];
+import { getAllArchives } from "@/db/archive-method";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { selectRecordArchive, setRecordArchive } from "@/slices/homeRecordSlice";
 
 export default function SelectArchive() {
+  const archiveData = getAllArchives();
+  const dispatch = useAppDispatch();
+  const currentArchive = useAppSelector(selectRecordArchive);
+
+  const data: CommonListItemProps[] = archiveData.map((archive) => ({
+    leftIcon: "chevron-right",
+    name: archive.name,
+    _id: archive._id.toHexString(),
+    rightIcon: "dots-horizontal-circle",
+    setSelected: () => dispatch(setRecordArchive(archive)),
+    selected: archive._id.toHexString() === currentArchive?._id.toHexString(),
+  }));
+
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <HeaderWithTitle title="아카이브" />

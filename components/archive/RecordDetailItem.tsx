@@ -1,3 +1,4 @@
+import { RecordData } from "@/constants/types.interface";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import {
@@ -7,20 +8,16 @@ import {
   Image,
   useWindowDimensions,
 } from "react-native";
+import * as FileSystem from "expo-file-system";
 
-export type RecordDetailItemProps = {
-  date: string;
-  image: string;
-  body: string;
-};
-
-export function RecordDetailItem({ date, image, body }: RecordDetailItemProps) {
+export function RecordDetailItem({ item, index }: {item: RecordData, index: number}) {
   const dimension = useWindowDimensions();
   const [height, setHeight] = useState<number>(0);
   const _width = Math.round(dimension.width - 48 - 32);
+  const imagePath = FileSystem.documentDirectory + item.imagePath;
 
   useEffect(() => {
-    Image.getSize(image, (width, height) => {
+    Image.getSize(imagePath, (width, height) => {
       setHeight((_width * height) / width);
     });
   });
@@ -28,7 +25,7 @@ export function RecordDetailItem({ date, image, body }: RecordDetailItemProps) {
   return (
     <View style={styles.container}>
       <View style={styles.itemHeader}>
-        <Text>{date}</Text>
+        <Text>{item.date}</Text>
         <MaterialCommunityIcons
           name="dots-horizontal-circle"
           size={16}
@@ -38,13 +35,13 @@ export function RecordDetailItem({ date, image, body }: RecordDetailItemProps) {
       <View>
         <Image
           borderRadius={16}
-          source={{ uri: image }}
+          source={{ uri: imagePath }}
           width={_width}
           height={height}
         />
       </View>
       <View>
-        <Text style={styles.bodyText}>{body}</Text>
+        <Text style={styles.bodyText}>{item.body}</Text>
       </View>
     </View>
   );

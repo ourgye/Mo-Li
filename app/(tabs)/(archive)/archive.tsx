@@ -4,23 +4,45 @@ import { FloatingCreateRecordButton } from "@/components/FloatingCreateRecordBut
 import { ArchiveTitle } from "@/components/archive/ArchiveTitle";
 import { ArchiveList } from "@/components/archive/ArchiveList";
 import { RecordList } from "@/components/archive/RecordList";
-import { CustomDropDown } from "@/components/CustomDropDown";
-import { RecordData, ArchiveData } from "@/constants/types.interface";
-
-import { useState } from "react";
-import { getArchiveData, getFirstArchive } from "@/db/archive-method";
-import { BSON } from "realm";
+import { OrderCustomDropDown } from "@/components/archive/OrderDropDown";
+import { useEffect, useState } from "react";
+import { getArchiveWithRecentDates } from "@/db/archive-method";
+import orderList from "@/constants/Order";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import {
+  selectCurrentArchive,
+  selectCurrentOrder,
+  selectRecordList,
+  setCurrentArchive,
+  setCurrentOrder,
+  setRecordList,
+} from "@/slices/archiveSlice";
+import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
 
 export default function Archive() {
-  const [archiveList, setArchiveList] =
-    useState<ArchiveData[]>(getArchiveData());
-  const [current, setCurrent] = useState<ArchiveData>();
-  const [recordList, setRecordList] = useState<RecordData[]>();
-  const [showArchives, setShowArchives] = useState<boolean>(false);
-  const [currentOrder, setCurrentOrder] = useState<ArchiveData>({
-    _id: new BSON.ObjectID(),
-    name: "최신순",
-  });
+  const [archiveList, setArchiveList] = useState<ArchiveDataWithRecentDate[]>(
+    getArchiveWithRecentDates()
+  );
+  const dispatch = useAppDispatch();
+  const currentArchive = useAppSelector(selectCurrentArchive);
+  const currentOrder = useAppSelector(selectCurrentOrder);
+  const [showArchives, setShowArchives] = useState(false);
+  const recordList = useAppSelector(selectRecordList);
+
+  console.log("archiveList", archiveList);
+
+  if (!currentArchive) {
+    dispatch(setCurrentArchive(archiveList[0]));
+  }
+
+  useEffect(() => {
+    if (currentArchive) {
+      dispatch(setRecordList(currentArchive.records));
+      dispatch(setCurrentOrder(currentOrder));
+    }
+  }, [currentArchive]);
+
+  console.log(recordList);
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
@@ -28,35 +50,27 @@ export default function Archive() {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View>
           <ArchiveTitle
-            current={current?.name}
+            current={currentArchive?.name}
             onPress={() => setShowArchives(!showArchives)}
           />
         </View>
         {showArchives && (
           <View>
-            <ArchiveList
-              current={current}
-              onPress={(item: ArchiveData) => {
-                setCurrent(item);
-                setShowArchives(false);
-              }}
-            />
+            <ArchiveList setShowArchives={setShowArchives} data={archiveList} />
           </View>
         )}
         <View style={styles.body}>
-          <RecordList
-            data={recordList}
-            ListHeaderComponent={
-              <View style={styles.bodyHeader}>
-                <Text>{recordList?.length}개 레코드</Text>
-                <CustomDropDown
-                  data={archiveList}
-                  current={currentOrder}
-                  setCurrent={setCurrentOrder}
-                />
-              </View>
-            }
-          />
+          {recordList && (
+            <RecordList
+              data={recordList}
+              ListHeaderComponent={
+                <View style={styles.bodyHeader}>
+                  <Text>{currentArchive?.recordLength}개 레코드</Text>
+                  <OrderCustomDropDown data={orderList} />
+                </View>
+              }
+            />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

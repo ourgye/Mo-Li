@@ -1,16 +1,16 @@
-import {View, Text, StyleSheet} from "react-native";
+import { StyleSheet} from "react-native";
 import { HeaderWithTitle } from "@/components/HeaderWithTitle";
-import { useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RecordDetailList } from "@/components/archive/RecordDetailList";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { selectCurrentArchive } from "@/slices/archiveSlice";
 
-export default function ArchiveItem() {
-    // 나중에는 상태관리로? 
-    const {title} = useLocalSearchParams(); 
+export default function RecordDetail() {
+    const currentArchive = useAppSelector(selectCurrentArchive);
 
     return (
         <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-            <HeaderWithTitle title={title?.toString()} />
+            <HeaderWithTitle title={currentArchive?.name} />
             <RecordDetailList />
         </SafeAreaView>
     );

@@ -19,31 +19,31 @@ export function insertDummy() {
     createArchive(archive);
   });
 
-  const archivesAll = getAllArchives();
-  console.log(archivesAll);
+  // const archivesAll = getAllArchives();
+  // console.log(archivesAll);
 
-  const records: RecordDataWOID[] = [
-    {
-      date: new Date('2024-08-10').toISOString().split("T")[0],
-      imagePath: "https://picsum.photos/600/400",
-      body: "body1",
-      archive: archivesAll[0],
-    },
-    {
-      date: new Date().toISOString().split("T")[0],
-      imagePath: "https://picsum.photos/600/400",
-      body: "body2",
-      archive: archivesAll[1],
-    },
-    {
-      date: new Date().toISOString().split("T")[0],
-      imagePath: "https://picsum.photos/600/400",
-      body: "body3",
-      archive: archivesAll[2],
-    },
-  ];
+  // const records: RecordDataWOID[] = [
+  //   {
+  //     date: new Date('2024-08-10').toISOString().split("T")[0],
+  //     imagePath: "https://picsum.photos/600/400",
+  //     body: "body1",
+  //     archive: archivesAll[0],
+  //   },
+  //   {
+  //     date: new Date().toISOString().split("T")[0],
+  //     imagePath: "https://picsum.photos/600/400",
+  //     body: "body2",
+  //     archive: archivesAll[1],
+  //   },
+  //   {
+  //     date: new Date().toISOString().split("T")[0],
+  //     imagePath: "https://picsum.photos/600/400",
+  //     body: "body3",
+  //     archive: archivesAll[2],
+  //   },
+  // ];
 
-  records.forEach((record) => {
-    createRecord(record);
-  });
+  // records.forEach((record) => {
+  //   createRecord(record);
+  // });
 }

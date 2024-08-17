@@ -1,27 +1,27 @@
 import { FlatList, View, StyleSheet } from "react-native";
 import { ArchiveItem } from "./ArchiveItem";
-import ObjectID from "bson-objectid";
-import { ArchiveData, ArchiveDataAll } from "@/constants/types.interface";
-import { useEffect, useState } from "react";
-import { getAllArchives } from "@/db/archive-method";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { selectCurrentArchive } from "@/slices/archiveSlice";
 
 export function ArchiveList({
-  current,
-  onPress,
+  data,
+  setShowArchives,
 }: {
-  current: ArchiveData | undefined;
-  onPress: (current: ArchiveData) => void;
+  data: any;
+  setShowArchives: any;
 }) {
-  const [data, setData] = useState<ArchiveDataAll[]>(getAllArchives());
+  const curretArchive = useAppSelector(selectCurrentArchive);
+
   return (
     <FlatList
       style={styles.container}
       data={data}
-      renderItem={({ item }) => (
+      renderItem={({ item, index }) => (
         <ArchiveItem
-          isSelected={current && current._id == item._id}
+          isSelected={curretArchive?._id.toHexString() === item._id.toHexString()}
           data={item}
-          onPress={() => item} // 지금은 누르면 이름으로 변경하게 되어 있지만 나중에는 누르면 해당 아카이브로 이동하게 변경
+          index={index}
+          setShowArchives={setShowArchives}
         />
       )}
       ItemSeparatorComponent={() => (
