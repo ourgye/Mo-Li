@@ -5,19 +5,29 @@ import { CommonList as ArchiveList } from "@/components/CommonList";
 import { type CommonListItemProps } from "@/components/CommonListItem";
 import { getAllArchives } from "@/db/archive-method";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { selectRecordArchive, setRecordArchive } from "@/slices/homeRecordSlice";
+import {
+  selectRecordArchive,
+  setRecordArchive,
+} from "@/slices/homeRecordSlice";
+import { router } from "expo-router";
+import ArchiveModal from "@/components/ArchiveModal";
+import { useState } from "react";
 
 export default function SelectArchive() {
   const archiveData = getAllArchives();
   const dispatch = useAppDispatch();
   const currentArchive = useAppSelector(selectRecordArchive);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const data: CommonListItemProps[] = archiveData.map((archive) => ({
     leftIcon: "chevron-right",
     name: archive.name,
     _id: archive._id.toHexString(),
     rightIcon: "dots-horizontal-circle",
-    setSelected: () => dispatch(setRecordArchive(archive)),
+    setSelected: () => {
+      dispatch(setRecordArchive(archive));
+      router.back();
+    },
     selected: archive._id.toHexString() === currentArchive?._id.toHexString(),
   }));
 

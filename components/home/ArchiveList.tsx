@@ -6,10 +6,14 @@ import { AddArchiveButton } from "@/components/home/AddArchiveButton";
 import {  ArchiveDataWithRecentDateWORecords, type ArchiveDataAll } from "@/constants/types.interface";
 import { HomeCalendar } from "./HomeCalendar";
 import { getArchiveWORecord } from "@/db/archive-method";
+import { useState } from "react";
+import ArchiveModal from "@/components/ArchiveModal";
+import Archive from "@/app/(tabs)/(archive)/archive";
 
 // 인자는 수정 필요 혹은 제대로 이해해야 함
 export function ArchiveList() {
   const archiveList: ArchiveDataWithRecentDateWORecords[] = getArchiveWORecord();
+  const [visibleModal, setVisibleModal] = useState(false);
 
   return (
     <FlatList
@@ -20,7 +24,10 @@ export function ArchiveList() {
         <ArchiveListItem item={item} onPress={() => {}} />
       )}
       keyExtractor={(item) => item._id.toHexString()}
-      ListFooterComponent={<AddArchiveButton />}
+      ListFooterComponent={<View>
+        <ArchiveModal modalVisible={visibleModal} setModalVisible={setVisibleModal} />
+        <AddArchiveButton onPress={()=>{setVisibleModal(true)}}/>
+        </View>}
       scrollEnabled={true}
       showsVerticalScrollIndicator={false}
     />

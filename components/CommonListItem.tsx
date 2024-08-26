@@ -1,11 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import ArchiveMenu from "./ArchiveMenu";
 
 export type CommonListItemProps = {
   leftIcon: "none" | "chevron-right" | "menu";
   rightIcon: "chevron-right" | "dots-horizontal-circle";
   selected?: boolean;
-  setSelected?: ()=>{};
+  setSelected?: ()=>any;
   name: string;
   _id: string;
 };
@@ -49,11 +50,11 @@ export function CommonListItem({
           </Text>
         </View>
       </Pressable>
-      <MaterialCommunityIcons
-        name={rightIcon}
-        size={16}
-        color="grey"
-      />
+      {
+        rightIcon === "dots-horizontal-circle" && (
+          <ArchiveMenu _id={_id} name={name} />
+        )
+      }
     </View>
   );
 }

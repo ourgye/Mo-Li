@@ -9,6 +9,7 @@ import {
   selectRecordArchive,
   setRecordArchive,
 } from "@/slices/archiveRecordSlice";
+import { router } from "expo-router";
 
 export default function SelectArchive() {
   const archiveData = getAllArchives();
@@ -20,7 +21,7 @@ export default function SelectArchive() {
     name: archive.name,
     _id: archive._id.toHexString(),
     rightIcon: "dots-horizontal-circle",
-    setSelected: () => dispatch(setRecordArchive(archive)),
+    setSelected: () => {dispatch(setRecordArchive(archive)); router.back();},
     selected: archive._id.toHexString() === currentArchive?._id.toHexString(),
   }));
 

@@ -21,7 +21,7 @@ export function RecordDetailList() {
   const recordlistRef = useRef<FlatList<any>>(null);
 
   useEffect(() => {
-    const time = 10*recordData.length;
+    const time = 100*recordData.length;
     setTimeout(() => {
       if (recordlistRef.current && selectedRecordIndex !== undefined) {
         recordlistRef.current.scrollToIndex({
