@@ -4,15 +4,10 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 // 아이콘은 추후에 따로 분리해서 작성
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
-export type ItemData = {
-  title: string;
-  total: number;
-  recentDate: string;
-};
+import type { ArchiveDataWithRecentDateWORecords } from "@/constants/types.interface";
 
 export type ArchiveListItemProps = {
-  item: ItemData;
+  item: ArchiveDataWithRecentDateWORecords;
   onPress: () => void;
 };
 
@@ -20,10 +15,14 @@ export function ArchiveListItem({ item, onPress }: ArchiveListItemProps) {
   return (
     <View>
       <Pressable onPress={onPress} style={styles.itemWrapper}>
-        <Text style={styles.itemTextTitle}>{item.title}</Text>
+        <Text style={styles.itemTextTitle}>{item.name}</Text>
         <View style={styles.itemRight}>
           <Text style={styles.itemTextRight}>
-            {item.total + "개"} | {item.recentDate}
+            {item.recordLength!= 0
+              ? item.recordLength +
+                "개 | " +
+                item.recentDate
+              : "컨텐츠가 없습니다"}
           </Text>
           <MaterialCommunityIcons
             name="chevron-right"

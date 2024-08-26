@@ -1,20 +1,17 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import { HomeRecordItem, type RecordItemData } from "./HomeRecordItem";
-import { HomeCalendar, type HomeCalendarProps } from "./HomeCalendar";
+import { HomeRecordItem } from "./HomeRecordItem";
+import { HomeCalendar } from "./HomeCalendar";
+import { RecordData } from "@/constants/types.interface";
 
-type HomeRecordListProps = {
-  data: RecordItemData[];
-  calendarProps: HomeCalendarProps;
-};
-
-export function HomeRecordList({ data, calendarProps }: HomeRecordListProps) {
+export function HomeRecordList({data}: {data: RecordData[]}) {
   return (
     <FlatList
       data={data}
       ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
       renderItem={({ item }) => <HomeRecordItem {...item} />}
       showsVerticalScrollIndicator={false}
-      ListHeaderComponent={<HomeCalendar {...calendarProps}/>}
+      ListHeaderComponent={<HomeCalendar />}
+      ListFooterComponent={<View style={{ height: 16 }} />}
     />
   );
 }

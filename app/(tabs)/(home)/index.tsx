@@ -6,7 +6,7 @@ import { FloatingCreateRecordButton } from "@/components/FloatingCreateRecordBut
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['right', 'top', 'left']}>
-      <FloatingCreateRecordButton />
+      <FloatingCreateRecordButton from="(home)"/>
       <View style={{ flex: 1 }}>
         <HomeList />
       </View>

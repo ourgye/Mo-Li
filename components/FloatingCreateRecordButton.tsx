@@ -2,9 +2,9 @@ import { View, StyleSheet, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 
-export function FloatingCreateRecordButton() {
+export function FloatingCreateRecordButton({from}: {from: string}) {
   return (
-    <Link href="/create-record" asChild style={styles.addFloatingButton}>
+    <Link href={from + "/create-record"} asChild style={styles.addFloatingButton}>
       <Pressable>
         <MaterialCommunityIcons name="plus" size={36} color="white" />
       </Pressable>

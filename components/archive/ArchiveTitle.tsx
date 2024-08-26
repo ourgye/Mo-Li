@@ -2,7 +2,7 @@ import { Text, StyleSheet, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type ArchiveTitleProps = {
-  current: string;
+  current: string | undefined;
   onPress: () => void;
 };
 
@@ -12,7 +12,7 @@ export function ArchiveTitle({
 }: ArchiveTitleProps) {
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      <Text style={styles.title}>{current}</Text>
+      <Text style={styles.title}>{current ?? "아카이브가 없습니다."}</Text>
       <MaterialCommunityIcons
         name="chevron-down-circle"
         size={16}

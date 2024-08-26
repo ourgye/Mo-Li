@@ -1,19 +1,35 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { type ItemData } from "../home/ArchiveListItem";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { selectCurrentOrder, setCurrentArchive, setCurrentOrder } from "@/slices/archiveSlice";
+import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
 
-export type ArchiveItemProps = {
-  current: string;
-  data: ItemData;
-  onPress: (title: string) => void;
-};
+export function ArchiveItem({
+  isSelected,
+  data,
+  index,
+  setShowArchives
+}: {
+  isSelected: boolean | undefined;
+  data: ArchiveDataWithRecentDate;
+  index: number;
+  setShowArchives: any;
+}) {
+  const dispatch = useAppDispatch();
+  const currentOrder = useAppSelector(selectCurrentOrder);
 
-export function ArchiveItem({ current, data, onPress }: ArchiveItemProps) {
   return (
-    <Pressable style={styles.container} onPress={()=>{onPress(data.title)}}>
+    <Pressable
+      style={styles.container}
+      onPress={() => {
+        dispatch(setCurrentArchive(data));
+        dispatch(setCurrentOrder(currentOrder));
+        setShowArchives(false);
+      }}
+    >
       <View style={styles.titleWrapper}>
         <View style={styles.iconWrapper}>
-          {current == data.title && (
+          {isSelected && (
             <MaterialCommunityIcons
               name="chevron-right"
               size={16}
@@ -21,12 +37,15 @@ export function ArchiveItem({ current, data, onPress }: ArchiveItemProps) {
             />
           )}
         </View>
-        <Text style={[styles.title, current == data.title && styles.clicked]}>
-          {data.title}
+        <Text style={[styles.title, isSelected && styles.clicked]}>
+          {data.name}
         </Text>
       </View>
       <View style={styles.totalDateWrapper}>
-        <Text style={styles.totalDate}>{data.total + "개"} | {data.recentDate}</Text>
+        <Text style={styles.totalDate}>
+          {data.recordLength + " 개"}
+          {data.recentDate && " | " + data.recentDate}
+        </Text>
       </View>
     </Pressable>
   );
@@ -37,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 16, 
+    padding: 16,
   },
   titleWrapper: {
     flexDirection: "row",
@@ -58,10 +77,10 @@ const styles = StyleSheet.create({
   totalDateWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end", 
+    justifyContent: "flex-end",
   },
   totalDate: {
-    fontSize: 12, 
-    color: "#888888"
-  }
+    fontSize: 12,
+    color: "#888888",
+  },
 });

@@ -1,25 +1,21 @@
+import { ArchiveData } from "@/constants/types.interface";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
+import {
+  selectCurrentArchive,
+  setCurrentArchive,
+} from "@/slices/calendarSlice";
+import { getArchiveNameID } from "@/db/archive-method";
 
-export type DropdownItem = {
-  label: string;
-  value: string;
-};
-
-type CustomDropDownProps = {
-  data: DropdownItem[];
-  current: DropdownItem;
-  setCurrent: (current: DropdownItem) => void;
-};
-
-export function CustomDropDown({
-  data,
-  current,
-  setCurrent,
-}: CustomDropDownProps) {
+export function CustomDropDown() {
+  const currentArchive = useAppSelector(selectCurrentArchive);
+  const dispatch = useAppDispatch();
   const [isFocus, setIsFocus] = useState<boolean>(false);
+  const data: ArchiveData[] = getArchiveNameID();
+  data.unshift({ _id: new Realm.BSON.ObjectId(), name: "전체" });
 
   return (
     <View style={styles.container}>
@@ -28,34 +24,45 @@ export function CustomDropDown({
         containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
         selectedTextStyle={styles.selectedTextStyle}
         itemTextStyle={styles.itemTextStyle}
-        renderItem={(item: DropdownItem) => {
+        renderItem={(item: ArchiveData) => {
           return (
             <View style={styles.itemContainer}>
               <View style={styles.iconWrapper}>
-                {item.value == current.value && (
+                {item._id.toHexString() ==
+                  currentArchive?._id.toHexString() && (
                   <MaterialCommunityIcons
                     name="chevron-right"
                     size={16}
                     color="#00CFF9"
                   />
                 )}
+                {!currentArchive &&
+                  item._id.toHexString() == data[0]._id.toHexString() && (
+                    <MaterialCommunityIcons
+                      name="chevron-right"
+                      size={16}
+                      color="#00CFF9"
+                    />
+                  )}
               </View>
-              <Text>{item.label}</Text>
+              <Text>{item.name}</Text>
             </View>
           );
         }}
         data={data}
         maxHeight={300}
-        labelField="label"
-        valueField="value"
+        labelField="name"
+        valueField="_id"
         placeholderStyle={styles.selectedTextStyle}
-        placeholder={current.label}
-        value={current.value}
+        placeholder={
+          currentArchive != undefined ? currentArchive.name : data[0].name
+        }
+        value={currentArchive != undefined ? currentArchive.name : data[0].name}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
-        onChange={(item: DropdownItem) => {
-          setCurrent(item);
-          setIsFocus(false);
+        onChange={(item: ArchiveData) => {
+          if (item.name == "전체") dispatch(setCurrentArchive(undefined));
+          else dispatch(setCurrentArchive({ _id: item._id, name: item.name }));
         }}
       />
     </View>

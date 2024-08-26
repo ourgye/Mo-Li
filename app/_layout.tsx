@@ -1,39 +1,25 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { Stack } from "expo-router";
+import "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { RealmProvider } from "@realm/react";
+import { Record, Archive } from "@/db/entities";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SafeAreaProvider >
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-      </SafeAreaProvider>
-    </ThemeProvider>
+    <RealmProvider
+      schema={[Record, Archive]}
+      closeOnUnmount
+      deleteRealmIfMigrationNeeded
+    >
+      <Provider store={store}>
+        <SafeAreaProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </SafeAreaProvider>
+      </Provider>
+    </RealmProvider>
   );
 }

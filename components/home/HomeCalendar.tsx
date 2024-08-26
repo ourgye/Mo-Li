@@ -1,11 +1,22 @@
 // 메인 페이지에 나오는 캘린더
 // 앱 부팅시 캘린더에 오늘 날짜 표시
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useRef, Fragment, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Calendar, CalendarUtils } from "react-native-calendars";
+import { Calendar, CalendarUtils, DateData } from "react-native-calendars";
 import { Dimensions } from "react-native";
-import { CustomDropDown, type DropdownItem } from "../CustomDropDown";
+import { CustomDropDown } from "./ArchiveDropDown";
+import { ArchiveData } from "@/constants/types.interface";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import {
+  setSelectedDate,
+  setCurrentArchive,
+  selectCurrentArchive,
+  selectSelectedDate,
+} from "@/slices/calendarSlice";
+import { getAllRecords, getRecordByArchive } from "@/db/record-method";
+import { current } from "@reduxjs/toolkit";
+import { setRecordDate } from "@/slices/homeRecordSlice";
 
 const daysKo = {
   monthNames: [
@@ -35,26 +46,47 @@ const daysKo = {
 };
 
 export type HomeCalendarProps = {
-  selectedDate: string;
-  markedDates: any;
-  setSelectedDate: (date: string) => void;
-  dropDownData: DropdownItem[];
-  currentArchive: DropdownItem;
-  setCurrentArchive: (current: DropdownItem) => void;
+  dropDownData: ArchiveData[] | null;
 };
 
-export function HomeCalendar({
-  selectedDate,
-  markedDates,
-  setSelectedDate,
-  dropDownData,
-  currentArchive,
-  setCurrentArchive,
-}: HomeCalendarProps) {
+export function HomeCalendar() {
+  const dispatch = useAppDispatch();
   const customHeaderProps: any = useRef();
+  const selectedDate = useAppSelector(selectSelectedDate);
+  const currentArchive = useAppSelector(selectCurrentArchive);
   const [currentMonth, setCurrentMonth] = useState<number>(
-    parseInt(selectedDate.split("-")[1]) - 1,
+    new Date(selectedDate).getMonth()
   ); // for printing month name in header
+
+  const records = { color: "grey", selectedDotColor: "white" };
+  // get all the record from db
+  const [allRecords, setAllRecords] = useState(
+    getRecordByArchive(currentArchive)
+  );
+
+  const dotsDates: { [key: string]: any } = {};
+
+  allRecords.forEach((record: { date: string }) => {
+    const date: string = record.date;
+    if (dotsDates[date] === undefined) {
+      dotsDates[date] = {};
+    }
+    if (dotsDates[date].dots === undefined) {
+      dotsDates[date].dots = [];
+    }
+    dotsDates[date].dots.push(records);
+  });
+
+  const markedDates: any = {
+    ...dotsDates,
+    [selectedDate]: {
+      ...dotsDates[selectedDate],
+      selected: true,
+      disableTouchEvent: true,
+      selectedColor: "#00CFF9",
+      selectedTextColor: "white",
+    },
+  };
 
   const setCustomHeaderNewMonth = (next = false) => {
     const add = next ? 1 : -1;
@@ -86,50 +118,50 @@ export function HomeCalendar({
     );
   });
 
-  const renderCalendarWithCustomHeader = () => {
-    const CustomHeader = React.forwardRef((props, ref) => {
-      customHeaderProps.current = props;
-
-      return (
-        // @ts-expect-error
-        <View ref={ref} {...props}>
-          <View style={styles.customHeaderWrapper}>
-            <View style={styles.customHeader}>
-              <TouchableOpacity onPress={movePrevious}>
-                <MaterialCommunityIcons name="chevron-left" size={24} />
-              </TouchableOpacity>
-              <Text style={styles.customHeaderText}>
-                {daysKo.monthNames[currentMonth]}
-              </Text>
-              <TouchableOpacity onPress={moveNext}>
-                <MaterialCommunityIcons name="chevron-right" size={24} />
-              </TouchableOpacity>
-            </View>
-            <CustomDropDown
-              data={dropDownData}
-              current={currentArchive}
-              setCurrent={setCurrentArchive}
-            />
-          </View>
-          <DayNames />
-        </View>
-      );
-    });
+  const CustomHeader = React.forwardRef((props, ref) => {
+    customHeaderProps.current = props;
 
     return (
+      // @ts-expect-error
+      <View ref={ref} {...props}>
+        <View style={styles.customHeaderWrapper}>
+          <View style={styles.customHeader}>
+            <TouchableOpacity onPress={movePrevious}>
+              <MaterialCommunityIcons name="chevron-left" size={24} />
+            </TouchableOpacity>
+            <Text style={styles.customHeaderText}>
+              {daysKo.monthNames[currentMonth]}
+            </Text>
+            <TouchableOpacity onPress={moveNext}>
+              <MaterialCommunityIcons name="chevron-right" size={24} />
+            </TouchableOpacity>
+          </View>
+          <CustomDropDown />
+        </View>
+        <DayNames />
+      </View>
+    );
+  });
+
+  return (
+    <View>
       <Calendar
+        markingType={"multi-dot"}
         initialDate={selectedDate}
+        theme={{ "stylesheet.calendar.main": { borderRadius: 16 } }}
         style={[styles.customCalendar]}
         customHeader={CustomHeader}
-        onDayPress={(day: any) => {
-          setSelectedDate(day.dateString);
+        onDayPress={(date: any) => {
+          dispatch(setSelectedDate(date.dateString));
+          dispatch(setRecordDate(date.dateString));
         }}
         markedDates={markedDates}
+        onMonthChange = {(month: DateData) => {
+          setCurrentMonth(new Date(month.dateString).getMonth());
+        }}
       />
-    );
-  };
-
-  return <View>{renderCalendarWithCustomHeader()}</View>;
+    </View>
+  );
 }
 
 // style, 임시 마음대로 변경 가능
