@@ -6,7 +6,7 @@ export type CommonListItemProps = {
   leftIcon: "none" | "chevron-right" | "menu";
   rightIcon: "chevron-right" | "dots-horizontal-circle";
   selected?: boolean;
-  setSelected?: ()=>any;
+  setSelected?: () => any;
   name: string;
   _id: string;
 };
@@ -17,8 +17,9 @@ export function CommonListItem({
   selected,
   setSelected,
   name,
-  _id='',
+  _id = "",
 }: CommonListItemProps) {
+
   return (
     <View style={styles.container}>
       <Pressable
@@ -50,11 +51,9 @@ export function CommonListItem({
           </Text>
         </View>
       </Pressable>
-      {
-        rightIcon === "dots-horizontal-circle" && (
-          <ArchiveMenu _id={_id} name={name} />
-        )
-      }
+      {rightIcon === "dots-horizontal-circle" && (
+        <ArchiveMenu _id={_id} name={name} />
+      )}
     </View>
   );
 }

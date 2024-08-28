@@ -10,14 +10,11 @@ import {
   setRecordArchive,
 } from "@/slices/homeRecordSlice";
 import { router } from "expo-router";
-import ArchiveModal from "@/components/ArchiveModal";
-import { useState } from "react";
 
 export default function SelectArchive() {
   const archiveData = getAllArchives();
   const dispatch = useAppDispatch();
   const currentArchive = useAppSelector(selectRecordArchive);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const data: CommonListItemProps[] = archiveData.map((archive) => ({
     leftIcon: "chevron-right",

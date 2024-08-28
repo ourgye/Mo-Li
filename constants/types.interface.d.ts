@@ -1,4 +1,5 @@
 import { ImagePickerResult } from "expo-image-picker";
+import { index } from "realm";
 
 export interface RecordData {
   _id: Realm.BSON.ObjectId;
@@ -28,18 +29,20 @@ export interface RecordDataToSave {
   body: string;
   archive: undefined | ArchiveData;
 }
-
 export interface ArchiveData {
   _id: Realm.BSON.ObjectId;
+  index: number;
   name: string;
 }
 
 export interface ArchiveDataWOID {
+  index: number;
   name: string;
 }
 
 export interface ArchiveDataAll {
   _id: Realm.BSON.ObjectId;
+  index: number;
   name: string;
   records: RecordData[];
 }

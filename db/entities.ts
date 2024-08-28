@@ -5,7 +5,7 @@ export class Record extends Realm.Object<Record> {
   date!: string;
   imagePath!: string;
   body!: string;
-  archive!: Archive; 
+  archive!: Archive;
 
   static schema: ObjectSchema = {
     name: "Record",
@@ -26,17 +26,19 @@ export class Archive extends Realm.Object<Archive> {
   // total: number = 0;
   // recent!: Date;
   records!: Realm.List<Record>;
+  index!: number;
 
   static schema: ObjectSchema = {
     name: "Archive",
     properties: {
-        _id: "objectId",
+      _id: "objectId",
       name: "string",
+      index: "int",
       records: {
         type: "linkingObjects",
         objectType: "Record",
         property: "archive",
-      }
+      },
     },
     primaryKey: "_id",
   };

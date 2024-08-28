@@ -4,7 +4,6 @@
 
 import { FlatList, StyleSheet, View } from "react-native";
 import { CommonListItem, type CommonListItemProps } from "./CommonListItem";
-import { useState } from "react";
 
 interface CommonListProp {
   data: CommonListItemProps[];

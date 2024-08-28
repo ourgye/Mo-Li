@@ -2,7 +2,9 @@ import { Archive, Record } from "@/db/entities";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MenuView } from "@react-native-menu/menu";
 import { useObject, useQuery, useRealm } from "@realm/react";
+import { useState } from "react";
 import { View, Text, StyleSheet, Platform, Alert } from "react-native";
+import ArchiveModal from "./ArchiveModal";
 
 export default function ArchiveMenu({
   _id,
@@ -16,6 +18,7 @@ export default function ArchiveMenu({
   const records = useQuery(Record, (Records) => {
     return Records.filtered(`archive._id = $0`, archive?._id);
   });
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressDelete = () => {
     // record 삭제
@@ -36,6 +39,7 @@ export default function ArchiveMenu({
   const onPressAction = ({ nativeEvent }: { nativeEvent: any }) => {
     const event = nativeEvent.event.toString();
     if (event === "modify") {
+      setModalVisible(true);
     } else if (event === "destructive") {
       Alert.alert(
         "아카이브 삭제",
@@ -60,6 +64,14 @@ export default function ArchiveMenu({
 
   return (
     <View style={styles.container}>
+      {modalVisible && (
+        <ArchiveModal
+          archiveId={_id}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          modify
+        />
+      )}
       <MenuView
         onPressAction={onPressAction}
         actions={[

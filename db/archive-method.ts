@@ -3,7 +3,7 @@ import { Archive } from "./entities";
 import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
 
 // 아카이브 생성
-export function createArchive({ name }: { name: string }) {
+export function createArchive({ name, index }: { name: string, index: number }) {
   const realm = useRealm();
   const id = new Realm.BSON.ObjectID();
 
@@ -11,6 +11,7 @@ export function createArchive({ name }: { name: string }) {
     realm.create("Archive", {
       _id: id,
       name,
+      index,
     });
   });
 }
@@ -56,7 +57,7 @@ export function getArchiveWORecord() {
   const archives = useQuery({
     type: Archive,
     query: (Archives) => {
-      return Archives.sorted("name");
+      return Archives.sorted("index");
     },
   });
 
@@ -67,6 +68,7 @@ export function getArchiveWORecord() {
     return {
       _id: archive._id,
       name: archive.name,
+      index: archive.index,
       recentDate: recentDate,
       recordLength: records.length,
     };
@@ -79,7 +81,7 @@ export function getArchiveWithRecentDates(): ArchiveDataWithRecentDate[] {
   const archive = useQuery({
     type: Archive,
     query: (Archives) => {
-      return Archives.sorted("name");
+      return Archives.sorted("index");
     },
   });
 

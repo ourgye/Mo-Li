@@ -1,6 +1,6 @@
 import { Archive } from "@/db/entities";
-import { useObject, useRealm } from "@realm/react";
-import { useState } from "react";
+import { useObject, useQuery, useRealm } from "@realm/react";
+import { useEffect, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -26,11 +26,16 @@ export default function ArchiveModal({
   const realm = useRealm();
   const [archive, setArchive] = useState<Archive | null>();
 
-  if (modify && archiveId) {
-    const archive = useObject(Archive, new Realm.BSON.ObjectId(archiveId));
-    setArchive(archive);
-    if (archive) setArchiveName(archive?.name);
-  }
+  useEffect(() => {
+    if (modify && archiveId) {
+      const archive = realm.objectForPrimaryKey(
+        Archive,
+        new Realm.BSON.ObjectId(archiveId)
+      );
+      setArchive(archive);
+      setArchiveName(archive ? archive.name : "");
+    }
+  }, [modify, archiveId]);
 
   return (
     <Modal visible={modalVisible} animationType="slide" transparent>
@@ -42,7 +47,7 @@ export default function ArchiveModal({
           <TextInput
             textContentType="name"
             style={styles.modalText}
-            placeholder={"아카이브 이름을 입력하세요"}
+            placeholder={modify ? archive?.name : "아카이브 이름을 입력하세요"}
             value={archiveName}
             onChangeText={(e) => {
               setArchiveName(e);

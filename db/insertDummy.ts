@@ -9,9 +9,9 @@ export function insertDummy() {
   realm.write(() => realm.deleteAll());
 
   const archives: ArchiveDataWOID[] = [
-    { name: "archive1" },
-    { name: "archive2" },
-    { name: "archive3" },
+    { name: "archive1", index: 1},
+    { name: "archive2", index: 2},
+    { name: "archive3", index: 3},
   ];
 
   
