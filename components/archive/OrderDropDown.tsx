@@ -8,12 +8,12 @@ import { Dropdown } from "react-native-element-dropdown";
 
 export type OrderDropDownProps = {
   data: OrderData[];
+  current: OrderData;
+  setOrder: any;
 };
 
-export function OrderCustomDropDown({data}: OrderDropDownProps) {
+export function OrderCustomDropDown({data, current, setOrder}: OrderDropDownProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
-  const current = useAppSelector(selectCurrentOrder); 
-  const dispatch = useAppDispatch();
 
   return (
     <View style={styles.container}>
@@ -48,7 +48,7 @@ export function OrderCustomDropDown({data}: OrderDropDownProps) {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item: OrderData) => {
-          dispatch(setCurrentOrder(item));
+          setOrder(item)
         }}
       />
     </View>

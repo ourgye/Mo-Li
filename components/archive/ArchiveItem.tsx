@@ -16,14 +16,12 @@ export function ArchiveItem({
   setShowArchives: any;
 }) {
   const dispatch = useAppDispatch();
-  const currentOrder = useAppSelector(selectCurrentOrder);
 
   return (
     <Pressable
       style={styles.container}
       onPress={() => {
         dispatch(setCurrentArchive(data));
-        dispatch(setCurrentOrder(currentOrder));
         setShowArchives(false);
       }}
     >

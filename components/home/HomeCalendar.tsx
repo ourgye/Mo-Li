@@ -1,21 +1,18 @@
 // 메인 페이지에 나오는 캘린더
 // 앱 부팅시 캘린더에 오늘 날짜 표시
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Calendar, CalendarUtils, DateData } from "react-native-calendars";
+import { Calendar, DateData } from "react-native-calendars";
 import { Dimensions } from "react-native";
 import { CustomDropDown } from "./ArchiveDropDown";
-import { ArchiveData } from "@/constants/types.interface";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import {
   setSelectedDate,
-  setCurrentArchive,
   selectCurrentArchive,
   selectSelectedDate,
 } from "@/slices/calendarSlice";
-import { getAllRecords, getRecordByArchive } from "@/db/record-method";
-import { current } from "@reduxjs/toolkit";
+import { getRecordByArchiveId } from "@/db/record-method";
 import { setRecordDate } from "@/slices/homeRecordSlice";
 
 const daysKo = {
@@ -45,11 +42,7 @@ const daysKo = {
   dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
 };
 
-export type HomeCalendarProps = {
-  dropDownData: ArchiveData[] | null;
-};
-
-export function HomeCalendar() {
+export function HomeCalendar({records}: {records: Record[]}) {
   const dispatch = useAppDispatch();
   const customHeaderProps: any = useRef();
   const selectedDate = useAppSelector(selectSelectedDate);
@@ -58,15 +51,12 @@ export function HomeCalendar() {
     new Date(selectedDate).getMonth()
   ); // for printing month name in header
 
-  const records = { color: "grey", selectedDotColor: "white" };
+  const recordStyle = { color: "grey", selectedDotColor: "white" };
   // get all the record from db
-  const [allRecords, setAllRecords] = useState(
-    getRecordByArchive(currentArchive)
-  );
 
   const dotsDates: { [key: string]: any } = {};
 
-  allRecords.forEach((record: { date: string }) => {
+  records.forEach((record: { date: string }) => {
     const date: string = record.date;
     if (dotsDates[date] === undefined) {
       dotsDates[date] = {};
@@ -74,7 +64,7 @@ export function HomeCalendar() {
     if (dotsDates[date].dots === undefined) {
       dotsDates[date].dots = [];
     }
-    dotsDates[date].dots.push(records);
+    dotsDates[date].dots.push(recordStyle);
   });
 
   const markedDates: any = {

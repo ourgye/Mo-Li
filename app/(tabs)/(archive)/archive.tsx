@@ -17,32 +17,25 @@ import {
   setCurrentOrder,
   setRecordList,
 } from "@/slices/archiveSlice";
-import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
+import {
+  ArchiveDataWithRecentDate,
+  OrderData,
+} from "@/constants/types.interface";
 
 export default function Archive() {
-  const [archiveList, setArchiveList] = useState<ArchiveDataWithRecentDate[]>(
-    getArchiveWithRecentDates()
-  );
-  const dispatch = useAppDispatch();
-  const currentArchive = useAppSelector(selectCurrentArchive);
-  const currentOrder = useAppSelector(selectCurrentOrder);
   const [showArchives, setShowArchives] = useState(false);
-  const recordList = useAppSelector(selectRecordList);
+  const [currentOrder, setCurrentOrder] = useState<OrderData>(orderList[0]);
+  const archiveList: ArchiveDataWithRecentDate[] =
+    getArchiveWithRecentDates(currentOrder?._id == 0);
+  const currentArchive = useAppSelector(selectCurrentArchive);
+  const recordList = archiveList.find(
+    (archive) => archive._id.toHexString() === currentArchive?._id.toHexString()
+  )?.records;
+  const dispatch = useAppDispatch();
 
-  console.log("archiveList", archiveList);
-
-  if (!currentArchive) {
+  if(!currentArchive) {
     dispatch(setCurrentArchive(archiveList[0]));
   }
-
-  useEffect(() => {
-    if (currentArchive) {
-      dispatch(setRecordList(currentArchive.records));
-      dispatch(setCurrentOrder(currentOrder));
-    }
-  }, [currentArchive]);
-
-  console.log(recordList);
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
@@ -66,7 +59,7 @@ export default function Archive() {
               ListHeaderComponent={
                 <View style={styles.bodyHeader}>
                   <Text>{currentArchive?.recordLength}개 레코드</Text>
-                  <OrderCustomDropDown data={orderList} />
+                  <OrderCustomDropDown data={orderList} setOrder={setCurrentOrder} current={currentOrder}/>
                 </View>
               }
             />

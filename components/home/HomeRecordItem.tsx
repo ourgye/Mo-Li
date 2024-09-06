@@ -10,11 +10,9 @@ export function HomeRecordItem(item: RecordData) {
   // text 자를 때 사용
   const line = 32;
   const fixedWidth = 142; // 고정된 너비
-  console.log(item);
   const imagePath = FileSystem.documentDirectory? FileSystem.documentDirectory + item.imagePath : '';
 
   const DynamicImage = (uri: string) => {
-    console.log(uri);
     useEffect(() => {
       // 이미지의 원본 크기를 가져옴
       Image.getSize((uri), (width, height) => {

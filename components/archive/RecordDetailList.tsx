@@ -10,27 +10,27 @@ import {
 import { RecordDetailItem } from "./RecordDetailItem";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import {
+  selectCurrentArchive,
   selectRecordList,
   selectSelectedRecordIndex,
 } from "@/slices/archiveSlice";
 import { index } from "realm";
+import { getRecordByArchiveId } from "@/db/record-method";
 
 export function RecordDetailList() {
-  const recordData = useAppSelector(selectRecordList);
+  const order: boolean = true;
+  const currentArchive = useAppSelector(selectCurrentArchive);
+  const recordData = getRecordByArchiveId(currentArchive._id, order);
   const selectedRecordIndex = useAppSelector(selectSelectedRecordIndex);
   const recordlistRef = useRef<FlatList<any>>(null);
 
   useEffect(() => {
-    const time = 100*recordData.length;
-    setTimeout(() => {
-      if (recordlistRef.current && selectedRecordIndex !== undefined) {
-        recordlistRef.current.scrollToIndex({
-          index: selectedRecordIndex,
-          viewOffset: 0,
-          animated: false,
-        });
-      }
-    }, time);
+    if (selectedRecordIndex !== -1) {
+      recordlistRef.current?.scrollToIndex({
+        index: selectedRecordIndex,
+        animated: true,
+      });
+    }
   }, [selectedRecordIndex]);
 
   const onScrollToIndexFailed = (info: {
@@ -38,6 +38,7 @@ export function RecordDetailList() {
     highestMeasuredFrameIndex: number;
   }) => {
     console.warn("Failed to scroll to index:", info.index);
+    console.warn("Highest measured frame index:", info.highestMeasuredFrameIndex);
   };
 
   return (

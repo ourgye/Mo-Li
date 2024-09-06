@@ -1,4 +1,8 @@
-import { RecordDataWOID, RecordData, ArchiveData } from "@/constants/types.interface";
+import {
+  RecordDataWOID,
+  RecordData,
+  ArchiveData,
+} from "@/constants/types.interface";
 import { useObject, useQuery, useRealm } from "@realm/react";
 import { Record, Archive } from "./entities";
 
@@ -57,34 +61,51 @@ export function getRecordByArchive(archive: ArchiveData | undefined) {
 }
 
 // 아카이브 아이디로 레코드 조회
-export function getRecordByArchiveId(archiveId: Realm.BSON.ObjectId) {
-  const records = useQuery(Record, (Records) => {
-    return Records.filtered(`archive._id = $0`, archiveId);
+export function getRecordByArchiveId(
+  archiveId: Realm.BSON.ObjectId | undefined,
+  order: boolean
+) {
+  if (!archiveId) return getAllRecords();
+
+  const records = useQuery({
+    type: Record,
+    query: (Records) => {
+      return Records.filtered(`archive._id = $0`, archiveId).sorted(
+        "date",
+        order
+      );
+    },
   });
 
   return Array.from(records);
 }
 
-export function getRecordByDate(date: Date) {
-  const formattedDate = date.toISOString().split("T")[0];
-  const records = getAllRecords();
+export function getRecordByDate(date: string) {
+  // const formattedDate = date.toISOString().split("T")[0];
 
-  return records.filter((record) => record.date === formattedDate);
+  const records = useQuery({
+    type: Record,
+    query: (Records) => {
+      return Records.filtered(`date == $0`, date);
+    },
+  });
+
+  return Array.from(records);
 }
 
 // 아카이브와 날짜로 레코드 조회
 export function getRecordByArchiveDate(
   archiveId: Realm.BSON.ObjectId | undefined,
-  date: Date
+  date: string
 ): Record[] {
   if (!archiveId) return getRecordByDate(date);
 
-  const formattedDate = date.toISOString().split("T")[0];
+  // const formattedDate = date.toISOString().split("T")[0];
   const records = useQuery(Record, (Records) => {
     return Records.filtered(
-      `archive._id = $0 AND date = $1`,
+      `archive._id == $0 AND date == $1`,
       archiveId,
-      date.toISOString().split("T")[0]
+      date
     );
   });
 
