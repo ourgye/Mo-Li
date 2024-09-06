@@ -3,7 +3,13 @@ import { Archive } from "./entities";
 import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
 
 // 아카이브 생성
-export function createArchive({ name, index }: { name: string, index: number }) {
+export function createArchive({
+  name,
+  index,
+}: {
+  name: string;
+  index: number;
+}) {
   const realm = useRealm();
   const id = new Realm.BSON.ObjectID();
 
@@ -38,7 +44,7 @@ export function getAllArchives() {
   const archives = useQuery({
     type: Archive,
     query: (Archives) => {
-      return Archives.sorted("name");
+      return Archives.sorted("index");
     },
   });
 
@@ -52,7 +58,7 @@ export function getAllArchives() {
   return noRecordArchives;
 }
 
-// 아카이브 레코드 없이 가져오기
+// 레코드 없이 가져오기
 export function getArchiveWORecord() {
   const archives = useQuery({
     type: Archive,
@@ -76,7 +82,10 @@ export function getArchiveWORecord() {
 }
 
 // 아카이브의 모든 정보 가져오기
-export function getArchiveWithRecentDates(): ArchiveDataWithRecentDate[] {
+export function getArchiveWithRecentDates(
+  sortType: boolean
+): ArchiveDataWithRecentDate[] {
+  // sortType: true - 최신순, false - 오래된순
   // 아카이브는 이름 순으로
   const archive = useQuery({
     type: Archive,
@@ -86,7 +95,7 @@ export function getArchiveWithRecentDates(): ArchiveDataWithRecentDate[] {
   });
 
   return archive.map((archive) => {
-    const records = archive.records.sorted("date", true).map((record) => {
+    const records = archive.records.sorted("date", sortType).map((record) => {
       return {
         _id: record._id,
         date: record.date,
