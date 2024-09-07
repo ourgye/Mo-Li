@@ -5,7 +5,10 @@ import React, { useRef, Fragment, useState, useCallback, useMemo } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Calendar, CalendarUtils } from "react-native-calendars";
 import { Dimensions } from "react-native";
+
 import { CustomDropDown, type DropdownItem } from "../CustomDropDown";
+import SvgIcon from "../SvgIcon";
+import colors from "@/assets/colors/colors";
 
 const daysKo = {
   monthNames: [
@@ -53,7 +56,7 @@ export function HomeCalendar({
 }: HomeCalendarProps) {
   const customHeaderProps: any = useRef();
   const [currentMonth, setCurrentMonth] = useState<number>(
-    parseInt(selectedDate.split("-")[1]) - 1,
+    parseInt(selectedDate.split("-")[1]) - 1
   ); // for printing month name in header
 
   const setCustomHeaderNewMonth = (next = false) => {
@@ -96,13 +99,13 @@ export function HomeCalendar({
           <View style={styles.customHeaderWrapper}>
             <View style={styles.customHeader}>
               <TouchableOpacity onPress={movePrevious}>
-                <MaterialCommunityIcons name="chevron-left" size={24} />
+                <SvgIcon name="Back_icon" size={16} />
               </TouchableOpacity>
               <Text style={styles.customHeaderText}>
                 {daysKo.monthNames[currentMonth]}
               </Text>
               <TouchableOpacity onPress={moveNext}>
-                <MaterialCommunityIcons name="chevron-right" size={24} />
+                <SvgIcon name="Forward_icon" size={16} />
               </TouchableOpacity>
             </View>
             <CustomDropDown
@@ -137,12 +140,18 @@ var width = Dimensions.get("window").width; //full width
 var height = Dimensions.get("window").height; //full height
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+  },
   customCalendar: {
     width: width - 48,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: colors.white0,
     alignContent: "flex-start",
     justifyContent: "flex-start",
-    paddingBottom: 16,
+    paddingVertical: 16,
+    marginBottom: 16,
+    borderRadius: 16,
   },
   dayNamesStyle: {
     flexDirection: "row",
@@ -151,25 +160,27 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   customHeader: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    gap: 16,
-    marginHorizontal: -4,
-    padding: 8,
-  },
-  customHeaderWrapper: {
+    width: 120,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 12,
+    //gap: 24,
+  },
+  customHeaderWrapper: {
+    paddingLeft: 16,
+    height: 44,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
   },
   customHeaderText: {
     fontSize: 24,
   },
   customDayContainer: {
-    width: 32,
-    height: 32,
+    flex: 1,
+    height: 40,
+    marginTop: 8,
     justifyContent: "center",
     alignItems: "center",
   },

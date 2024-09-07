@@ -3,8 +3,10 @@ import { HomeRecordList } from "./HomeRecordList";
 import { View } from "react-native";
 import { useMemo, useState } from "react";
 import { CalendarUtils } from "react-native-calendars";
+
 import { RecordItemData } from "./HomeRecordItem";
 import { type DropdownItem } from "../CustomDropDown";
+import colors from "@/assets/colors/colors";
 
 // hard coded data: 3 (from flow) for now
 const wholeData: RecordItemData[] = [
@@ -38,18 +40,18 @@ const dropDownData: DropdownItem[] = [
 
 export function HomeList() {
   const [selectedDate, setSelectedDate] = useState(
-    CalendarUtils.getCalendarDateString(new Date()),
+    CalendarUtils.getCalendarDateString(new Date())
   );
   const [currentArchive, setCurrentArchive] = useState<DropdownItem>(
-    dropDownData[0],
+    dropDownData[0]
   );
   const markedDates = useMemo(() => {
     return {
       [selectedDate]: {
         selected: true,
         disableTouchEvent: true,
-        selectedColor: "#00CFF9",
-        selectedTextColor: "white",
+        selectedColor: colors.blue0,
+        selectedTextColor: colors.white0,
       },
     };
   }, [selectedDate]);
@@ -58,7 +60,7 @@ export function HomeList() {
   // item.date(yyyy.mm.dd) === selectedDate(yyyy-mm-dd)인 데이터만 추출
   const data: RecordItemData[] = useMemo(() => {
     return wholeData.filter(
-      (item) => item.date === selectedDate.split("-").join("."),
+      (item) => item.date === selectedDate.split("-").join(".")
     );
   }, [selectedDate]);
 

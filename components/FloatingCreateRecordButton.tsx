@@ -1,12 +1,14 @@
 import { View, StyleSheet, Pressable } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
+
+import SvgIcon from "./SvgIcon";
+import colors from "@/assets/colors/colors";
 
 export function FloatingCreateRecordButton() {
   return (
     <Link href="/create-record" asChild style={styles.addFloatingButton}>
       <Pressable>
-        <MaterialCommunityIcons name="plus" size={36} color="white" />
+        <SvgIcon name="Floating_add_icon" size={50} fill={colors.white0} />
       </Pressable>
     </Link>
   );
@@ -14,10 +16,10 @@ export function FloatingCreateRecordButton() {
 
 const styles = StyleSheet.create({
   addFloatingButton: {
-    width: 58,
-    height: 58,
+    width: 56,
+    height: 56,
     zIndex: 100,
-    backgroundColor: "#5AE3FF",
+    backgroundColor: colors.blue0,
     position: "absolute",
     right: 24,
     bottom: 24,
