@@ -9,6 +9,7 @@ import { ArchiveDataWithRecentDateWORecords } from "@/constants/types.interface"
 import { ArchiveListItem } from "./ArchiveListItem";
 import ArchiveModal from "../ArchiveModal";
 import { AddArchiveButton } from "./AddArchiveButton";
+import colors from "@/assets/colors/colors";
 
 export function HomeList({data}: {data: Record[]}) {
   const selectedDate = useAppSelector((state) => state.calendar.selectedDate);

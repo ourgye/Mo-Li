@@ -15,6 +15,8 @@ import {
 import { getRecordByArchiveId } from "@/db/record-method";
 import { setRecordDate } from "@/slices/homeRecordSlice";
 import { Record } from "@/db/entities";
+import SvgIcon from "../SvgIcon";
+import colors from "@/assets/colors/colors";
 
 const daysKo = {
   monthNames: [
@@ -160,12 +162,18 @@ var width = Dimensions.get("window").width; //full width
 var height = Dimensions.get("window").height; //full height
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+  },
   customCalendar: {
     width: width - 48,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: colors.white0,
     alignContent: "flex-start",
     justifyContent: "flex-start",
-    paddingBottom: 16,
+    paddingVertical: 16,
+    marginBottom: 16,
+    borderRadius: 16,
   },
   dayNamesStyle: {
     flexDirection: "row",
@@ -174,25 +182,27 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   customHeader: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    gap: 16,
-    marginHorizontal: -4,
-    padding: 8,
-  },
-  customHeaderWrapper: {
+    width: 120,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 12,
+    //gap: 24,
+  },
+  customHeaderWrapper: {
+    paddingLeft: 16,
+    height: 44,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
   },
   customHeaderText: {
     fontSize: 24,
   },
   customDayContainer: {
-    width: 32,
-    height: 32,
+    flex: 1,
+    height: 40,
+    marginTop: 8,
     justifyContent: "center",
     alignItems: "center",
   },

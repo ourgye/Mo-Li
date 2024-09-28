@@ -4,7 +4,11 @@ import { selectCurrentOrder, setCurrentOrder } from "@/slices/archiveSlice";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Dimensions } from "react-native";
+
 import { Dropdown } from "react-native-element-dropdown";
+import colors from "@/assets/colors/colors";
+import SvgIcon from "../SvgIcon";
 
 export type OrderDropDownProps = {
   data: OrderData[];
@@ -16,7 +20,7 @@ export function OrderCustomDropDown({data, current, setOrder}: OrderDropDownProp
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
   return (
-    <View style={styles.container}>
+    <View>
       <Dropdown
         style={styles.dropdown} // 위에 선택된 드롭다운 스타일
         containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
@@ -26,11 +30,11 @@ export function OrderCustomDropDown({data, current, setOrder}: OrderDropDownProp
           return (
             <View style={styles.itemContainer}>
               <View style={styles.iconWrapper}>
-                {item._id== current._id && (
-                  <MaterialCommunityIcons
-                    name="chevron-right"
+                {item._id== current._id  && (
+                  <SvgIcon
+                    name="Right_small_icon"
                     size={16}
-                    color="#00CFF9"
+                    fill={colors.blue0}
                   />
                 )}
               </View>
@@ -55,18 +59,19 @@ export function OrderCustomDropDown({data, current, setOrder}: OrderDropDownProp
   );
 }
 
+var width = Dimensions.get("window").width; //full width
+
 const styles = StyleSheet.create({
-  container: {},
   dropdownContainer: {
-    width: 200,
-    backgroundColor: "#FCFCFC",
+    //width: 200,
+    //backgroundColor: "#FCFCFC",
     borderRadius: 16,
     overflow: "hidden",
     position: "relative",
   },
   dropdown: {
-    width: 200,
-    alignSelf: "flex-start",
+    width: (width - 48) / 2,
+    //alignSelf: "flex-start",
     borderRadius: 16,
     paddingVertical: 8,
     paddingHorizontal: 16,

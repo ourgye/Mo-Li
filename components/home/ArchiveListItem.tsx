@@ -5,6 +5,13 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 // 아이콘은 추후에 따로 분리해서 작성
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import type { ArchiveDataWithRecentDateWORecords } from "@/constants/types.interface";
+import typos from "@/assets/fonts/typos";
+
+export type ItemData = {
+  title: string;
+  total: number;
+  recentDate: string;
+};
 
 export type ArchiveListItemProps = {
   item: ArchiveDataWithRecentDateWORecords;
@@ -15,7 +22,7 @@ export function ArchiveListItem({ item, onPress }: ArchiveListItemProps) {
   return (
     <View>
       <Pressable onPress={onPress} style={styles.itemWrapper}>
-        <Text style={styles.itemTextTitle}>{item.name}</Text>
+        <Text style={[typos.subtitle_typo]}>{item.name}</Text>
         <View style={styles.itemRight}>
           <Text style={styles.itemTextRight}>
             {item.recordLength!= 0
@@ -51,9 +58,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-  },
-  itemTextTitle: {
-    fontSize: 16,
   },
   itemTextRight: {
     fontSize: 12,

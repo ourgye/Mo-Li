@@ -2,6 +2,7 @@ import { Tabs } from "expo-router";
 import React, { useEffect } from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { StyleSheet } from "react-native";
+import colors from "../../assets/colors/colors";
 
 // for dummy data
 import { insertDummy } from "@/db/insertDummy";
@@ -25,10 +26,10 @@ export default function TabLayout() {
         name="(home)"
         options={{
           title: "Main",
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              name={focused ? "calendar-text" : "calendar-text-outline"}
-              color={color}
+              name={focused ? "Calendar_active_icon" : "Calendar_icon"}
+              color={focused ? colors.blued1 : colors.black0}
             />
           ),
         }}
@@ -37,10 +38,10 @@ export default function TabLayout() {
         name="(archive)"
         options={{
           title: "Archive",
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              name={focused ? "note-multiple" : "note-multiple-outline"}
-              color={color}
+              name={focused ? "Feed_active_icon" : "Feed_icon"}
+              color={focused ? colors.blued1 : colors.black0}
             />
           ),
         }}
@@ -49,10 +50,10 @@ export default function TabLayout() {
         name="(setting)"
         options={{
           title: "Setting",
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              name={focused ? "account-circle" : "account-circle-outline"}
-              color={color}
+              name={focused ? "Account_active_icon" : "Account_icon"}
+              color={focused ? colors.blued1 : colors.black0}
             />
           ),
         }}
@@ -64,5 +65,5 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
+  },
 });
