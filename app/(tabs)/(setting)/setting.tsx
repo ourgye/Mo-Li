@@ -1,6 +1,6 @@
 import { Text, StyleSheet, View } from "react-native";
-import { CommonList, CommonList as SettingList } from "@/components/CommonList";
-import { type CommonListItemProps } from "@/components/CommonListItem";
+import { CommonList, CommonList as SettingList } from "@/components/common/CommonList";
+import { type CommonListItemProps } from "@/components/common/CommonListItem";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MyPageData from "@/constants/MyPage";
 import { useRouter } from "expo-router";

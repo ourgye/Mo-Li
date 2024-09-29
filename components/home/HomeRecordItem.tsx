@@ -1,8 +1,10 @@
 // 메인화면 레코드 아이템 컴포넌트
 import { RecordData } from "@/constants/types.interface";
 import { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, View, Text } from "react-native";
+import { Image, Pressable, View, Text } from "react-native";
 import * as FileSystem from "expo-file-system";
+
+import styles from "./styles/HomeRecordItem";
 
 export function HomeRecordItem(item: RecordData) {
   const [height, setHeight] = useState<number>(0);
@@ -10,12 +12,14 @@ export function HomeRecordItem(item: RecordData) {
   // text 자를 때 사용
   const line = 32;
   const fixedWidth = 142; // 고정된 너비
-  const imagePath = FileSystem.documentDirectory? FileSystem.documentDirectory + item.imagePath : '';
+  const imagePath = FileSystem.documentDirectory
+    ? FileSystem.documentDirectory + item.imagePath
+    : "";
 
   const DynamicImage = (uri: string) => {
     useEffect(() => {
       // 이미지의 원본 크기를 가져옴
-      Image.getSize((uri), (width, height) => {
+      Image.getSize(uri, (width, height) => {
         // 원본 비율을 계산하여 높이를 설정
         const ratio = height / width;
         const newHeight = fixedWidth * ratio;
@@ -34,9 +38,8 @@ export function HomeRecordItem(item: RecordData) {
           <Image
             height={300}
             width={fixedWidth}
-
             source={{ uri: uri }}
-            style={[styles.image, { width: fixedWidth, height: fixedWidth  }]}
+            style={[styles.image, { width: fixedWidth, height: fixedWidth }]}
           />
         )}
       </View>
@@ -56,7 +59,11 @@ export function HomeRecordItem(item: RecordData) {
           <Text
             style={styles.bodyText}
             ellipsizeMode="tail"
-            numberOfLines={height >0 ? Math.ceil(height / line) : Math.ceil(fixedWidth / line)}
+            numberOfLines={
+              height > 0
+                ? Math.ceil(height / line)
+                : Math.ceil(fixedWidth / line)
+            }
           >
             {item.body}
           </Text>
@@ -65,50 +72,3 @@ export function HomeRecordItem(item: RecordData) {
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  itemWrapper: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: "white",
-    padding: 16,
-    gap: 16,
-    overflow: "hidden",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    borderRadius: 16,
-  },
-  itemBodyWrapper: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 16,
-  },
-  imageWrapper: {
-    borderRadius: 16,
-    backgroundColor: "#EFEFEF",
-    overflow: "hidden",
-  },
-  image: {
-    resizeMode: "contain",
-  },
-  itemTextWrapper: {
-    flex: 1,
-    flexDirection: "column",
-    gap: 8,
-    paddingVertical: 8,
-  },
-  //   text styles(remove or modify as needed)
-  dateText: {
-    fontSize: 12,
-    color: "#5B5B5B",
-  },
-  titleText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  bodyText: {
-    lineHeight: 20,
-    fontSize: 14,
-  },
-});

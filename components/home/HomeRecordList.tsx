@@ -15,5 +15,3 @@ export function HomeRecordList({data}: {data: RecordData[]}) {
     />
   );
 }
-
-const styles = StyleSheet.create({});

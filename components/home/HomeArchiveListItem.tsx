@@ -7,6 +7,8 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import type { ArchiveDataWithRecentDateWORecords } from "@/constants/types.interface";
 import typos from "@/assets/fonts/typos";
 
+import styles from './styles/HomeArchiveListItem'
+
 export type ItemData = {
   title: string;
   total: number;
@@ -25,10 +27,8 @@ export function ArchiveListItem({ item, onPress }: ArchiveListItemProps) {
         <Text style={[typos.subtitle_typo]}>{item.name}</Text>
         <View style={styles.itemRight}>
           <Text style={styles.itemTextRight}>
-            {item.recordLength!= 0
-              ? item.recordLength +
-                "개 | " +
-                item.recentDate
+            {item.recordLength != 0
+              ? item.recordLength + "개 | " + item.recentDate
               : "컨텐츠가 없습니다"}
           </Text>
           <MaterialCommunityIcons
@@ -41,26 +41,3 @@ export function ArchiveListItem({ item, onPress }: ArchiveListItemProps) {
     </View>
   );
 }
-
-// style, 임시 마음대로 변경 가능
-const styles = StyleSheet.create({
-  itemWrapper: {
-    flex: 1,
-    width: "100%",
-    flexDirection: "row",
-    backgroundColor: "white",
-    padding: 16,
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderRadius: 24,
-  },
-  itemRight: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  itemTextRight: {
-    fontSize: 12,
-    color: "#888888",
-  },
-});

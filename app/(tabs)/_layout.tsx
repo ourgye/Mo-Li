@@ -10,7 +10,7 @@ import { getAllArchives } from "@/db/archive-method";
 
 export default function TabLayout() {
   const archives = getAllArchives();
-  if(archives.length === 0) {
+  if (archives.length === 0) {
     insertDummy();
   }
   // insertDummy();
@@ -20,7 +20,20 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-      }}
+        tabBarActiveTintColor: colors.blued1,
+        tabBarInactiveTintColor: colors.black0,
+        tabBarStyle: {
+          position: 'absolute',
+          borderColor: 'black',
+          borderTopColor: 'black',
+          borderWidth: 2,
+          borderTopWidth: 2,
+          paddingBottom: 0,
+          bottom: 30,
+          marginHorizontal: 20,
+          borderRadius: 100,
+        },
+        }}
     >
       <Tabs.Screen
         name="(home)"

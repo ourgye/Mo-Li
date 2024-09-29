@@ -1,7 +1,12 @@
 import MasonryList from "@react-native-seoul/masonry-list";
 import { RecordItem } from "./RecordItem";
-import { RecordDataWOArchive, type RecordData } from "@/constants/types.interface";
+import {
+  RecordDataWOArchive,
+  type RecordData,
+} from "@/constants/types.interface";
 import { Text } from "react-native";
+
+import styles from "./style/RecordList";
 
 export function RecordList({
   data,
@@ -16,12 +21,9 @@ export function RecordList({
     <MasonryList
       data={data}
       renderItem={({ item, i }: { item: any; i: number }) => (
-        <RecordItem item={item} index={i}/>
+        <RecordItem item={item} index={i} />
       )}
-      contentContainerStyle={{
-        alignItems: "stretch",
-        justifyContent: "space-between",
-      }}
+      contentContainerStyle={styles.container}
       numColumns={3}
       showsVerticalScrollIndicator={false}
       refreshControl={false}

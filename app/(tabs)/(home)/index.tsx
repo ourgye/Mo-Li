@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeList } from "@/components/home/HomeList";
-import { FloatingCreateRecordButton } from "@/components/FloatingCreateRecordButton";
+import { FloatingCreateRecordButton } from "@/components/common/FloatingCreateRecordButton";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { getAllRecords, getRecordByArchiveDate } from "@/db/record-method";
 

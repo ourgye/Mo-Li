@@ -2,8 +2,10 @@
 // 아카이즈 수정 및 삭제(내 정보 안에 있는)
 // 내 정보 에서 사용
 
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { CommonListItem, type CommonListItemProps } from "./CommonListItem";
+
+import styles from './style/CommonList'
 
 interface CommonListProp {
   data: CommonListItemProps[];
@@ -31,11 +33,3 @@ export function CommonList({ data, scrollEnabled=true }: CommonListProp) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    borderRadius: 16,
-    paddingHorizontal: 16,
-  },
-});

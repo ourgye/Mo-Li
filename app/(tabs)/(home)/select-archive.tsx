@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { HeaderWithTitle } from "@/components/HeaderWithTitle";
-import { CommonList as ArchiveList } from "@/components/CommonList";
-import { type CommonListItemProps } from "@/components/CommonListItem";
+import { HeaderWithTitle } from "@/components/common/HeaderWithTitle";
+import { CommonList as ArchiveList } from "@/components/common/CommonList";
+import { type CommonListItemProps } from "@/components/common/CommonListItem";
 import { getAllArchives } from "@/db/archive-method";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import {

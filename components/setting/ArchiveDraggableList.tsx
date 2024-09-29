@@ -3,16 +3,12 @@ import DraggableFlatList, { RenderItem } from "react-native-draggable-flatlist";
 import {
   CommonListItem as ArchiveItem,
   CommonListItemProps,
-} from "./CommonListItem";
-import {
-  Pressable,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from "react-native";
+} from "../common/CommonListItem";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import styles from "./style/ArchiveDraggableList";
 
 export default function ArchiveDraggableList({
   data,
@@ -28,9 +24,15 @@ export default function ArchiveDraggableList({
     }))
   );
 
-  const renderItem = ({ item, drag }: {item: RenderItem<CommonListItemProps>, drag: any}) => {
+  const renderItem = ({
+    item,
+    drag,
+  }: {
+    item: RenderItem<CommonListItemProps>;
+    drag: any;
+  }) => {
     return (
-      <TouchableOpacity onLongPress={drag}> 
+      <TouchableOpacity onLongPress={drag}>
         <View style={styles.itemContainer}>
           <View
             style={{
@@ -67,15 +69,3 @@ export default function ArchiveDraggableList({
     />
   );
 }
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    backgroundColor: "white",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    flexGrow: 1,
-    paddingVertical: 16,
-    justifyContent: "space-between",
-  },
-});

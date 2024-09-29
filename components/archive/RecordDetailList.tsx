@@ -1,21 +1,16 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   FlatList,
-  View,
-  Text,
-  StyleSheet,
-  NativeSyntheticEvent,
-  LayoutChangeEvent,
 } from "react-native";
 import { RecordDetailItem } from "./RecordDetailItem";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import {
   selectCurrentArchive,
-  selectRecordList,
   selectSelectedRecordIndex,
 } from "@/slices/archiveSlice";
-import { index } from "realm";
 import { getRecordByArchiveId } from "@/db/record-method";
+
+import styles from './style/RecordDetailList'
 
 export function RecordDetailList() {
   const order: boolean = true;
@@ -55,8 +50,3 @@ export function RecordDetailList() {
   );
 }
 
-const styles = StyleSheet.create({
-  contentContainer: {
-    gap: 24,
-  },
-});

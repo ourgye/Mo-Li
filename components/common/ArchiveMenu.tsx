@@ -3,8 +3,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MenuView } from "@react-native-menu/menu";
 import { useObject, useQuery, useRealm } from "@realm/react";
 import { useState } from "react";
-import { View, Text, StyleSheet, Platform, Alert } from "react-native";
+import { View, Platform, Alert } from "react-native";
 import ArchiveModal from "./ArchiveModal";
+
+import styles from "./style/ArchiveMenu";
 
 export default function ArchiveMenu({
   _id,
@@ -106,10 +108,3 @@ export default function ArchiveMenu({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

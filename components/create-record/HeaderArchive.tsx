@@ -6,6 +6,8 @@ import * as FileSystem from "expo-file-system";
 import { resetRecord, selectRecord } from "@/slices/archiveRecordSlice";
 import { useRealm } from "@realm/react";
 
+import styles from "./style/HeaderArchive";
+
 export function Header() {
   const onPressBack = () => {
     router.back();
@@ -48,13 +50,17 @@ export function Header() {
         // 레코드 저장
         realm.write(() => {
           const id = new Realm.BSON.ObjectID();
-          realm.create("Record", {
-            _id: id,
-            date: recordData.date,
-            imagePath: imagePath,
-            body: recordData.body,
-            archive: recordData.archive,
-          }, true);
+          realm.create(
+            "Record",
+            {
+              _id: id,
+              date: recordData.date,
+              imagePath: imagePath,
+              body: recordData.body,
+              archive: recordData.archive,
+            },
+            true
+          );
         });
       })
       .catch((e) => {
@@ -63,11 +69,11 @@ export function Header() {
         return;
       });
 
-      //redux state 초기화
-      dispatch(resetRecord());
+    //redux state 초기화
+    dispatch(resetRecord());
 
-      // 레코드 저장 후 아카이브 페이지로 이동
-      router.push('/(tabs)/archive'); 
+    // 레코드 저장 후 아카이브 페이지로 이동
+    router.push("/(tabs)/archive");
   };
 
   return (
@@ -83,24 +89,3 @@ export function Header() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  // header
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 8,
-  },
-  button: {
-    backgroundColor: "#00CFF9",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 16,
-  },
-  buttonTitle: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "semibold",
-  },
-});

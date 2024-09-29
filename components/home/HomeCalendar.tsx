@@ -2,9 +2,8 @@
 // 앱 부팅시 캘린더에 오늘 날짜 표시
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import { Calendar, DateData } from "react-native-calendars";
-import { Dimensions } from "react-native";
 import { CustomDropDown } from "./ArchiveDropDown";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import {
@@ -12,11 +11,11 @@ import {
   selectCurrentArchive,
   selectSelectedDate,
 } from "@/slices/calendarSlice";
-import { getRecordByArchiveId } from "@/db/record-method";
 import { setRecordDate } from "@/slices/homeRecordSlice";
 import { Record } from "@/db/entities";
-import SvgIcon from "../SvgIcon";
-import colors from "@/assets/colors/colors";
+import SvgIcon from "../common/SvgIcon";
+
+import styles from "./styles/HomeCalendar";
 
 const daysKo = {
   monthNames: [
@@ -45,7 +44,7 @@ const daysKo = {
   dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
 };
 
-export function HomeCalendar({records}: {records: Record[]}) {
+export function HomeCalendar({ records }: { records: Record[] }) {
   const dispatch = useAppDispatch();
   const customHeaderProps: any = useRef();
   const selectedDate = useAppSelector(selectSelectedDate);
@@ -149,70 +148,10 @@ export function HomeCalendar({records}: {records: Record[]}) {
           dispatch(setRecordDate(date.dateString));
         }}
         markedDates={markedDates}
-        onMonthChange = {(month: DateData) => {
+        onMonthChange={(month: DateData) => {
           setCurrentMonth(new Date(month.dateString).getMonth());
         }}
       />
     </View>
   );
 }
-
-// style, 임시 마음대로 변경 가능
-var width = Dimensions.get("window").width; //full width
-var height = Dimensions.get("window").height; //full height
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-  },
-  customCalendar: {
-    width: width - 48,
-    backgroundColor: colors.white0,
-    alignContent: "flex-start",
-    justifyContent: "flex-start",
-    paddingVertical: 16,
-    marginBottom: 16,
-    borderRadius: 16,
-  },
-  dayNamesStyle: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    textAlign: "center",
-  },
-  customHeader: {
-    width: 120,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    //gap: 24,
-  },
-  customHeaderWrapper: {
-    paddingLeft: 16,
-    height: 44,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  customHeaderText: {
-    fontSize: 24,
-  },
-  customDayContainer: {
-    flex: 1,
-    height: 40,
-    marginTop: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  customDay: {
-    textAlign: "center",
-  },
-  disabledText: {
-    color: "grey",
-  },
-  defaultText: {
-    color: "purple",
-  },
-});

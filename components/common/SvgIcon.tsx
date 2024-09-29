@@ -1,7 +1,7 @@
 import React from "react";
 import { SvgProps } from "react-native-svg";
 
-import * as Icons from "../assets/images/svg";
+import * as Icons from "@/assets/svg";
 import colors from "@/assets/colors/colors";
 
 type IconProps = SvgProps & {

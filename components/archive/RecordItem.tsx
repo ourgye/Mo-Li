@@ -5,6 +5,7 @@ import { RecordData } from "@/constants/types.interface";
 import * as FileSystem from "expo-file-system";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { setSelectedRecordIndex } from "@/slices/archiveSlice";
+import styles from "./style/RecordItem";
 
 export function RecordItem({item, index}: {item: RecordData, index: number}) {
   // 가로 세로 크기 비율을 유지하면서 이미지를 출력(가로는 width-48(padding) / 3)
@@ -28,13 +29,7 @@ export function RecordItem({item, index}: {item: RecordData, index: number}) {
   return (
     <Pressable style={{ alignItems: "center" }} onPress={onPressItem}>
       <Image
-        style={{
-          width: _width,
-          height: height,
-          marginHorizontal: 4,
-          marginBottom: 8,
-          borderRadius: 8,
-        }}
+        style={[styles.image, {width: _width, height: height}]}
         source={{ uri: imagePath }}
       />
     </Pressable>

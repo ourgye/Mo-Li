@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FloatingCreateRecordButton } from "@/components/FloatingCreateRecordButton";
+import { FloatingCreateRecordButton } from "@/components/common/FloatingCreateRecordButton";
 import { ArchiveTitle } from "@/components/archive/ArchiveTitle";
 import { ArchiveList } from "@/components/archive/ArchiveList";
 import { RecordList } from "@/components/archive/RecordList";

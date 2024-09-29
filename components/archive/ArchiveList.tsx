@@ -3,6 +3,8 @@ import { ArchiveItem } from "./ArchiveItem";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { selectCurrentArchive } from "@/slices/archiveSlice";
 
+import styles from "./style/ArchiveList";
+
 export function ArchiveList({
   data,
   setShowArchives,
@@ -18,7 +20,9 @@ export function ArchiveList({
       data={data}
       renderItem={({ item, index }) => (
         <ArchiveItem
-          isSelected={curretArchive?._id.toHexString() === item._id.toHexString()}
+          isSelected={
+            curretArchive?._id.toHexString() === item._id.toHexString()
+          }
           data={item}
           index={index}
           setShowArchives={setShowArchives}
@@ -37,10 +41,3 @@ export function ArchiveList({
     />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    borderRadius: 16,
-  },
-});

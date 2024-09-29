@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { HeaderWithTitle } from "@/components/HeaderWithTitle";
-import { type CommonListItemProps } from "@/components/CommonListItem";
+import { HeaderWithTitle } from "@/components/common/HeaderWithTitle";
 import { ArchiveData } from "@/constants/types.interface";
 import { getArchiveWORecord } from "@/db/archive-method";
-import ArchiveDraggableList from "@/components/ArchiveDraggableList";
+import ArchiveDraggableList from "@/components/setting/ArchiveDraggableList";
 
 export default function SelectArchive() {
   const archiveData: ArchiveData[] = getArchiveWORecord();

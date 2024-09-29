@@ -1,22 +1,23 @@
 import { OrderData } from "@/constants/types.interface";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { selectCurrentOrder, setCurrentOrder } from "@/slices/archiveSlice";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Dimensions } from "react-native";
-
+import { Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import colors from "@/assets/colors/colors";
-import SvgIcon from "../SvgIcon";
 
-export type OrderDropDownProps = {
+import colors from "@/assets/colors/colors";
+import SvgIcon from "../common/SvgIcon";
+import styles from "./style/OrderDropDown";
+
+export interface OrderDropDownProps {
   data: OrderData[];
   current: OrderData;
   setOrder: any;
-};
+}
 
-export function OrderCustomDropDown({data, current, setOrder}: OrderDropDownProps) {
+export function OrderCustomDropDown({
+  data,
+  current,
+  setOrder,
+}: OrderDropDownProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
   return (
@@ -30,7 +31,7 @@ export function OrderCustomDropDown({data, current, setOrder}: OrderDropDownProp
           return (
             <View style={styles.itemContainer}>
               <View style={styles.iconWrapper}>
-                {item._id== current._id  && (
+                {item._id == current._id && (
                   <SvgIcon
                     name="Right_small_icon"
                     size={16}
@@ -52,49 +53,9 @@ export function OrderCustomDropDown({data, current, setOrder}: OrderDropDownProp
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item: OrderData) => {
-          setOrder(item)
+          setOrder(item);
         }}
       />
     </View>
   );
 }
-
-var width = Dimensions.get("window").width; //full width
-
-const styles = StyleSheet.create({
-  dropdownContainer: {
-    //width: 200,
-    //backgroundColor: "#FCFCFC",
-    borderRadius: 16,
-    overflow: "hidden",
-    position: "relative",
-  },
-  dropdown: {
-    width: (width - 48) / 2,
-    //alignSelf: "flex-start",
-    borderRadius: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: "#EFEFEF",
-  },
-  itemContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    height: 32,
-    padding: 8,
-  },
-  selectedTextStyle: {
-    fontSize: 14,
-  },
-  iconWrapper: {
-    width: 24,
-    height: "auto",
-    paddingRight: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  itemTextStyle: {
-    fontSize: 14,
-  },
-});

@@ -1,7 +1,9 @@
-import { Text, StyleSheet, Pressable } from "react-native";
+import { Text, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-type ArchiveTitleProps = {
+import styles from './style/ArchiveTitle'
+
+interface ArchiveTitleProps {
   current: string | undefined;
   onPress: () => void;
 };
@@ -21,19 +23,3 @@ export function ArchiveTitle({
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    flexDirection: "row",
-    paddingHorizontal: 24,
-    // 임시 상위 패딩 (맘대로 변경 가능)
-    paddingTop: 16,
-  },
-  title: {
-    fontSize: 24,
-    textAlign: "center",
-  },
-});

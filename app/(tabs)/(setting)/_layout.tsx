@@ -8,6 +8,7 @@ export default function SettingLayout() {
         <Stack.Screen name="archive-manage" options={{headerShown: false}} />
         <Stack.Screen name="notification" options={{headerShown: false}} />
         <Stack.Screen name="help" options={{headerShown: false}} />
+        <Stack.Screen name="first-launch" options={{headerShown: false}} />
       </Stack>
   );
 }

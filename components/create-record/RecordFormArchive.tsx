@@ -3,8 +3,10 @@ import { setRecordDate, setRecordBody, selectRecordArchive, selectRecordDate, se
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View, Text, Pressable, StyleSheet, TextInput } from "react-native";
+import { View, Text, Pressable, TextInput } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+
+import styles from "./style/RecordForm";
 
 export function RecordForm() {
   const dispatch = useAppDispatch();
@@ -96,32 +98,3 @@ export function RecordForm() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    padding: 16,
-    borderRadius: 16,
-    gap: 16,
-    overflow: "hidden",
-  },
-  text16: {
-    fontSize: 16,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 8,
-  },
-  bottomLine: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#CBCBCB",
-  },
-  textArea: {
-    height: 164,
-    flex: 1,
-  },
-});

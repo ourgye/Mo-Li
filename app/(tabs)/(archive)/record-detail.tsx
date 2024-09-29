@@ -1,5 +1,5 @@
 import { StyleSheet} from "react-native";
-import { HeaderWithTitle } from "@/components/HeaderWithTitle";
+import { HeaderWithTitle } from "@/components/common/HeaderWithTitle";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RecordDetailList } from "@/components/archive/RecordDetailList";
 import { useAppSelector } from "@/hooks/reduxHooks";

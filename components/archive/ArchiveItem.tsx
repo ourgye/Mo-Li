@@ -1,14 +1,16 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { selectCurrentOrder, setCurrentArchive, setCurrentOrder } from "@/slices/archiveSlice";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { setCurrentArchive } from "@/slices/archiveSlice";
 import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
+
+import styles from "./style/ArchiveItem";
 
 export function ArchiveItem({
   isSelected,
   data,
   index,
-  setShowArchives
+  setShowArchives,
 }: {
   isSelected: boolean | undefined;
   data: ArchiveDataWithRecentDate;
@@ -48,37 +50,3 @@ export function ArchiveItem({
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 16,
-  },
-  titleWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  title: {
-    fontSize: 16,
-    textAlign: "center",
-  },
-  clicked: {
-    color: "#00CFF9",
-  },
-  iconWrapper: {
-    width: 10,
-    height: 16,
-  },
-  totalDateWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  totalDate: {
-    fontSize: 12,
-    color: "#888888",
-  },
-});

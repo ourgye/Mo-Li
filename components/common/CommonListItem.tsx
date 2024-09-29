@@ -1,15 +1,17 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import ArchiveMenu from "./ArchiveMenu";
 
-export type CommonListItemProps = {
+import styles from "./style/CommonListItem";
+
+export interface CommonListItemProps {
   leftIcon: "none" | "chevron-right" | "menu";
   rightIcon: "chevron-right" | "dots-horizontal-circle";
   selected?: boolean;
   setSelected?: () => any;
   name: string;
   _id: string;
-};
+}
 
 export function CommonListItem({
   leftIcon,
@@ -19,7 +21,6 @@ export function CommonListItem({
   name,
   _id = "",
 }: CommonListItemProps) {
-
   return (
     <View style={styles.container}>
       <Pressable
@@ -57,21 +58,3 @@ export function CommonListItem({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 16,
-  },
-  leftIconWrapper: {
-    width: 16,
-    height: 16,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 16,
-  },
-});
