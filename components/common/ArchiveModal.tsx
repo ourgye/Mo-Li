@@ -1,16 +1,7 @@
-import { Archive } from "@/db/entities";
-import { useRealm } from "@realm/react";
 import { useEffect, useState } from "react";
-import {
-  Modal,
-  Pressable,
-  Text,
-  View,
-  TextInput,
-  Alert,
-} from "react-native";
+import { Modal, Pressable, Text, View, TextInput, Alert } from "react-native";
 
-import styles from './style/ArchiveModal'
+import styles from "./style/ArchiveModal";
 
 export default function ArchiveModal({
   modalVisible,
@@ -24,46 +15,8 @@ export default function ArchiveModal({
   archiveId?: string;
 }) {
   const [archiveName, setArchiveName] = useState("");
-  const realm = useRealm();
-  const [archive, setArchive] = useState<Archive | null>();
 
-  useEffect(() => {
-    if (modify && archiveId) {
-      const archive = realm.objectForPrimaryKey(
-        Archive,
-        new Realm.BSON.ObjectId(archiveId)
-      );
-      setArchive(archive);
-      setArchiveName(archive ? archive.name : "");
-    }
-  }, [modify, archiveId]);
-
-  const handleCreateArchive = () => {
-    if (modify && archive) {
-      realm.write(() => {
-        archive.name = archiveName;
-      });
-      setModalVisible(!modalVisible);
-      setArchiveName("");
-      return;
-    }
-
-    if (!archiveName) {
-      Alert.alert("아카이브 이름을 입력해주세요.");
-      return;
-    }
-    const id = new Realm.BSON.ObjectID();
-    realm.write(() => {
-      realm.create("Archive", {
-        _id: id,
-        name: archiveName,
-        index: realm.objects("Archive").length*100,
-      });
-    });
-
-    setModalVisible(!modalVisible);
-    setArchiveName("");
-  };
+  const handleCreateArchive = () => {};
 
   return (
     <Modal visible={modalVisible} animationType="slide" transparent>
@@ -75,7 +28,7 @@ export default function ArchiveModal({
           <TextInput
             textContentType="name"
             style={styles.modalText}
-            placeholder={modify ? archive?.name : "아카이브 이름을 입력하세요"}
+            placeholder={modify ? "아카이브" : "아카이브 이름을 입력하세요"}
             value={archiveName}
             onChangeText={(e) => {
               setArchiveName(e);
@@ -103,4 +56,3 @@ export default function ArchiveModal({
     </Modal>
   );
 }
-

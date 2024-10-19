@@ -1,178 +1,133 @@
-import { useObject, useQuery, useRealm } from "@realm/react";
-import { Archive } from "./entities";
-import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
+import type { DBArchiveType } from "@/constants/dbtypes.interface";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // 아카이브 생성
-export function createArchive({
-  name,
-  index,
-}: {
-  name: string;
-  index: number;
-}) {
-  const realm = useRealm();
-  const id = new Realm.BSON.ObjectID();
+const createArchive = async (archive: DBArchiveType) => {
+  try {
+    if (!process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION)
+      throw new Error(
+        "process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION is not defined",
+      );
 
-  realm.write(() => {
-    realm.create("Archive", {
-      _id: id,
-      name,
-      index,
-    });
-  });
-}
+    // fetch list of archives
+    const archives: string[] = await AsyncStorage.getItem(
+      process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION,
+    ).then((res) => (res ? JSON.parse(res) : []));
 
-// 아카이브 수정
-export function updateArchive({
-  _id,
-  name,
-}: {
-  _id: Realm.BSON.ObjectId;
-  name: string;
-}) {
-  const realm = useRealm();
-  const currArchive = useObject(Archive, _id);
+    // add new archive
+    archives.push(archive._id);
 
-  realm.write(() => {
-    if (currArchive) {
-      currArchive.name = name;
-    }
-  });
-}
+    // save new archive list
+    await AsyncStorage.setItem(
+      process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION,
+      JSON.stringify(archives),
+    );
 
-export function getAllArchives() {
-  const archives = useQuery({
-    type: Archive,
-    query: (Archives) => {
-      return Archives.sorted("index");
-    },
-  });
-
-  const noRecordArchives = archives.map((archive) => {
-    return {
-      _id: archive._id,
-      name: archive.name,
-    };
-  }); // 레코드가 없는 아카이브만 가져오기
-
-  return noRecordArchives;
-}
-
-// 레코드 없이 가져오기
-export function getArchiveWORecord() {
-  const archives = useQuery({
-    type: Archive,
-    query: (Archives) => {
-      return Archives.sorted("index");
-    },
-  });
-
-  return archives.map((archive) => {
-    const records = archive.records.sorted("date", true);
-    const recentDate = records.length === 0 ? "" : records[0].date;
-
-    return {
-      _id: archive._id,
-      name: archive.name,
-      index: archive.index,
-      recentDate: recentDate,
-      recordLength: records.length,
-    };
-  });
-}
-
-// 아카이브의 모든 정보 가져오기
-export function getArchiveWithRecentDates(
-  sortType: boolean
-): ArchiveDataWithRecentDate[] {
-  // sortType: true - 최신순, false - 오래된순
-  // 아카이브는 이름 순으로
-  const archive = useQuery({
-    type: Archive,
-    query: (Archives) => {
-      return Archives.sorted("index");
-    },
-  });
-
-  return archive.map((archive) => {
-    const records = archive.records.sorted("date", sortType).map((record) => {
-      return {
-        _id: record._id,
-        date: record.date,
-        imagePath: record.imagePath,
-        body: record.body,
-      };
-    });
-    const recentDate = records.length === 0 ? "" : records[0].date;
-
-    return {
-      _id: archive._id,
-      name: archive.name,
-      recentDate,
-      recordLength: records.length,
-      records: records,
-    };
-  });
-}
-
-// 아카이브 _id와 이름만 가져오기
-export function getArchiveNameID() {
-  const archives = useQuery(Archive, (Archives) => {
-    return Archives.sorted("name");
-  });
-
-  return archives.map((archive) => {
-    return {
-      _id: archive._id,
-      name: archive.name,
-    };
-  });
-}
-
-// 첫번째 아카이브 가져오기
-export function getFirstArchive() {
-  const archives = useQuery(Archive, (Archives) => {
-    return Archives.sorted("name");
-  });
-
-  if (archives.length === 0) {
-    return {
-      _id: new Realm.BSON.ObjectId(),
-      name: "아카이브가 없습니다.",
-    };
+    // save new archive
+    AsyncStorage.setItem(archive._id, JSON.stringify(archive));
+  } catch (e) {
+    console.error("[ERROR] error from creating new archive", e);
   }
-
-  return {
-    _id: archives[0]._id,
-    name: archives[0].name,
-  };
-}
+};
 
 // 아카이브 삭제
-// 레코드가 있는 아카이브는 어떻게 삭제되도록 하지?
-// 모든 레코드 삭제 경고 후, 삭제하도록 하기
-export function deleteArchive({ _id }: { _id: Realm.BSON.ObjectId }) {
-  const realm = useRealm();
-  const archive = useObject(Archive, _id);
+const deleteArchive = async (archiveId: string) => {
+  try {
+    if (!process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION)
+      throw new Error(
+        "process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION is not defined",
+      );
 
-  realm.write(() => {
-    realm.delete(archive);
-  });
-}
+    // fetch list of archives
+    const archives = await AsyncStorage.getItem(
+      process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION,
+    ).then((res) => (res ? JSON.parse(res) : []));
 
-// 아카이브의 가장 최근 레코드 날짜 가져오기
-export function getRecentRecordDate({ _id }: { _id: Realm.BSON.ObjectId }) {
-  const archive = useObject(Archive, _id);
-  if (!archive) {
-    return "";
+    // remove archive from list
+    const newArchives = archives.filter((id: string) => id !== archiveId);
+
+    // save new archive list
+    await AsyncStorage.setItem(
+      process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION,
+      JSON.stringify(newArchives),
+    );
+
+    // delete archive
+    await AsyncStorage.removeItem(archiveId);
+  } catch (e) {
+    console.error("[ERROR] error from deleting archive", e);
   }
+};
 
-  const records = archive.records.sorted("date", true);
-  if (records.length === 0) {
-    return "";
+// 아카이브 수정
+const modifyArchive = async (archive: DBArchiveType) => {
+  try {
+    if (!process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION)
+      throw new Error(
+        "process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION is not defined",
+      );
+
+    // modify archive
+    await AsyncStorage.setItem(archive._id, JSON.stringify(archive));
+  } catch (e) {
+    console.error("[ERROR] error from modifying archive", e);
   }
+};
 
-  return records[0].date;
-}
+// 모든 아카이브 가져오기
+const getAllArchives = async () => {
+  try {
+    if (!process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION)
+      throw new Error(
+        "process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION is not defined",
+      );
+
+    // fetch list of archives
+    const archivesList = await AsyncStorage.getItem(
+      process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION,
+    ).then((res) => (res ? JSON.parse(res) : []));
+
+    // fetch all archives
+    const archives = archivesList.map(
+      async (id: string) =>
+        await Promise.all(
+          await AsyncStorage.getItem(id).then((res) =>
+            res ? JSON.parse(res) : null,
+          ),
+        ),
+    );
+
+    // remove null values
+    return;
+    archives.filter((archive: DBArchiveType | null) => archive !== null);
+  } catch (e) {
+    console.error("[ERROR] error from getting all archives", e);
+    return [];
+  }
+};
 
 // 아카이브 순서 변경
+const changeArchiveOrder = async (archiveIds: string[]) => {
+  try {
+    if (!process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION)
+      throw new Error(
+        "process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION is not defined",
+      );
+
+    // save new order
+    return await AsyncStorage.setItem(
+      process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION,
+      JSON.stringify(archiveIds.map((id) => id)),
+    );
+  } catch (e) {
+    console.error("[ERROR] error from changing archive order", e);
+  }
+};
+
+export {
+  createArchive,
+  deleteArchive,
+  modifyArchive,
+  getAllArchives,
+  changeArchiveOrder,
+};

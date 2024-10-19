@@ -4,17 +4,7 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { StyleSheet } from "react-native";
 import colors from "../../assets/colors/colors";
 
-// for dummy data
-import { insertDummy } from "@/db/insertDummy";
-import { getAllArchives } from "@/db/archive-method";
-
 export default function TabLayout() {
-  const archives = getAllArchives();
-  if (archives.length === 0) {
-    insertDummy();
-  }
-  // insertDummy();
-
   return (
     <Tabs
       screenOptions={{
@@ -23,9 +13,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: colors.blued1,
         tabBarInactiveTintColor: colors.black0,
         tabBarStyle: {
-          position: 'absolute',
-          borderColor: 'black',
-          borderTopColor: 'black',
+          position: "absolute",
+          borderColor: "black",
+          borderTopColor: "black",
           borderWidth: 2,
           borderTopWidth: 2,
           paddingBottom: 0,
@@ -33,7 +23,7 @@ export default function TabLayout() {
           marginHorizontal: 20,
           borderRadius: 100,
         },
-        }}
+      }}
     >
       <Tabs.Screen
         name="(home)"

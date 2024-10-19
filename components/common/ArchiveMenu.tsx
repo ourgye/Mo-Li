@@ -1,7 +1,5 @@
-import { Archive, Record } from "@/db/entities";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MenuView } from "@react-native-menu/menu";
-import { useObject, useQuery, useRealm } from "@realm/react";
 import { useState } from "react";
 import { View, Platform, Alert } from "react-native";
 import ArchiveModal from "./ArchiveModal";
@@ -15,27 +13,9 @@ export default function ArchiveMenu({
   _id: string;
   name: string;
 }) {
-  const realm = useRealm();
-  const archive = useObject(Archive, new Realm.BSON.ObjectId(_id));
-  const records = useQuery(Record, (Records) => {
-    return Records.filtered(`archive._id = $0`, archive?._id);
-  });
   const [modalVisible, setModalVisible] = useState(false);
 
   const onPressDelete = () => {
-    // record 삭제
-    if (records.length !== 0) {
-      realm.write(() => {
-        records.forEach((record) => {
-          realm.delete(record);
-        });
-      });
-    }
-
-    // archive 삭제
-    realm.write(() => {
-      realm.delete(archive);
-    });
   };
 
   const onPressAction = ({ nativeEvent }: { nativeEvent: any }) => {

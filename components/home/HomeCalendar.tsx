@@ -12,7 +12,6 @@ import {
   selectSelectedDate,
 } from "@/slices/calendarSlice";
 import { setRecordDate } from "@/slices/homeRecordSlice";
-import { Record } from "@/db/entities";
 import SvgIcon from "../common/SvgIcon";
 
 import styles from "./styles/HomeCalendar";
@@ -44,7 +43,7 @@ const daysKo = {
   dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
 };
 
-export function HomeCalendar({ records }: { records: Record[] }) {
+export function HomeCalendar({ records }: { records: any }) {
   const dispatch = useAppDispatch();
   const customHeaderProps: any = useRef();
   const selectedDate = useAppSelector(selectSelectedDate);

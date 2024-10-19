@@ -2,9 +2,7 @@ import { Stack } from "expo-router";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
-import { RealmProvider } from "@realm/react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Record, Archive } from "@/db/entities";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import * as SplashScreen from "expo-splash-screen";
@@ -33,11 +31,6 @@ export default function RootLayout() {
   }
 
   return (
-    <RealmProvider
-      schema={[Record, Archive]}
-      closeOnUnmount
-      deleteRealmIfMigrationNeeded
-    >
       <Provider store={store}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
@@ -47,6 +40,5 @@ export default function RootLayout() {
           </SafeAreaProvider>
         </GestureHandlerRootView>
       </Provider>
-    </RealmProvider>
   );
 }
