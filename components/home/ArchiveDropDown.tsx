@@ -8,17 +8,14 @@ import {
   selectCurrentArchive,
   setCurrentArchive,
 } from "@/slices/calendarSlice";
-import { getArchiveNameID } from "@/db/archive-method";
 
-import styles from "./styles/ArchiveDropDown"
+import styles from "./styles/ArchiveDropDown";
 
 export function CustomDropDown() {
   const currentArchive = useAppSelector(selectCurrentArchive);
   const dispatch = useAppDispatch();
   const [isFocus, setIsFocus] = useState<boolean>(false);
-  const data: ArchiveData[] = getArchiveNameID();
-  data.unshift({ _id: new Realm.BSON.ObjectId(), name: "전체" });
-
+  const data: any[] = [{ name: "test", _id: "test" }];
   return (
     <View style={styles.container}>
       <Dropdown
@@ -26,26 +23,24 @@ export function CustomDropDown() {
         containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
         selectedTextStyle={styles.selectedTextStyle}
         itemTextStyle={styles.itemTextStyle}
-        renderItem={(item: ArchiveData) => {
+        renderItem={(item) => {
           return (
             <View style={styles.itemContainer}>
               <View style={styles.iconWrapper}>
-                {item._id.toHexString() ==
-                  currentArchive?._id.toHexString() && (
+                {item._id == currentArchive?._id && (
                   <MaterialCommunityIcons
                     name="chevron-right"
                     size={16}
                     color="#00CFF9"
                   />
                 )}
-                {!currentArchive &&
-                  item._id.toHexString() == data[0]._id.toHexString() && (
-                    <MaterialCommunityIcons
-                      name="chevron-right"
-                      size={16}
-                      color="#00CFF9"
-                    />
-                  )}
+                {!currentArchive && (
+                  <MaterialCommunityIcons
+                    name="chevron-right"
+                    size={16}
+                    color="#00CFF9"
+                  />
+                )}
               </View>
               <Text>{item.name}</Text>
             </View>
@@ -56,16 +51,11 @@ export function CustomDropDown() {
         labelField="name"
         valueField="_id"
         placeholderStyle={styles.selectedTextStyle}
-        placeholder={
-          currentArchive != undefined ? currentArchive.name : data[0].name
-        }
-        value={currentArchive != undefined ? currentArchive.name : data[0].name}
+        placeholder={currentArchive != undefined ? "hi" : "undefined"}
+        value={data[0]._id}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
-        onChange={(item: ArchiveData) => {
-          if (item.name == "전체") dispatch(setCurrentArchive(undefined));
-          else dispatch(setCurrentArchive({ _id: item._id, name: item.name }));
-        }}
+        onChange={(item) => {}}
       />
     </View>
   );

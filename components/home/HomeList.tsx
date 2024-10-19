@@ -16,14 +16,13 @@ export function HomeList({ data }: { data: any[] }) {
   const archiveList: ArchiveDataWithRecentDateWORecords[] = [];
   const [visibleModal, setVisibleModal] = useState(false);
   const filteredRecordArchive = data.filter((record) => {
-    if (archiveId)
-      return record.archive._id.toHexString() === archiveId.toHexString();
+    if (archiveId) return record.archive._id.toHexString() === archiveId;
     return record;
   });
   const filteredRecordDate = data.filter((record) => {
     if (archiveId)
       return (
-        record.archive._id.toHexString() === archiveId.toHexString() &&
+        record.archive._id.toHexString() === archiveId &&
         record.date === selectedDate
       );
     return record.date === selectedDate;
@@ -48,7 +47,7 @@ export function HomeList({ data }: { data: any[] }) {
           renderItem={({ item }) => (
             <ArchiveListItem item={item} onPress={() => {}} />
           )}
-          keyExtractor={(item) => item._id.toHexString()}
+          keyExtractor={(item) => item._id}
           ListFooterComponent={
             <View>
               <ArchiveModal

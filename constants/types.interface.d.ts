@@ -1,8 +1,7 @@
 import { ImagePickerResult } from "expo-image-picker";
-import { index } from "realm";
 
 export interface RecordData {
-  _id: Realm.BSON.ObjectId;
+  _id: string;
   date: string;
   imagePath: string;
   body: string;
@@ -17,7 +16,7 @@ export interface RecordDataWOID {
 }
 
 export interface RecordDataWOArchive {
-  _id: Realm.BSON.ObjectId;
+  _id: string;
   date: string;
   imagePath: string;
   body: string;
@@ -30,7 +29,7 @@ export interface RecordDataToSave {
   archive: undefined | ArchiveData;
 }
 export interface ArchiveData {
-  _id: Realm.BSON.ObjectId;
+  _id: string;
   index: number;
   name: string;
 }
@@ -41,7 +40,7 @@ export interface ArchiveDataWOID {
 }
 
 export interface ArchiveDataAll {
-  _id: Realm.BSON.ObjectId;
+  _id: string;
   index: number;
   name: string;
   records: RecordData[];
@@ -59,7 +58,7 @@ export interface MyPageListData {
 }
 
 export interface ArchiveDataWithRecentDate {
-  _id: Realm.BSON.ObjectId;
+  _id: string;
   name: string;
   recentDate: string;
   recordLength: number;
@@ -67,7 +66,7 @@ export interface ArchiveDataWithRecentDate {
 }
 
 export interface ArchiveDataWithRecentDateWORecords {
-  _id: Realm.BSON.ObjectId;
+  _id: string;
   name: string;
   recentDate: string;
   recordLength: number;

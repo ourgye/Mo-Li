@@ -4,7 +4,6 @@ import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import * as FileSystem from "expo-file-system";
 import { resetRecord, selectRecord } from "@/slices/archiveRecordSlice";
-import { useRealm } from "@realm/react";
 
 import styles from "./style/HeaderArchive";
 
@@ -15,7 +14,6 @@ export function Header() {
   const recordData = useAppSelector(selectRecord);
   const dispatch = useAppDispatch();
   // invalid hook call 때문에 여기서 바로 저장
-  const realm = useRealm();
 
   const onPressPost = () => {
     // 게시 버튼 눌렀을 때
@@ -47,21 +45,6 @@ export function Header() {
     })
       .then(() => {
         console.log("Image saved");
-        // 레코드 저장
-        realm.write(() => {
-          const id = new Realm.BSON.ObjectID();
-          realm.create(
-            "Record",
-            {
-              _id: id,
-              date: recordData.date,
-              imagePath: imagePath,
-              body: recordData.body,
-              archive: recordData.archive,
-            },
-            true
-          );
-        });
       })
       .catch((e) => {
         console.log(e);

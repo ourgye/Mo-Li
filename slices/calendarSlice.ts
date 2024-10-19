@@ -1,5 +1,4 @@
 // selected date와 현재 archive를 관리하는 state를 redux로 관리하도록 변경
-// selected date type: Date, current archive type: Realm.BSON.ObjectId
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { ArchiveData } from "@/constants/types.interface";
