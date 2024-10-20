@@ -55,7 +55,7 @@ export default function TabLayout() {
           title: "Setting",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              name={focused ? "Account_active_icon" : "Account_icon"}
+              name={focused ? "Setting_active_icon" : "Setting_icon"}
               color={focused ? colors.blued1 : colors.black0}
             />
           ),
