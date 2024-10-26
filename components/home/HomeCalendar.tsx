@@ -118,17 +118,27 @@ export function HomeCalendar({ records }: { records: any }) {
         <View style={styles.customHeaderWrapper}>
           <View style={styles.customHeader}>
             <TouchableOpacity onPress={movePrevious}>
-              <MaterialCommunityIcons name="chevron-left" size={24} />
+              <SvgIcon name="Left_icon" size={24} />
             </TouchableOpacity>
             <Text style={styles.customHeaderText}>
               {daysKo.monthNames[currentMonth]}
             </Text>
             <TouchableOpacity onPress={moveNext}>
-              <MaterialCommunityIcons name="chevron-right" size={24} />
+              <SvgIcon name="Right_icon" size={24} />
             </TouchableOpacity>
           </View>
           <CustomDropDown />
         </View>
+      </View>
+    );
+  });
+
+  const CustomWeek = React.forwardRef((props, ref) => {
+    customHeaderProps.current = props;
+
+    return (
+      // @ts-expect-error
+      <View ref={ref} {...props}>
         <DayNames />
       </View>
     );
@@ -137,11 +147,29 @@ export function HomeCalendar({ records }: { records: any }) {
   return (
     <View>
       <Calendar
+        theme={{
+          "stylesheet.calendar.main": {
+            monthView: {
+              height: 0,
+            },
+          },
+        }}
+        customHeader={CustomHeader}
+        style={[styles.customCalendarHeader]}
+      />
+      <Calendar
         markingType={"multi-dot"}
         initialDate={selectedDate}
-        theme={{ "stylesheet.calendar.main": { borderRadius: 16 } }}
+        //theme={{ "stylesheet.calendar.main": { borderRadius: 16, header } }}
+        theme={{
+          "stylesheet.calendar.header": {
+            header: {
+              height: 0,
+            },
+          },
+        }}
         style={[styles.customCalendar]}
-        customHeader={CustomHeader}
+        customHeader={CustomWeek}
         onDayPress={(date: any) => {
           dispatch(setSelectedDate(date.dateString));
           dispatch(setRecordDate(date.dateString));
