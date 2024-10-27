@@ -1,5 +1,3 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { setRecordDate, setRecordBody, selectRecordArchive, selectRecordDate, selectRecordBody } from "@/slices/archiveRecordSlice";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -9,12 +7,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import styles from "./style/RecordForm";
 
 export function RecordForm() {
-  const dispatch = useAppDispatch();
+  const date = new Date().toISOString().split("T")[0];
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const archive = useAppSelector(selectRecordArchive);
-  const date = useAppSelector(selectRecordDate);
-  const body = useAppSelector(selectRecordBody);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -26,7 +20,6 @@ export function RecordForm() {
 
   const handleConfirm = (date: Date) => {
     console.warn("A date has been picked: ", date);
-    dispatch(setRecordDate(date.toISOString().split("T")[0]));
     hideDatePicker();
   };
 
@@ -54,7 +47,9 @@ export function RecordForm() {
           }}
         >
           {/* value from state management */}
-          <Text style={[styles.text16]}>{archive? archive.name: "아카이브 선택"}</Text>
+          <Text style={[styles.text16]}>
+            {/* {archive ? archive.name : "아카이브 선택"} */}
+          </Text>
           <MaterialCommunityIcons
             name="chevron-right"
             size={24}
@@ -90,8 +85,8 @@ export function RecordForm() {
             autoComplete="off"
             autoCorrect={false}
             autoCapitalize="none"
-            value={body}
-            onChangeText={(text) => dispatch(setRecordBody(text))}
+            // value={body}
+            // onChangeText={(text) => dispatch(setRecordBody(text))}
           />
         </View>
       </View>

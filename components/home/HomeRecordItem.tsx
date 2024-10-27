@@ -1,19 +1,19 @@
 // 메인화면 레코드 아이템 컴포넌트
-import { RecordData } from "@/constants/types.interface";
 import { useEffect, useState } from "react";
 import { Image, Pressable, View, Text } from "react-native";
 import * as FileSystem from "expo-file-system";
 
 import styles from "./styles/HomeRecordItem";
+import { RecordType } from "@/constants/types.interface";
 
-export function HomeRecordItem(item: RecordData) {
+export function HomeRecordItem({ record }: { record: RecordType }) {
   const [height, setHeight] = useState<number>(0);
   // line height + font size = 32 (추후 제대로 계산해야함)
   // text 자를 때 사용
   const line = 32;
   const fixedWidth = 142; // 고정된 너비
   const imagePath = FileSystem.documentDirectory
-    ? FileSystem.documentDirectory + item.imagePath
+    ? FileSystem.documentDirectory + record.imagePath
     : "";
 
   const DynamicImage = (uri: string) => {
@@ -48,13 +48,12 @@ export function HomeRecordItem(item: RecordData) {
 
   return (
     <Pressable style={styles.itemWrapper}>
-      <Text style={styles.dateText}>{item.date}</Text>
+      <Text style={styles.dateText}>{record.date}</Text>
       <View style={styles.itemBodyWrapper}>
-        {/* 기본 이미지 필요?  */}
         {DynamicImage(imagePath)}
         <View style={styles.itemTextWrapper}>
           <Text style={styles.titleText} ellipsizeMode="tail" numberOfLines={1}>
-            {item.archive.name}
+            {record.archiveName}
           </Text>
           <Text
             style={styles.bodyText}
@@ -65,7 +64,7 @@ export function HomeRecordItem(item: RecordData) {
                 : Math.ceil(fixedWidth / line)
             }
           >
-            {item.body}
+            {record.body}
           </Text>
         </View>
       </View>

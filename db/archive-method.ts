@@ -1,8 +1,8 @@
-import type { DBArchiveType } from "@/constants/dbtypes.interface";
+import type { ArchiveType } from "@/constants/types.interface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // 아카이브 생성
-const createArchive = async (archive: DBArchiveType) => {
+const createArchive = async (archive: ArchiveType) => {
   try {
     if (!process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION)
       throw new Error(
@@ -60,7 +60,7 @@ const deleteArchive = async (archiveId: string) => {
 };
 
 // 아카이브 수정
-const modifyArchive = async (archive: DBArchiveType) => {
+const modifyArchive = async (archive: ArchiveType) => {
   try {
     if (!process.env.EXPO_PUBLIC_DB_ARCHIVE_COLLECTION)
       throw new Error(
@@ -99,7 +99,7 @@ const getAllArchives = async () => {
 
     // remove null values
     return;
-    archives.filter((archive: DBArchiveType | null) => archive !== null);
+    archives.filter((archive: ArchiveType | null) => archive !== null);
   } catch (e) {
     console.error("[ERROR] error from getting all archives", e);
     return [];

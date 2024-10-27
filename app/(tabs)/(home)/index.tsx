@@ -5,15 +5,11 @@ import { FloatingCreateRecordButton } from "@/components/common/FloatingCreateRe
 import { useAppSelector } from "@/hooks/reduxHooks";
 
 export default function HomeScreen() {
-  const selectedDate = useAppSelector((state) => state.calendar.selectedDate);
-  const archiveId = useAppSelector(
-    (state) => state.calendar.currentArchive?._id,
-  );
   return (
     <SafeAreaView style={styles.container} edges={["right", "top", "left"]}>
       <FloatingCreateRecordButton from="(home)" />
       <View style={{ flex: 1 }}>
-        <HomeList data={[]} />
+        <HomeList />
       </View>
     </SafeAreaView>
   );

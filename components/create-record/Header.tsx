@@ -1,9 +1,7 @@
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import * as FileSystem from "expo-file-system";
-import { resetRecord, selectRecord } from "@/slices/homeRecordSlice";
 
 import styles from "./style/Header";
 
@@ -11,51 +9,49 @@ export function Header() {
   const onPressBack = () => {
     router.back();
   };
-  const recordData = useAppSelector(selectRecord);
-  const dispatch = useAppDispatch();
   // invalid hook call 때문에 여기서 바로 저장
 
-  const onPressPost = () => {
-    // 게시 버튼 눌렀을 때
-    console.log(recordData);
+  // const onPressPost = () => {
+  //   // 게시 버튼 눌렀을 때
+  //   console.log(recordData);
 
-    // 모든 값이 있는지 확인
-    if (
-      !recordData.date ||
-      !recordData.body ||
-      !recordData.archive ||
-      !recordData.image?.assets
-    ) {
-      alert("모든 값을 입력해주세요");
-      return;
-    }
-    console.log(FileSystem.documentDirectory);
+  //   // 모든 값이 있는지 확인
+  //   if (
+  //     !recordData.date ||
+  //     !recordData.body ||
+  //     !recordData.archive ||
+  //     !recordData.image?.assets
+  //   ) {
+  //     alert("모든 값을 입력해주세요");
+  //     return;
+  //   }
+  //   console.log(FileSystem.documentDirectory);
 
-    // 이미지 Path 추출
-    const imagePath = recordData.image.assets[0].uri.split("/").pop();
-    if (!imagePath) {
-      alert("이미지 저장에 실패했습니다");
-      return;
-    }
+  //   // 이미지 Path 추출
+  //   const imagePath = recordData.image.assets[0].uri.split("/").pop();
+  //   if (!imagePath) {
+  //     alert("이미지 저장에 실패했습니다");
+  //     return;
+  //   }
 
-    // 이미지 저장
-    FileSystem.copyAsync({
-      from: recordData.image.assets[0].uri,
-      to: FileSystem.documentDirectory + imagePath,
-    })
-      .then(() => {})
-      .catch((e) => {
-        console.log(e);
-        alert("저장에 실패했습니다");
-        return;
-      });
+  //   // 이미지 저장
+  //   FileSystem.copyAsync({
+  //     from: recordData.image.assets[0].uri,
+  //     to: FileSystem.documentDirectory + imagePath,
+  //   })
+  //     .then(() => {})
+  //     .catch((e) => {
+  //       console.log(e);
+  //       alert("저장에 실패했습니다");
+  //       return;
+  //     });
 
-    //redux state 초기화
-    dispatch(resetRecord());
+  //   //redux state 초기화
+  //   dispatch(resetRecord());
 
-    // 레코드 저장 후 홈으로 이동
-    router.navigate("/(tabs)/(home)/");
-  };
+  //   // 레코드 저장 후 홈으로 이동
+  //   router.navigate("/(tabs)/(home)/");
+  // };
 
   return (
     <View style={styles.headerContainer}>
@@ -64,7 +60,7 @@ export function Header() {
         <MaterialCommunityIcons name="chevron-left" size={32} color="black" />
       </Pressable>
       {/* 게시 버튼 */}
-      <Pressable style={styles.button} onPress={onPressPost}>
+      <Pressable style={styles.button}>
         <Text style={styles.buttonTitle}>게시</Text>
       </Pressable>
     </View>

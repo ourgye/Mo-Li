@@ -1,21 +1,13 @@
-// 메인 페이지에 나오는 캘린더
-// 앱 부팅시 캘린더에 오늘 날짜 표시
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { Calendar, DateData } from "react-native-calendars";
 import { CustomDropDown } from "./ArchiveDropDown";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import {
-  setSelectedDate,
-  selectCurrentArchive,
-  selectSelectedDate,
-} from "@/slices/calendarSlice";
-import { setRecordDate } from "@/slices/homeRecordSlice";
 import SvgIcon from "../common/SvgIcon";
 
 import styles from "./styles/HomeCalendar";
 import colors from "@/assets/colors/colors";
+import { useCalendar } from "@/hooks/useCalendar";
 
 const daysKo = {
   monthNames: [
@@ -44,21 +36,22 @@ const daysKo = {
   dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
 };
 
-export function HomeCalendar({ records }: { records: any }) {
-  const dispatch = useAppDispatch();
+export function HomeCalendar() {
+  const {
+    selectedDate,
+    selectedDateRecords,
+    handleChangeSelectedDate,
+    currentRecords,
+  } = useCalendar();
   const customHeaderProps: any = useRef();
-  const selectedDate = useAppSelector(selectSelectedDate);
-  const currentArchive = useAppSelector(selectCurrentArchive);
   const [currentMonth, setCurrentMonth] = useState<number>(
-    new Date(selectedDate).getMonth()
-  ); // for printing month name in header
+    new Date(selectedDate).getMonth(),
+  );
 
   const recordStyle = { color: "grey", selectedDotColor: "white" };
-  // get all the record from dbs
-
   const dotsDates: { [key: string]: any } = {};
 
-  records.forEach((record: { date: string }) => {
+  currentRecords.forEach((record: { date: string }) => {
     const date: string = record.date;
     if (dotsDates[date] === undefined) {
       dotsDates[date] = {};
@@ -186,9 +179,8 @@ export function HomeCalendar({ records }: { records: any }) {
         }}
         style={[styles.customCalendar]}
         customHeader={CustomWeek}
-        onDayPress={(date: any) => {
-          dispatch(setSelectedDate(date.dateString));
-          dispatch(setRecordDate(date.dateString));
+        onDayPress={(date: DateData) => {
+          handleChangeSelectedDate(date.dateString);
         }}
         markedDates={markedDates}
         onMonthChange={(month: DateData) => {

@@ -1,9 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import type { ArchiveDataWithRecentDateWORecords } from "@/constants/types.interface";
 import typos from "@/assets/fonts/typos";
 
-import styles from './styles/HomeArchiveListItem'
+import styles from "./styles/HomeArchiveListItem";
 
 export type ItemData = {
   title: string;
@@ -11,12 +10,7 @@ export type ItemData = {
   recentDate: string;
 };
 
-export type ArchiveListItemProps = {
-  item: ArchiveDataWithRecentDateWORecords;
-  onPress: () => void;
-};
-
-export function ArchiveListItem({ item, onPress }: ArchiveListItemProps) {
+export function ArchiveListItem({ item, onPress }: any) {
   return (
     <View>
       <Pressable onPress={onPress} style={styles.itemWrapper}>

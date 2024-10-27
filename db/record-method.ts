@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DBRecordType } from "@/constants/dbtypes.interface";
+import { RecordType } from "@/constants/types.interface";
 
 // 레코드 생성
-const createRecord = async (record: DBRecordType) => {
+const createRecord = async (record: RecordType) => {
   try {
     if (!process.env.EXPO_PUBLIC_DB_RECORD_COLLECTION)
       throw new Error(
@@ -84,7 +84,7 @@ const deleteRecord = async (recordId: string, archiveId: string) => {
 };
 
 // 레코드 수정
-const modifyRecord = async (record: DBRecordType) => {
+const modifyRecord = async (record: RecordType) => {
   try {
     if (!process.env.EXPO_PUBLIC_DB_RECORD_COLLECTION)
       throw new Error(
@@ -144,7 +144,7 @@ const getRecordByArchive = async (archiveId: string) => {
 
     // remove null values
     return recordsWithNull.filter(
-      (record: DBRecordType | null) => record !== null,
+      (record: RecordType | null) => record !== null,
     );
   } catch (e) {
     console.error("[ERROR] error from getting records by archive", e);
@@ -197,7 +197,7 @@ const getAllRecords = async () => {
     );
 
     // remove null values
-    return records.filter((record: DBRecordType | null) => record !== null);
+    return records.filter((record: RecordType | null) => record !== null);
   } catch (e) {
     console.error("[ERROR] error from getting all records", e);
   }
@@ -231,3 +231,12 @@ const deleteAllRecordsByArchive = async (archiveId: string) => {
     console.error("[ERROR] error from deleting all records by archive", e);
   }
 };
+
+export {
+  createRecord,
+  deleteRecord,
+  modifyRecord,
+  getRecordByArchive,
+  getAllRecords,
+  deleteAllRecordsByArchive,
+}

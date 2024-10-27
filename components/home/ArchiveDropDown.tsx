@@ -1,22 +1,35 @@
-import { ArchiveData } from "@/constants/types.interface";
-import { useState } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useEffect, useMemo, useState } from "react";
 import { Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
-import {
-  selectCurrentArchive,
-  setCurrentArchive,
-} from "@/slices/calendarSlice";
 
 import styles from "./styles/ArchiveDropDown";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
+import { getAllArchives } from "@/db/archive-method";
+import { ArchiveType } from "@/constants/types.interface";
+import { useCalendar } from "@/hooks/useCalendar";
 
 export function CustomDropDown() {
-  const currentArchive = useAppSelector(selectCurrentArchive);
-  const dispatch = useAppDispatch();
   const [isFocus, setIsFocus] = useState<boolean>(false);
-  const data: any[] = [{ name: "test", _id: "test" }];
+  const allTypeArchive: ArchiveType = {
+    _id: "0",
+    name: "전체",
+    lastDate: undefined,
+    count: 0,
+  };
+  const [archiveList, setArchiveList] = useState<ArchiveType[]>([
+    allTypeArchive,
+  ]);
+
+  const { currentArchive, handleChangeCurrentArchive } = useCalendar();
+
+  useMemo(() => {
+    getAllArchives().then((res) => {
+      if (res) setArchiveList([allTypeArchive, ...res]);
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <Dropdown
@@ -41,16 +54,18 @@ export function CustomDropDown() {
             </View>
           );
         }}
-        data={data}
+        data={archiveList}
         maxHeight={300}
         labelField="name"
         valueField="_id"
-        placeholderStyle={typos.caption_typo}
-        placeholder={currentArchive != undefined ? "hi" : "undefined"}
-        value={data[0]._id}
+        placeholderStyle={styles.selectedTextStyle}
+        placeholder={currentArchive ? currentArchive.name : allTypeArchive.name}
+        value={currentArchive?._id}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
-        onChange={(item) => {}}
+        onChange={(archive) => {
+          handleChangeCurrentArchive(archive);
+        }}
       />
     </View>
   );
