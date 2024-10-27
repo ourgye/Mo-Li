@@ -25,7 +25,9 @@ const fetchCurrentArchiveRecords = createAsyncThunk(
       const records: RecordType[] = await getAllRecords();
       return records;
     }
-    const records: RecordType[] = await getRecordByArchive(archive._id);
+    const records: RecordType[] | undefined = await getRecordByArchive(
+      archive._id,
+    );
     return records;
   },
 );
@@ -59,8 +61,12 @@ const calendarSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       fetchCurrentArchiveRecords.fulfilled,
-      (state, action: PayloadAction<RecordType[]>) => {
+      (state, action: PayloadAction<RecordType[] | undefined>) => {
         console.log("fetchCurrentArchiveRecords.fulfilled", action.payload);
+        if (!action.payload) {
+          state.currentRecords = [];
+          return;
+        }
         state.currentRecords = action.payload;
       },
     );

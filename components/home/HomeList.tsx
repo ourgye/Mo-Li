@@ -23,7 +23,11 @@ export function HomeList() {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={<HomeCalendar />}
         ListFooterComponent={
-          selectedDateRecords.length > 0 ? <View /> : <Text>{"archive"}</Text>
+          selectedDateRecords.length > 0 ? (
+            <View />
+          ) : (
+            <Text>{"archive button will appear... -gye"}</Text>
+          )
         }
       />
     </View>
