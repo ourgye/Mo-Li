@@ -18,11 +18,12 @@ export function HomeRecordItem({ record }: { record: RecordType }) {
   //   : "";
 
   // 더미 데이터 이미지 경로
-  const imagePath = record.imagePath;
+  const imagePath = record.imagePath || "";
 
   const DynamicImage = (uri: string) => {
     useEffect(() => {
       // 이미지의 원본 크기를 가져옴
+      if (uri === "") return;
       Image.getSize(uri, (width, height) => {
         // 원본 비율을 계산하여 높이를 설정
         const ratio = height / width;

@@ -151,13 +151,13 @@ const getRecordByArchive = async (archiveId: string) => {
       );
 
       // fetch all records
-      const recordsWithNull = records.map(
-        async (id: string) =>
-          await Promise.all(
+      const recordsWithNull = await Promise.all(
+        records.map(
+          async (id: string) =>
             await AsyncStorage.getItem(id).then((res) =>
               res ? JSON.parse(res) : null,
             ),
-          ),
+        ),
       );
 
       // remove null values

@@ -60,6 +60,7 @@ export default function ArchiveDropDown() {
           if (archive._id === "0") {
             handleChangeCurrentArchive(undefined);
           } else {
+            console.log("archive", archive);
             handleChangeCurrentArchive(archive);
           }
         }}

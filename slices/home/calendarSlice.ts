@@ -60,6 +60,7 @@ const calendarSlice = createSlice({
     builder.addCase(
       fetchCurrentArchiveRecords.fulfilled,
       (state, action: PayloadAction<RecordType[]>) => {
+        console.log("fetchCurrentArchiveRecords.fulfilled", action.payload);
         state.currentRecords = action.payload;
       },
     );
