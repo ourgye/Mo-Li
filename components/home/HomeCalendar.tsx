@@ -15,6 +15,7 @@ import { setRecordDate } from "@/slices/homeRecordSlice";
 import SvgIcon from "../common/SvgIcon";
 
 import styles from "./styles/HomeCalendar";
+import colors from "@/assets/colors/colors";
 
 const daysKo = {
   monthNames: [
@@ -74,8 +75,16 @@ export function HomeCalendar({ records }: { records: any }) {
       ...dotsDates[selectedDate],
       selected: true,
       disableTouchEvent: true,
-      selectedColor: "#00CFF9",
-      selectedTextColor: "white",
+      //selectedColor: colors.blue0,
+      //selectedTextColor: colors.white0,
+      customStyles: {
+        container: {
+          backgroundColor: colors.blue0,
+          borderWidth: 1,
+          borderColor: colors.black0,
+          justifyContent: "center",
+        },
+      },
     },
   };
 
@@ -115,19 +124,21 @@ export function HomeCalendar({ records }: { records: any }) {
     return (
       // @ts-expect-error
       <View ref={ref} {...props}>
-        <View style={styles.customHeaderWrapper}>
-          <View style={styles.customHeader}>
-            <TouchableOpacity onPress={movePrevious}>
-              <SvgIcon name="Left_icon" size={24} />
-            </TouchableOpacity>
-            <Text style={styles.customHeaderText}>
-              {daysKo.monthNames[currentMonth]}
-            </Text>
-            <TouchableOpacity onPress={moveNext}>
-              <SvgIcon name="Right_icon" size={24} />
-            </TouchableOpacity>
+        <View style={styles.container}>
+          <View style={styles.customHeaderWrapper}>
+            <View style={styles.customHeader}>
+              <TouchableOpacity onPress={movePrevious}>
+                <SvgIcon name="Left_icon" size={24} />
+              </TouchableOpacity>
+              <Text style={styles.customHeaderText}>
+                {daysKo.monthNames[currentMonth]}
+              </Text>
+              <TouchableOpacity onPress={moveNext}>
+                <SvgIcon name="Right_icon" size={24} />
+              </TouchableOpacity>
+            </View>
+            <CustomDropDown />
           </View>
-          <CustomDropDown />
         </View>
       </View>
     );
@@ -158,10 +169,15 @@ export function HomeCalendar({ records }: { records: any }) {
         style={[styles.customCalendarHeader]}
       />
       <Calendar
-        markingType={"multi-dot"}
+        //markingType={"multi-dot"}
+        markingType={"custom"}
         initialDate={selectedDate}
         //theme={{ "stylesheet.calendar.main": { borderRadius: 16, header } }}
         theme={{
+          todayTextColor: colors.blue0,
+          dayTextColor: colors.black0,
+          textDisabledColor: colors.gray3,
+          textDayFontSize: 14,
           "stylesheet.calendar.header": {
             header: {
               height: 0,

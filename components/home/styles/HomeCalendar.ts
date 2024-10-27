@@ -6,8 +6,10 @@ var height = Dimensions.get("window").height; //full height
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: "100%",
+    //width: "100%",
+    //flexDirection: "row",
+    //alignItems: "center",
+    //justifyContent: "space-between",
   },
   customCalendar: {
     width: width - 48,
@@ -15,8 +17,10 @@ const styles = StyleSheet.create({
     //alignContent: "flex-start",
     //justifyContent: "flex-start",
     //paddingVertical: 16,
-    marginBottom: 16,
+    paddingBottom: 16,
     borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.black0,
   },
   customCalendarHeader: {
     width: width - 48,
@@ -32,7 +36,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   customHeader: {
-    width: "50%",
+    width: "45%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -41,13 +45,15 @@ const styles = StyleSheet.create({
   },
   customHeaderWrapper: {
     height: 44,
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 16,
+    // marginVertical: 16,
   },
   customHeaderText: {
-    fontSize: 24,
+    fontSize: 20,
   },
   customDayContainer: {
     flex: 1,

@@ -1,0 +1,10 @@
+<svg id="down_small_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="10" viewBox="0 0 10 10">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="사각형_204" data-name="사각형 204" width="10" height="10" transform="translate(245 340)" fill="#191919"/>
+    </clipPath>
+  </defs>
+  <g id="down_small_icon-2" data-name="down_small_icon" transform="translate(-245 -340)" clip-path="url(#clip-path)">
+    <path id="keyboard_arrow_down_16dp_191919_FILL1_wght300_GRAD0_opsz20" d="M11.084-8.315a.71.71,0,0,1-.276-.053.729.729,0,0,1-.234-.16L6.29-12.812a.578.578,0,0,1-.193-.432.636.636,0,0,1,.208-.434.6.6,0,0,1,.429-.2.6.6,0,0,1,.429.2l3.926,3.949,3.949-3.949a.565.565,0,0,1,.425-.185.636.636,0,0,1,.434.208.6.6,0,0,1,.2.429.614.614,0,0,1-.209.436L11.6-8.528a.84.84,0,0,1-.244.16.71.71,0,0,1-.276.053Z" transform="translate(238.903 356.097)" fill="#191919"/>
+  </g>
+</svg>

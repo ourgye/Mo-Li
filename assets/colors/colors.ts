@@ -4,8 +4,10 @@ const colors = {
   white0: "#FFFFFF",
   black0: "#191919",
 
-  blue0: "#5AE3FF", //main
-  blued1: "#00BDE3", //dark
+  blue0: "#A8D0FF", //main
+  blued1: "#4282CF", //dark
+
+  yellow0: "#FFFF8D",
 
   gray1: "#F8F8F8",
   gray2: "#EFEFEF",

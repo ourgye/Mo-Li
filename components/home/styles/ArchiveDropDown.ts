@@ -1,41 +1,46 @@
+import colors from "@/assets/colors/colors";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    paddingLeft: 16,
+  },
   dropdownContainer: {
-    width: 200,
-    backgroundColor: "#FCFCFC",
+    backgroundColor: colors.gray1,
+    padding: 8,
+    marginTop: 8,
     borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.black0,
     overflow: "hidden",
-    position: "relative",
+    //position: "relative",
   },
   dropdown: {
-    width: 200,
-    alignSelf: "flex-start",
+    //alignSelf: "flex-start",
+    //width: "100%",
+    height: 32,
     borderRadius: 16,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: "#EFEFEF",
+    backgroundColor: colors.yellow0,
+    borderWidth: 1,
+    borderColor: colors.black0,
   },
   itemContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    backgroundColor: colors.gray1,
     height: 32,
     padding: 8,
   },
-  selectedTextStyle: {
-    fontSize: 14,
+  selectedItemContainer: {
+    backgroundColor: colors.yellow0,
+    height: 32,
+    padding: 8,
+    borderWidth: 1,
+    borderRadius: 16,
   },
-  iconWrapper: {
-    width: 24,
-    height: "auto",
-    paddingRight: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  itemTextStyle: {
-    fontSize: 14,
+  textContainer: {
+    marginHorizontal: 8,
   },
 });
 

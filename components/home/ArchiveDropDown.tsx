@@ -1,5 +1,4 @@
 import { ArchiveData } from "@/constants/types.interface";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
@@ -10,6 +9,8 @@ import {
 } from "@/slices/calendarSlice";
 
 import styles from "./styles/ArchiveDropDown";
+import SvgIcon from "../common/SvgIcon";
+import typos from "@/assets/fonts/typos";
 
 export function CustomDropDown() {
   const currentArchive = useAppSelector(selectCurrentArchive);
@@ -21,28 +22,22 @@ export function CustomDropDown() {
       <Dropdown
         style={styles.dropdown} // 위에 선택된 드롭다운 스타일
         containerStyle={styles.dropdownContainer} // 아래에 뜨는 드롭다운 스타일(모든 드롭다운 아이템을 감싸는 컨테이너)
-        selectedTextStyle={styles.selectedTextStyle}
-        itemTextStyle={styles.itemTextStyle}
+        selectedTextStyle={typos.body2_typo}
+        itemTextStyle={typos.body2_typo}
+        renderRightIcon={() => <SvgIcon name="Down_small_icon" size={10} />}
         renderItem={(item) => {
+          const isSelected = item._id === currentArchive?._id;
           return (
-            <View style={styles.itemContainer}>
-              <View style={styles.iconWrapper}>
-                {item._id == currentArchive?._id && (
-                  <MaterialCommunityIcons
-                    name="chevron-right"
-                    size={16}
-                    color="#00CFF9"
-                  />
-                )}
-                {!currentArchive && (
-                  <MaterialCommunityIcons
-                    name="chevron-right"
-                    size={16}
-                    color="#00CFF9"
-                  />
-                )}
+            <View
+              style={[
+                isSelected
+                  ? styles.itemContainer
+                  : styles.selectedItemContainer,
+              ]}
+            >
+              <View style={styles.textContainer}>
+                <Text>{item.name}</Text>
               </View>
-              <Text>{item.name}</Text>
             </View>
           );
         }}
@@ -50,7 +45,7 @@ export function CustomDropDown() {
         maxHeight={300}
         labelField="name"
         valueField="_id"
-        placeholderStyle={styles.selectedTextStyle}
+        placeholderStyle={typos.caption_typo}
         placeholder={currentArchive != undefined ? "hi" : "undefined"}
         value={data[0]._id}
         onFocus={() => setIsFocus(true)}
