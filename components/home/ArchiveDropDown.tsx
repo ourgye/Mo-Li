@@ -16,7 +16,8 @@ export default function ArchiveDropDown() {
     count: 0,
   };
 
-  const { currentArchive, handleChangeCurrentArchive } = useCalendar();
+  const { selectedDate, currentArchive, handleChangeCurrentArchive } =
+    useCalendar();
   const { archiveList, refreshArchiveList } = useArchiveList();
 
   const dropdownData = useMemo(
@@ -58,10 +59,9 @@ export default function ArchiveDropDown() {
         value={currentArchive ? currentArchive._id : allTypeArchive._id}
         onChange={(archive) => {
           if (archive._id === "0") {
-            handleChangeCurrentArchive(undefined);
+            handleChangeCurrentArchive(undefined, selectedDate);
           } else {
-            console.log("archive", archive);
-            handleChangeCurrentArchive(archive);
+            handleChangeCurrentArchive(archive, selectedDate);
           }
         }}
       />

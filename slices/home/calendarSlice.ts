@@ -55,6 +55,7 @@ const calendarSlice = createSlice({
       const records = state.currentRecords.filter(
         (record) => record.date === action.payload,
       );
+      console.log("setSelectedDateRecords", records);
       state.selectedDateRecors = records;
     },
   },
@@ -62,7 +63,6 @@ const calendarSlice = createSlice({
     builder.addCase(
       fetchCurrentArchiveRecords.fulfilled,
       (state, action: PayloadAction<RecordType[] | undefined>) => {
-        console.log("fetchCurrentArchiveRecords.fulfilled", action.payload);
         if (!action.payload) {
           state.currentRecords = [];
           return;

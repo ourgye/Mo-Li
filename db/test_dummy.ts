@@ -92,12 +92,12 @@ const checkDummyNeeded = async () => {
   if (!archives || archives.length === 0) {
     testCreateArchiveDummy();
   } else {
-    console.log("show archives", archives);
+    // console.log("show archives", archives);
   }
   if (!records || records.length === 0) {
     testCreateRecordDummy();
   } else {
-    console.log("show records", records);
+    // console.log("show records", records);
   }
 };
 

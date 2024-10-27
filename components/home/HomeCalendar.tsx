@@ -37,12 +37,8 @@ const daysKo = {
 };
 
 export function HomeCalendar() {
-  const {
-    selectedDate,
-    selectedDateRecords,
-    handleChangeSelectedDate,
-    currentRecords,
-  } = useCalendar();
+  const { selectedDate, currentRecords, handleChangeSelectedDate } =
+    useCalendar();
   const customHeaderProps: any = useRef();
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date(selectedDate).getMonth(),
@@ -149,8 +145,8 @@ export function HomeCalendar() {
     <View>
       <CustomHeader />
       <Calendar
-        //markingType={"multi-dot"}
-        markingType={"custom"}
+        markingType={"multi-dot"}
+        // markingType={"custom"}
         initialDate={selectedDate}
         //theme={{ "stylesheet.calendar.main": { borderRadius: 16, header } }}
         theme={{

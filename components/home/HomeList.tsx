@@ -8,16 +8,21 @@ import ArchiveModal from "../common/ArchiveModal";
 import { useCalendar } from "@/hooks/useCalendar";
 
 export function HomeList() {
-  const { currentRecords, selectedDateRecords, handleChangeCurrentArchive } =
-    useCalendar();
+  const {
+    currentArchive,
+    selectedDate,
+    selectedDateRecords,
+    handleChangeCurrentArchive,
+  } = useCalendar();
+
   useEffect(() => {
-    handleChangeCurrentArchive(undefined);
+    handleChangeCurrentArchive(currentArchive, selectedDate);
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
       <FlatList
-        data={currentRecords}
+        data={selectedDateRecords}
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         renderItem={({ item }) => <HomeRecordItem record={item} />}
         showsVerticalScrollIndicator={false}
