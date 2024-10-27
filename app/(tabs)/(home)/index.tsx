@@ -2,7 +2,6 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeList } from "@/components/home/HomeList";
 import { FloatingCreateRecordButton } from "@/components/common/FloatingCreateRecordButton";
-import { useAppSelector } from "@/hooks/reduxHooks";
 
 export default function HomeScreen() {
   return (

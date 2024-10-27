@@ -7,12 +7,5 @@ export function TabBarIcon({
   color,
   ...rest
 }: IconProps<ComponentProps<typeof SvgIcon>["name"]>) {
-  return (
-    <SvgIcon
-      size={32}
-      fill={color}
-      style={[{ marginBottom: 8 }, style]}
-      {...rest}
-    />
-  );
+  return <SvgIcon size={24} fill={color} style={[style]} {...rest} />;
 }

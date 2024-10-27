@@ -1,3 +1,4 @@
+import "react-native-get-random-values";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -8,6 +9,7 @@ import { store } from "@/store";
 import * as SplashScreen from "expo-splash-screen";
 
 import { useEffect } from "react";
+import { checkDummyNeeded } from "@/db/test_dummy";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -30,15 +32,18 @@ export default function RootLayout() {
     return null;
   }
 
+  // add dummy data
+  checkDummyNeeded();
+
   return (
-      <Provider store={store}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <SafeAreaProvider>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            </Stack>
-          </SafeAreaProvider>
-        </GestureHandlerRootView>
-      </Provider>
+    <Provider store={store}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </Provider>
   );
 }

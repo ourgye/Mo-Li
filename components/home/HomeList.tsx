@@ -8,7 +8,11 @@ import ArchiveModal from "../common/ArchiveModal";
 import { useCalendar } from "@/hooks/useCalendar";
 
 export function HomeList() {
-  const { currentRecords, selectedDateRecords } = useCalendar();
+  const { currentRecords, selectedDateRecords, handleChangeCurrentArchive } =
+    useCalendar();
+  useEffect(() => {
+    handleChangeCurrentArchive(undefined);
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>

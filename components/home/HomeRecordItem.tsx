@@ -12,9 +12,13 @@ export function HomeRecordItem({ record }: { record: RecordType }) {
   // text 자를 때 사용
   const line = 32;
   const fixedWidth = 142; // 고정된 너비
-  const imagePath = FileSystem.documentDirectory
-    ? FileSystem.documentDirectory + record.imagePath
-    : "";
+  // 디렉토리 연결 후 이미지 경로 설정
+  // const imagePath = FileSystem.documentDirectory
+  //   ? FileSystem.documentDirectory + record.imagePath
+  //   : "";
+
+  // 더미 데이터 이미지 경로
+  const imagePath = record.imagePath;
 
   const DynamicImage = (uri: string) => {
     useEffect(() => {

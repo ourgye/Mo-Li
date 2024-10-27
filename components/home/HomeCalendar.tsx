@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { Calendar, DateData } from "react-native-calendars";
-import { CustomDropDown } from "./ArchiveDropDown";
+import CustomDropDown from "./ArchiveDropDown";
 import SvgIcon from "../common/SvgIcon";
 
 import styles from "./styles/HomeCalendar";
@@ -111,12 +111,9 @@ export function HomeCalendar() {
     );
   });
 
-  const CustomHeader = React.forwardRef((props, ref) => {
-    customHeaderProps.current = props;
-
+  const CustomHeader: React.FC = useCallback(() => {
     return (
-      // @ts-expect-error
-      <View ref={ref} {...props}>
+      <View>
         <View style={styles.container}>
           <View style={styles.customHeaderWrapper}>
             <View style={styles.customHeader}>
@@ -135,7 +132,7 @@ export function HomeCalendar() {
         </View>
       </View>
     );
-  });
+  }, [currentMonth]);
 
   const CustomWeek = React.forwardRef((props, ref) => {
     customHeaderProps.current = props;
@@ -150,17 +147,7 @@ export function HomeCalendar() {
 
   return (
     <View>
-      <Calendar
-        theme={{
-          "stylesheet.calendar.main": {
-            monthView: {
-              height: 0,
-            },
-          },
-        }}
-        customHeader={CustomHeader}
-        style={[styles.customCalendarHeader]}
-      />
+      <CustomHeader />
       <Calendar
         //markingType={"multi-dot"}
         markingType={"custom"}
