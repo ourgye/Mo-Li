@@ -10,45 +10,41 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RecordForm } from "@/components/create-record/RecordForm";
 import { Header } from "@/components/create-record/Header";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 import * as ImagePicker from "expo-image-picker";
 
 export default function CreateRecord() {
-  // image 따로 컴포넌트 빼서 추후에 다시 작성
-  // any data type으로 설정해놓음
-  const dispatch = useAppDispatch();
+  const { newRecordImage, setRecordImage } = useHomeNewRecord();
 
-  // const handleImagePicker = async () => {
-  //   try {
-  //     const image = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //       // allowsEditing: true,
-  //     });
-  //     if (image.canceled) throw new Error("Image picker canceled");
-  //     dispatch(setRecordImage(image));
-  //   } catch (e) {
-  //     console.log(e);
-  //     dispatch(setRecordImage(undefined));
-  //   }
-  // };
+  const handleImagePicker = async () => {
+    try {
+      const image = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        // allowsEditing: true,
+      });
+      if (image.canceled) throw new Error("Image picker canceled");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  // const RecordImage = () => {
-  //   return (
-  //     <Pressable
-  //       style={[styles.recordImage, !image && { height: 234 }]}
-  //       onPress={handleImagePicker}
-  //     >
-  //       {image?.assets && (
-  //         <Image
-  //           source={{ uri: image.assets[0].uri }}
-  //           width={234}
-  //           height={(image.assets[0].height / image.assets[0].width) * 234}
-  //           resizeMethod="resize"
-  //         />
-  //       )}
-  //     </Pressable>
-  //   );
-  // };
+  const RecordImage = () => {
+    return (
+      <Pressable
+        style={[styles.recordImage, !image && { height: 234 }]}
+        onPress={handleImagePicker}
+      >
+        {image?.assets && (
+          <Image
+            source={{ uri: image.assets[0].uri }}
+            width={234}
+            height={(image.assets[0].height / image.assets[0].width) * 234}
+            resizeMethod="resize"
+          />
+        )}
+      </Pressable>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,7 +55,7 @@ export default function CreateRecord() {
           contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 72 }}
           showsVerticalScrollIndicator={false}
         >
-          {/* <RecordImage /> */}
+          <RecordImage />
           <RecordForm />
         </ScrollView>
       </KeyboardAvoidingView>

@@ -1,18 +1,34 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RecordType } from "@/constants/types.interface";
+import { createRecord } from "@/db/record-method";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface RecordState{
+interface RecordState {
   date: string;
   image: string | undefined;
   body: string;
-  archive: string | undefined;
+  archiveId: string | undefined;
+  archiveName: string | undefined;
 }
 
 const initialState: RecordState = {
   date: new Date().toISOString().split("T")[0],
   image: undefined,
   body: "",
-  archive: undefined,
+  archiveId: undefined,
+  archiveName: undefined,
 };
+
+const createNewRecord = createAsyncThunk(
+  "home-new-record/createNewRecord",
+  async (record: RecordType) => {
+    try {
+      // record를 db에 저장
+      await createRecord(record);
+    } catch (e) {
+      console.error("[ERROR] error from creating new record", e);
+    }
+  },
+);
 
 export const homeNewRecordSlice = createSlice({
   name: "home-new-record",
@@ -27,22 +43,34 @@ export const homeNewRecordSlice = createSlice({
     setRecordBody(state, action: PayloadAction<string>) {
       state.body = action.payload;
     },
-    setRecordArchive(state, action: PayloadAction<string>) {
-      state.archive = action.payload;
+    setRecordArchive(
+      state,
+      action: PayloadAction<{ id: string; name: string }>,
+    ) {
+      state.archiveId = action.payload.id;
+      state.archiveName = action.payload.name;
     },
     resetRecord(state) {
       state = initialState;
-    }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createNewRecord.fulfilled, (state) => {
+      state = initialState;
+    });
   },
   selectors: {
     selectRecordDate: (state) => state.date,
     selectRecordImage: (state) => state.image,
     selectRecordBody: (state) => state.body,
-    selectRecordArchive: (state) => state.archive,
+    selectRecordArchive: (state) => ({
+      id: state.archiveId,
+      name: state.archiveName,
+    }),
     selectRecord: (state) => state,
-  }
+  },
 });
-
+export const createNewRecordThunk = { createNewRecord };
 export const homeNewRecordSelector = homeNewRecordSlice.selectors;
 export const homeNewRecordAction = homeNewRecordSlice.actions;
 export default homeNewRecordSlice.reducer;
