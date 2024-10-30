@@ -145,8 +145,8 @@ export function HomeCalendar() {
     <View>
       <CustomHeader />
       <Calendar
-        markingType={"multi-dot"}
-        // markingType={"custom"}
+        // markingType={"multi-dot"}
+        markingType={"custom"}
         initialDate={selectedDate}
         //theme={{ "stylesheet.calendar.main": { borderRadius: 16, header } }}
         theme={{
