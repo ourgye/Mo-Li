@@ -14,10 +14,8 @@ const styles = StyleSheet.create({
   customCalendar: {
     width: width - 48,
     backgroundColor: colors.white0,
-    //alignContent: "flex-start",
-    //justifyContent: "flex-start",
-    //paddingVertical: 16,
     paddingBottom: 16,
+    marginBottom: 16,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.black0,

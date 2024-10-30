@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import React, { useEffect } from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import colors from "../../assets/colors/colors";
 
 export default function TabLayout() {
@@ -13,9 +13,10 @@ export default function TabLayout() {
         tabBarActiveTintColor: colors.blued1,
         tabBarInactiveTintColor: colors.black0,
         tabBarStyle: {
+          backgroundColor: colors.gray2,
           position: "absolute",
-          borderColor: "black",
-          borderTopColor: "black",
+          borderColor: colors.black0,
+          borderTopColor: colors.black0,
           height: 52,
           borderWidth: 1,
           borderTopWidth: 1,
@@ -31,10 +32,14 @@ export default function TabLayout() {
         options={{
           title: "Main",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon
-              name={focused ? "Calendar_active_icon" : "Calendar_icon"}
-              color={focused ? colors.blued1 : colors.black0}
-            />
+            <View
+              style={focused ? styles.selectedIconWrapper : styles.iconWrapper}
+            >
+              <TabBarIcon
+                name={focused ? "Calendar_active_icon" : "Calendar_icon"}
+                color={focused ? colors.blued1 : colors.black0}
+              />
+            </View>
           ),
         }}
       />
@@ -43,10 +48,14 @@ export default function TabLayout() {
         options={{
           title: "Archive",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon
-              name={focused ? "Feed_active_icon" : "Feed_icon"}
-              color={focused ? colors.blued1 : colors.black0}
-            />
+            <View
+              style={focused ? styles.selectedIconWrapper : styles.iconWrapper}
+            >
+              <TabBarIcon
+                name={focused ? "Feed_active_icon" : "Feed_icon"}
+                color={focused ? colors.blued1 : colors.black0}
+              />
+            </View>
           ),
         }}
       />
@@ -55,10 +64,14 @@ export default function TabLayout() {
         options={{
           title: "Setting",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon
-              name={focused ? "Setting_active_icon" : "Setting_icon"}
-              color={focused ? colors.blued1 : colors.black0}
-            />
+            <View
+              style={focused ? styles.selectedIconWrapper : styles.iconWrapper}
+            >
+              <TabBarIcon
+                name={focused ? "Setting_active_icon" : "Setting_icon"}
+                color={focused ? colors.blued1 : colors.black0}
+              />
+            </View>
           ),
         }}
       />
@@ -67,7 +80,20 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  selectedIconWrapper: {
+    width: 56,
+    height: 40,
+    backgroundColor: colors.white0,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.black0,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  iconWrapper: {
+    width: 56,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

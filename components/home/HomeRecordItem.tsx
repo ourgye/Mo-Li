@@ -5,6 +5,7 @@ import * as FileSystem from "expo-file-system";
 
 import styles from "./styles/HomeRecordItem";
 import { RecordType } from "@/constants/types.interface";
+import typos from "@/assets/fonts/typos";
 
 export function HomeRecordItem({ record }: { record: RecordType }) {
   const [height, setHeight] = useState<number>(0);
@@ -32,12 +33,13 @@ export function HomeRecordItem({ record }: { record: RecordType }) {
       });
     }, [uri]);
 
+    //무조건 정방향 유지되도록 변경해서 코드 정리 필요
     return (
       <View style={styles.imageWrapper}>
         {height > 0 ? (
           <Image
             source={{ uri: uri }}
-            style={[styles.image, { width: fixedWidth, height: height }]}
+            style={[styles.image, { width: fixedWidth, height: fixedWidth }]}
           />
         ) : (
           <Image
@@ -53,15 +55,19 @@ export function HomeRecordItem({ record }: { record: RecordType }) {
 
   return (
     <Pressable style={styles.itemWrapper}>
-      <Text style={styles.dateText}>{record.date}</Text>
+      <Text style={typos.caption_typo}>{record.date}</Text>
       <View style={styles.itemBodyWrapper}>
         {DynamicImage(imagePath)}
         <View style={styles.itemTextWrapper}>
-          <Text style={styles.titleText} ellipsizeMode="tail" numberOfLines={1}>
+          <Text
+            style={typos.subtitle_typo}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+          >
             {record.archiveName}
           </Text>
           <Text
-            style={styles.bodyText}
+            style={typos.body2_typo}
             ellipsizeMode="tail"
             numberOfLines={
               height > 0

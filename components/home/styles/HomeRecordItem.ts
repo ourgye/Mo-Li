@@ -1,16 +1,19 @@
+import colors from "@/assets/colors/colors";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   itemWrapper: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "white",
+    backgroundColor: colors.white0,
     padding: 16,
     gap: 16,
     overflow: "hidden",
     justifyContent: "space-between",
     alignItems: "flex-start",
     borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.black0,
   },
   itemBodyWrapper: {
     flex: 1,
@@ -20,30 +23,18 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     borderRadius: 16,
-    backgroundColor: "#EFEFEF",
+    borderWidth: 1,
+    borderColor: colors.black0,
     overflow: "hidden",
   },
   image: {
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   itemTextWrapper: {
     flex: 1,
     flexDirection: "column",
     gap: 8,
     paddingVertical: 8,
-  },
-  //   text styles(remove or modify as needed)
-  dateText: {
-    fontSize: 12,
-    color: "#5B5B5B",
-  },
-  titleText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  bodyText: {
-    lineHeight: 20,
-    fontSize: 14,
   },
 });
 

@@ -33,7 +33,6 @@ export default function RootLayout() {
   }
 
   // add dummy data
-  checkDummyNeeded();
 
   return (
     <Provider store={store}>
