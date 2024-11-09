@@ -6,6 +6,7 @@ import { ArchiveListItem } from "./HomeArchiveListItem";
 import { AddArchiveButton } from "./AddArchiveButton";
 import ArchiveModal from "../common/ArchiveModal";
 import { useCalendar } from "@/hooks/useCalendar";
+import { useArchiveList } from "@/hooks/useArchiveList";
 
 export function HomeList() {
   const {
@@ -14,6 +15,7 @@ export function HomeList() {
     selectedDateRecords,
     handleChangeCurrentArchive,
   } = useCalendar();
+  const { archiveList } = useArchiveList();
 
   useEffect(() => {
     handleChangeCurrentArchive(currentArchive, selectedDate);
@@ -21,20 +23,37 @@ export function HomeList() {
 
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
-        data={selectedDateRecords}
-        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-        renderItem={({ item }) => <HomeRecordItem record={item} />}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={<HomeCalendar />}
-        ListFooterComponent={
-          selectedDateRecords.length > 0 ? (
-            <View />
-          ) : (
-            <Text>{"archive button will appear... -gye"}</Text>
-          )
-        }
-      />
+      {selectedDateRecords.length > 0 ? (
+        <FlatList
+          scrollEnabled={false}
+          data={selectedDateRecords}
+          ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+          renderItem={({ item }) => <HomeRecordItem record={item} />}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <FlatList
+          scrollEnabled={false}
+          data={archiveList}
+          ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+          renderItem={({ item }) => <ArchiveListItem archive={item} />}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Text>my archive</Text>
+              <View>
+                <AddArchiveButton
+                  onPress={() => {
+                    console.log("add archive button pressed");
+                  }}
+                />
+              </View>
+            </View>
+          }
+        />
+      )}
     </View>
   );
 }

@@ -1,31 +1,25 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { Pressable, Text, View } from "react-native";
 import typos from "@/assets/fonts/typos";
 
 import styles from "./styles/HomeArchiveListItem";
+import { ArchiveType } from "@/constants/types.interface";
 
-export type ItemData = {
-  title: string;
-  total: number;
-  recentDate: string;
-};
-
-export function ArchiveListItem({ item, onPress }: any) {
+export function ArchiveListItem({ archive }: { archive: ArchiveType }) {
   return (
     <View>
-      <Pressable onPress={onPress} style={styles.itemWrapper}>
-        <Text style={[typos.subtitle_typo]}>{item.name}</Text>
+      <Pressable
+        onPress={() => {
+          console.log(`${archive._id}, ${archive.name} clicked`);
+        }}
+        style={styles.itemWrapper}
+      >
+        <Text style={[typos.subtitle_typo]}>{archive.name}</Text>
         <View style={styles.itemRight}>
           <Text style={styles.itemTextRight}>
-            {item.recordLength != 0
-              ? item.recordLength + "개 | " + item.recentDate
+            {archive.count != 0
+              ? archive.count + "개 | " + archive.lastDate
               : "컨텐츠가 없습니다"}
           </Text>
-          <MaterialCommunityIcons
-            name="chevron-right"
-            size={20}
-            color="#888888"
-          />
         </View>
       </Pressable>
     </View>
