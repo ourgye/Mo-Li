@@ -12,9 +12,12 @@ import { RecordForm } from "@/components/create-record/RecordForm";
 import { Header } from "@/components/create-record/Header";
 import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 import * as ImagePicker from "expo-image-picker";
+import { useState } from "react";
 
 export default function CreateRecord() {
   const { newRecordImage, setRecordImage } = useHomeNewRecord();
+  const [imageFile, setImageFile] =
+    useState<ImagePicker.ImagePickerResult | null>(null);
 
   const handleImagePicker = async () => {
     try {
@@ -23,6 +26,7 @@ export default function CreateRecord() {
         // allowsEditing: true,
       });
       if (image.canceled) throw new Error("Image picker canceled");
+      setImageFile(image);
     } catch (e) {
       console.log(e);
     }
@@ -31,14 +35,16 @@ export default function CreateRecord() {
   const RecordImage = () => {
     return (
       <Pressable
-        style={[styles.recordImage, !image && { height: 234 }]}
+        style={[styles.recordImage, !imageFile && { height: 234 }]}
         onPress={handleImagePicker}
       >
-        {image?.assets && (
+        {imageFile?.assets && (
           <Image
-            source={{ uri: image.assets[0].uri }}
+            source={{ uri: imageFile.assets[0].uri }}
             width={234}
-            height={(image.assets[0].height / image.assets[0].width) * 234}
+            height={
+              (imageFile.assets[0].height / imageFile.assets[0].width) * 234
+            }
             resizeMethod="resize"
           />
         )}
