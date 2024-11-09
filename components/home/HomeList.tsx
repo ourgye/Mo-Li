@@ -7,6 +7,7 @@ import { AddArchiveButton } from "./AddArchiveButton";
 import ArchiveModal from "../common/ArchiveModal";
 import { useCalendar } from "@/hooks/useCalendar";
 import { useArchiveList } from "@/hooks/useArchiveList";
+import typos from "@/assets/fonts/typos";
 
 export function HomeList() {
   const {
@@ -40,9 +41,14 @@ export function HomeList() {
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{
+                height: 52,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
-              <Text>my archive</Text>
+              <Text style={typos.subtitle_typo}>나의 아카이브</Text>
               <View>
                 <AddArchiveButton
                   onPress={() => {

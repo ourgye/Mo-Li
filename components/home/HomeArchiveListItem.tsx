@@ -15,7 +15,7 @@ export function ArchiveListItem({ archive }: { archive: ArchiveType }) {
       >
         <Text style={[typos.subtitle_typo]}>{archive.name}</Text>
         <View style={styles.itemRight}>
-          <Text style={styles.itemTextRight}>
+          <Text style={typos.caption2_typo}>
             {archive.count != 0
               ? archive.count + "개 | " + archive.lastDate
               : "컨텐츠가 없습니다"}

@@ -50,10 +50,15 @@ const typos = StyleSheet.create({
     fontSize: 14,
     color: colors.black0,
   },
-  caption_typo: {
+  caption1_typo: {
     fontFamily: "Pretendard-Regular",
     fontSize: 12,
     color: colors.black0,
+  },
+  caption2_typo: {
+    fontFamily: "Pretendard-Regular",
+    fontSize: 12,
+    color: colors.gray4,
   },
 });
 

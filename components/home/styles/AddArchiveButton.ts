@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 16,
   },
-  buttonFont: {
-    fontSize: 16,
+  iconWrapper: {
+    marginLeft: 10, // 아이콘 눌리는거 괜찮은지 확인해봐야됨 손가락 겹치면 패딩값이랑 디자인 조정 필요
   },
 });
 

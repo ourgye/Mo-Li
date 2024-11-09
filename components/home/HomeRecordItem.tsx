@@ -55,7 +55,7 @@ export function HomeRecordItem({ record }: { record: RecordType }) {
 
   return (
     <Pressable style={styles.itemWrapper}>
-      <Text style={typos.caption_typo}>{record.date}</Text>
+      <Text style={typos.caption1_typo}>{record.date}</Text>
       <View style={styles.itemBodyWrapper}>
         {DynamicImage(imagePath)}
         <View style={styles.itemTextWrapper}>
