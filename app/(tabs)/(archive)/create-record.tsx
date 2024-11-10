@@ -1,7 +1,7 @@
 import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RecordForm } from "@/components/create-record/RecordForm";
-import { Header } from "@/components/create-record/Header";
+import Header from "@/components/create-record/CreateRecordHeader";
 import RecordFormImage from "@/components/create-record/RecordFormImage";
 
 export default function CreateRecord() {

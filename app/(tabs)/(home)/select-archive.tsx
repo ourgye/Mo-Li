@@ -1,18 +1,16 @@
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { HeaderWithTitle } from "@/components/common/HeaderWithTitle";
+import Header from "@/components/create-record/ArchiveSelectHeader";
 import { ArchiveSelectList } from "@/components/create-record/ArchiveSelectList";
 import ArchiveModal from "@/components/common/ArchiveModal";
 import { useEffect, useState } from "react";
-import { useArchiveList } from "@/hooks/useArchiveList";
 
 export default function SelectArchive() {
   const [modalVisible, setModalVisible] = useState(false);
-  const { refreshArchiveList } = useArchiveList();
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <HeaderWithTitle title="아카이브" setModalVisible={setModalVisible} />
+      <Header title="아카이브" setModalVisible={setModalVisible} />
       <ArchiveSelectList modalVisible={modalVisible} />
       <ArchiveModal
         modalVisible={modalVisible}

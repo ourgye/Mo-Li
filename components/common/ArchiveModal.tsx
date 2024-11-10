@@ -3,20 +3,27 @@ import { Modal, Pressable, Text, View, TextInput, Alert } from "react-native";
 
 import styles from "./style/ArchiveModal";
 import { useArchiveList } from "@/hooks/useArchiveList";
+import { ArchiveType } from "@/constants/types.interface";
 
 export default function ArchiveModal({
   modalVisible,
   setModalVisible,
   modify = false,
-  archiveId = "",
+  archive,
 }: {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
   modify?: boolean;
-  archiveId?: string;
+  archive?: ArchiveType;
 }) {
-  const [archiveName, setArchiveName] = useState("");
-  const { createNewArchive } = useArchiveList();
+  const [archiveName, setArchiveName] = useState(archive?.name || "");
+  const { createNewArchive, handleChangeArchiveName } = useArchiveList();
+
+  useEffect(() => {
+    if (archive) {
+      setArchiveName(archive.name);
+    }
+  }, [archive]);
 
   const handleCreateArchive = () => {
     if (archiveName === "") {
@@ -31,8 +38,15 @@ export default function ArchiveModal({
         }
         console.log("아카이브 생성");
       } else {
-        // 아카이브 수정
-        console.log("아카이브 수정");
+        if (archiveName === undefined || archive === undefined) return;
+        const newArchive: ArchiveType = { ...archive, name: archiveName };
+        try {
+          // 아카이브 수정
+          handleChangeArchiveName(newArchive);
+          console.log("아카이브 수정");
+        } catch (e) {
+          console.log(e);
+        }
       }
       setModalVisible(!modalVisible);
       setArchiveName("");
@@ -49,7 +63,7 @@ export default function ArchiveModal({
           <TextInput
             textContentType="name"
             style={styles.modalText}
-            placeholder={modify ? "아카이브" : "아카이브 이름을 입력하세요"}
+            placeholder={modify ? "" : "아카이브 이름을 입력하세요"}
             value={archiveName}
             onChangeText={(e) => {
               setArchiveName(e);
@@ -69,7 +83,7 @@ export default function ArchiveModal({
               style={[styles.button, styles.buttonClose]}
               onPress={handleCreateArchive}
             >
-              <Text style={styles.textStyle}>생성</Text>
+              <Text style={styles.textStyle}>{modify ? "수정" : "생성"}</Text>
             </Pressable>
           </View>
         </View>

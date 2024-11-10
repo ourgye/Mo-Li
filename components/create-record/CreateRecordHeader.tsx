@@ -1,12 +1,15 @@
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import * as FileSystem from "expo-file-system";
 
 import styles from "./style/Header";
 import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 
-export function Header({ to }: { to: "archive" | "home" }) {
+export default function ArchiveSelectHeader({
+  to,
+}: {
+  to: "archive" | "home";
+}) {
   const { handleCreateNewRecordHome } = useHomeNewRecord();
   const handleOnPressBack = () => {
     router.back();

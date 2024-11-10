@@ -1,5 +1,6 @@
 import { RecordType } from "@/constants/types.interface";
 import { createRecord } from "@/db/record-method";
+import { RootState } from "@/store";
 import {
   createAsyncThunk,
   createSelector,
@@ -86,9 +87,8 @@ export const homeNewRecordSlice = createSlice({
   },
 });
 export const newRecordArchiveSelector = createSelector(
-  (state) => state.archiveId,
-  (state) => state.archiveName,
-  (archiveId, archiveName) => ({ id: archiveId, name: archiveName }),
+  (state: RootState) => state["home-new-record"],
+  (state) => ({ id: state.archiveId, name: state.archiveName }),
 );
 
 export const createNewRecordThunk = { createNewRecord };

@@ -17,12 +17,9 @@ export function HomeList() {
     handleChangeCurrentArchive,
   } = useCalendar();
   const { recordIsThereNew, setRecordIsThereNew } = useHomeNewRecord();
-  const { archiveList, refreshArchiveList } = useArchiveList();
+  const { archiveList, refreshing, refreshArchiveList, setRefreshing } =
+    useArchiveList();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-
-  useEffect(() => {
-    refreshArchiveList();
-  }, [modalVisible]);
 
   useEffect(() => {
     handleChangeCurrentArchive(currentArchive, selectedDate);
@@ -34,6 +31,13 @@ export function HomeList() {
       setRecordIsThereNew(false);
     }
   }, [recordIsThereNew]);
+
+  useEffect(() => {
+    if (refreshing) {
+      refreshArchiveList();
+      setRefreshing(false);
+    }
+  }, [refreshing]);
 
   return (
     <View style={{ flex: 1 }}>

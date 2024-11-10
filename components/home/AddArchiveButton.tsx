@@ -1,6 +1,7 @@
 import { Pressable, Text, View } from "react-native";
 import styles from "./styles/AddArchiveButton";
 import SvgIcon from "../common/SvgIcon";
+import { router } from "expo-router";
 
 export function AddArchiveButton({
   setModalVisible,
@@ -21,7 +22,7 @@ export function AddArchiveButton({
       {/* ============================ 아카이브 수정 페이지 이동 버튼 ============================ */}
       <Pressable
         onPress={() => {
-          console.log("이동");
+          router.push("/(home)/select-archive");
         }}
         style={styles.iconWrapper}
       >

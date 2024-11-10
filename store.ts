@@ -2,7 +2,7 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import calendarReducer from "@/slices/home/calendarSlice";
 import homeNewRecordReducer from "@/slices/home/homeNewRecordSlice";
-import archiveReducer from "@/slices/archive/archiveSlice";
+import archiveListReducer from "@/slices/archiveListSlice";
 import archiveNewRecordReducer from "@/slices/archive/archiveNewRecordSlice";
 
 export const store = configureStore({
@@ -10,7 +10,7 @@ export const store = configureStore({
     calendar: calendarReducer,
     "home-new-record": homeNewRecordReducer,
     "archive-new-records": archiveNewRecordReducer,
-    archive: archiveReducer,
+    archives: archiveListReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

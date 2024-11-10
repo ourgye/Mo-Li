@@ -6,19 +6,19 @@ import styles from "./style/CommonList";
 
 export interface CommonListItemProps {
   selected?: boolean;
-  setSelected?: () => any;
+  handleOnPress?: () => any;
   data: any;
 }
 
 export function CommonListItem({
   selected,
-  setSelected,
+  handleOnPress,
   data,
 }: CommonListItemProps) {
   return (
     <View style={styles.container}>
       <Pressable
-        onPress={setSelected}
+        onPress={handleOnPress}
         style={{
           flexDirection: "row",
           alignItems: "center",

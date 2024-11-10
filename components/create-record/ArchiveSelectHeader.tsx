@@ -1,12 +1,10 @@
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import ArchiveModal from "./ArchiveModal";
-import { useState } from "react";
 
-import styles from "./style/HeaderWithTitle";
+import styles from "../common/style/HeaderWithTitle";
 
-export function HeaderWithTitle({
+export default function ArchiveSelectHeader({
   title,
   setModalVisible,
 }: {
@@ -24,7 +22,7 @@ export function HeaderWithTitle({
         <MaterialCommunityIcons name="chevron-left" size={32} color="black" />
       </Pressable>
       <Text style={styles.headerTitle}>{title}</Text>
-      {/* ========================= 게시 버튼 ========================= */}
+      {/* ========================= + 버튼 ========================= */}
       <Pressable
         onPress={() => (setModalVisible ? setModalVisible(true) : null)}
       >

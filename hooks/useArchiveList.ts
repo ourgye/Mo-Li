@@ -1,42 +1,54 @@
-import { useEffect, useState } from "react";
-import { getAllArchives, createArchive } from "@/db/archive-method"; // Ensure this import is correct
+import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "./reduxHooks";
+import {
+  createArchiveListThunk,
+  archiveListAction,
+  archiveListSelector,
+} from "@/slices/archiveListSlice";
 import { ArchiveType } from "@/constants/types.interface";
-import { nanoid } from "nanoid";
+import { useEffect } from "react";
 
 export function useArchiveList() {
-  const [archiveList, setArchiveList] = useState<ArchiveType[]>([]);
+  const dispatch = useAppDispatch();
 
-  const fetchArchiveList = async () => {
-    const res = await getAllArchives();
-    if (res) {
-      setArchiveList(res);
-    }
-  };
+  const archiveList = useAppSelector(archiveListSelector.archiveListSelector);
+  const refreshing = useAppSelector(archiveListSelector.refreshingSelector);
 
-  const createNewArchive = async (archiveName: string) => {
-    // Create a new archive
-    try {
-      const archive: ArchiveType = {
-        _id: nanoid(),
-        name: archiveName,
-        lastDate: undefined,
-        count: 0,
-      };
-      await createArchive(archive);
-    } catch (e) {
-      console.error("[ERROR] error from creating new archive", e);
-    }
-  };
-
-  // Fetch archives when the component mounts
   useEffect(() => {
-    fetchArchiveList();
-  }, []);
+    dispatch(createArchiveListThunk.fetchArchiveList());
+  }, [dispatch]);
 
-  // This function can be called to refresh the archive list
   const refreshArchiveList = () => {
-    fetchArchiveList();
+    dispatch(createArchiveListThunk.fetchArchiveList());
   };
 
-  return { archiveList, refreshArchiveList, createNewArchive };
+  const handleCreateNewArchive = async (archiveName: string) => {
+    await dispatch(createArchiveListThunk.createNewArchive(archiveName));
+  };
+
+  const handleChangeArchiveListOrder = async (
+    newArchiveList: ArchiveType[],
+  ) => {
+    const newOrder = newArchiveList.map((archive) => archive._id);
+    await dispatch(createArchiveListThunk.changeArchiveListOrder(newOrder));
+  };
+
+  const handleChangeArchiveName = async (archive: ArchiveType) => {
+    await dispatch(createArchiveListThunk.modifyArchiveName(archive));
+    await dispatch(createArchiveListThunk.fetchArchiveList());
+  };
+
+  const setRefreshState = (state: boolean) => {
+    dispatch(archiveListAction.setRefreshing(state));
+  };
+
+  return {
+    archiveList,
+    refreshing,
+    setRefreshing: setRefreshState,
+    refreshArchiveList,
+    handleChangeArchiveListOrder,
+    handleChangeArchiveName,
+    createNewArchive: handleCreateNewArchive,
+  };
 }

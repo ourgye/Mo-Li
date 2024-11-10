@@ -4,7 +4,6 @@ import styles from "../common/style/CommonList";
 import { ArchiveType } from "@/constants/types.interface";
 import { useArchiveList } from "@/hooks/useArchiveList";
 import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
-import { useEffect } from "react";
 
 interface ArchiveSelectListItemProps {
   selectedId: string;
@@ -22,6 +21,7 @@ const ArchiveSelectListItem = ({
       <View
         style={{
           flexDirection: "row",
+          justifyContent: "space-between",
           alignItems: "center",
           gap: 8,
           flexGrow: 1,
@@ -35,23 +35,23 @@ const ArchiveSelectListItem = ({
         >
           {data.name}
         </Text>
+        <Text>
+          {data.count != 0
+            ? data.count + "개 | " + data.lastDate
+            : "컨텐츠가 없습니다"}
+        </Text>
       </View>
     </Pressable>
   );
 };
 
 export function ArchiveSelectList({ modalVisible }: { modalVisible: boolean }) {
-  const { archiveList, refreshArchiveList } = useArchiveList();
+  const { archiveList } = useArchiveList();
   const { newRecordArchive, setRecordArchive } = useHomeNewRecord();
 
   const handleSelectArchive = (archive: ArchiveType) => {
     setRecordArchive({ id: archive._id, name: archive.name });
   };
-
-  useEffect(() => {
-    console.log("refresh");
-    refreshArchiveList();
-  }, [modalVisible]);
 
   return (
     <FlatList
