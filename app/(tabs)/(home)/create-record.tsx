@@ -26,6 +26,7 @@ export default function CreateRecord() {
         // allowsEditing: true,
       });
       if (image.canceled) throw new Error("Image picker canceled");
+      // 이미지 파일로 저장 후, 경로 저장
       setImageFile(image);
     } catch (e) {
       console.log(e);
