@@ -19,7 +19,7 @@ export function HomeRecordItem({ record }: { record: RecordType }) {
   //   : "";
 
   // 더미 데이터 이미지 경로
-  const imagePath = record.imagePath || "";
+  const imagePath = record.imagePath || "https://picsum.photos/200/300";
 
   const DynamicImage = (uri: string) => {
     useEffect(() => {

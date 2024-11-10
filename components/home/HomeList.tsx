@@ -1,12 +1,12 @@
 import { View, FlatList, Text } from "react-native";
 import { useEffect, useState } from "react";
 import { HomeRecordItem } from "./HomeRecordItem";
-import { HomeCalendar } from "./HomeCalendar";
 import { ArchiveListItem } from "./HomeArchiveListItem";
 import { AddArchiveButton } from "./AddArchiveButton";
 import ArchiveModal from "../common/ArchiveModal";
 import { useCalendar } from "@/hooks/useCalendar";
 import { useArchiveList } from "@/hooks/useArchiveList";
+import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 import typos from "@/assets/fonts/typos";
 
 export function HomeList() {
@@ -16,6 +16,7 @@ export function HomeList() {
     selectedDateRecords,
     handleChangeCurrentArchive,
   } = useCalendar();
+  const { recordIsThereNew, setRecordIsThereNew } = useHomeNewRecord();
   const { archiveList, refreshArchiveList } = useArchiveList();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -26,6 +27,13 @@ export function HomeList() {
   useEffect(() => {
     handleChangeCurrentArchive(currentArchive, selectedDate);
   }, []);
+
+  useEffect(() => {
+    if (recordIsThereNew) {
+      handleChangeCurrentArchive(currentArchive, selectedDate);
+      setRecordIsThereNew(false);
+    }
+  }, [recordIsThereNew]);
 
   return (
     <View style={{ flex: 1 }}>

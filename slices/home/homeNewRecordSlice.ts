@@ -9,6 +9,8 @@ interface RecordState {
   body: string;
   archiveId: string | undefined;
   archiveName: string | undefined;
+
+  isThereNewRecord: boolean;
 }
 
 const initialState: RecordState = {
@@ -17,10 +19,11 @@ const initialState: RecordState = {
   body: "",
   archiveId: undefined,
   archiveName: undefined,
+  isThereNewRecord: false,
 };
 
 const createNewRecord = createAsyncThunk(
-  "home-new-record/createNewRecord",
+  "home/createNewRecord",
   async (record: RecordType) => {
     try {
       // record를 db에 저장
@@ -51,13 +54,22 @@ export const homeNewRecordSlice = createSlice({
       state.archiveId = action.payload.id;
       state.archiveName = action.payload.name;
     },
+    setIsThereNewRecord(state, action: PayloadAction<boolean>) {
+      state.isThereNewRecord = action.payload;
+    },
     resetRecord(state) {
       state = initialState;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(createNewRecord.fulfilled, (state) => {
-      state = initialState;
+      console.log("homeNewRecordSlice createNewRecord.fulfilled");
+      state.date = initialState.date;
+      state.image = initialState.image;
+      state.body = initialState.body;
+      state.archiveId = initialState.archiveId;
+      state.archiveName = initialState.archiveName;
+      state.isThereNewRecord = initialState.isThereNewRecord;
     });
   },
   selectors: {
@@ -69,6 +81,7 @@ export const homeNewRecordSlice = createSlice({
       name: state.archiveName,
     }),
     selectRecord: (state) => state,
+    selectIsThereNewRecord: (state) => state.isThereNewRecord,
   },
 });
 export const createNewRecordThunk = { createNewRecord };

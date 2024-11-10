@@ -10,14 +10,6 @@ import { ImagePickerResult, ImagePickerSuccessResult } from "expo-image-picker";
 import { saveImage2File } from "@/utils/saveImage2File";
 import { useCallback, useMemo } from "react";
 
-interface NewRecordType {
-  date: string;
-  image: ImagePickerSuccessResult;
-  body: string;
-  archiveId: string;
-  archiveName: string;
-}
-
 export function useHomeNewRecord() {
   const dispatch = useAppDispatch();
   const newRecord = useAppSelector(homeNewRecordSelector.selectRecord);
@@ -28,6 +20,9 @@ export function useHomeNewRecord() {
   const newRecordBody = useAppSelector(homeNewRecordSelector.selectRecordBody);
   const newRecordArchive = useAppSelector(
     homeNewRecordSelector.selectRecordArchive,
+  );
+  const recordIsThereNew = useAppSelector(
+    homeNewRecordSelector.selectIsThereNewRecord,
   );
 
   const setRecordDate = (date: string) => {
@@ -42,6 +37,9 @@ export function useHomeNewRecord() {
   const setRecordArchive = (archive: { id: string; name: string }) => {
     dispatch(homeNewRecordAction.setRecordArchive(archive));
   };
+  const setRecordIsThereNew = useCallback((isThere: boolean) => {
+    dispatch(homeNewRecordAction.setIsThereNewRecord(isThere));
+  }, []);
 
   const handleCreateNewRecordHome = async () => {
     // 이미지 파일로 저장
@@ -62,6 +60,8 @@ export function useHomeNewRecord() {
       archiveName: newRecordArchive.name as string,
     };
     dispatch(createNewRecordThunk.createNewRecord(newRecord));
+    setRecordIsThereNew(true);
+    // dispatch(homeNewRecordAction.resetRecord());
   };
 
   return {
@@ -70,10 +70,12 @@ export function useHomeNewRecord() {
     newRecordImage,
     newRecordBody,
     newRecordArchive,
+    recordIsThereNew,
     setRecordDate,
     setRecordImage,
     setRecordBody,
     setRecordArchive,
+    setRecordIsThereNew,
     handleCreateNewRecordHome,
   };
 }

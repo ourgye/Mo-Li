@@ -16,7 +16,6 @@ export function useCalendar() {
   const selectedDateRecords = useAppSelector(
     calendarSelector.selectSelectedDateRecords,
   );
-
   const handleChangeSelectedDate = useCallback(
     (date: string) => {
       dispatch(calendarAction.setSelectedDate(date));
