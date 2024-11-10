@@ -1,5 +1,6 @@
 import { ArchiveType, RecordType } from "@/constants/types.interface";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createArchive } from "@/db/archive-method";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ArchiveState {
   currentArchive: ArchiveType | undefined;
@@ -12,6 +13,18 @@ const intialState: ArchiveState = {
   recordList: [],
   currentOrder: "최신순",
 };
+
+const createNewArchive = createAsyncThunk(
+  "archive/createNewArchive",
+  async (archive: ArchiveType) => {
+    try {
+      // archvie를 db에 저장
+      await createArchive(archive);
+    } catch (e) {
+      console.error("[ERROR] error from creating new archive", e);
+    }
+  },
+);
 
 const archiveSlice = createSlice({
   name: "archive",
@@ -32,6 +45,9 @@ const archiveSlice = createSlice({
         return new Date(a.date).getTime() - new Date(b.date).getTime();
       });
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createNewArchive.fulfilled, (state) => {});
   },
   selectors: {
     selectCurrentArchive: (state) => state.currentArchive,

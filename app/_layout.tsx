@@ -9,7 +9,7 @@ import { store } from "@/store";
 import * as SplashScreen from "expo-splash-screen";
 
 import { useEffect } from "react";
-import { checkDummyNeeded } from "@/db/test_dummy";
+import { checkDummyNeeded, clearAllData } from "@/db/test_dummy";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -33,6 +33,10 @@ export default function RootLayout() {
   }
 
   // add dummy data
+  // useEffect(() => {
+  //   clearAllData();
+  //   checkDummyNeeded();
+  // }, []);
 
   return (
     <Provider store={store}>

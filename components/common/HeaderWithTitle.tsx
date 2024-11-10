@@ -7,15 +7,15 @@ import { useState } from "react";
 import styles from "./style/HeaderWithTitle";
 
 // 아카이브 추가 모달 여기에 있음
-export function HeaderWithTitle({ title }: { title: string | undefined }) {
-  const [modalVisible, setModalVisible] = useState(false);
-
+export function HeaderWithTitle({
+  title,
+  setModalVisible,
+}: {
+  title: string | undefined;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <View style={styles.headerContainer}>
-      <ArchiveModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
       {/* 사이즈가 플로우랑 다름 (플로우에는 16, 여기서는 32로 설정함) */}
       <Pressable
         onPress={() => {

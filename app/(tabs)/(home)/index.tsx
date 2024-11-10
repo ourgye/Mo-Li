@@ -9,7 +9,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["right", "top", "left"]}>
       <FloatingCreateRecordButton from="(home)" />
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <HomeCalendar />
         <HomeList />
       </ScrollView>

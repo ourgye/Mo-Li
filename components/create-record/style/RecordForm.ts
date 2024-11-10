@@ -28,6 +28,16 @@ const styles = StyleSheet.create({
     height: 164,
     flex: 1,
   },
+  recordImage: {
+    // fixed width
+    width: 234,
+    // temp height
+    // height: 234,
+    backgroundColor: "skyblue",
+    alignSelf: "center",
+    borderRadius: 24,
+    overflow: "hidden",
+  },
 });
 
 export default styles;

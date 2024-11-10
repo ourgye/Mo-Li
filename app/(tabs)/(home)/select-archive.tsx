@@ -1,31 +1,23 @@
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HeaderWithTitle } from "@/components/common/HeaderWithTitle";
-import { CommonList as ArchiveList } from "@/components/common/CommonList";
-import { type CommonListItemProps } from "@/components/common/CommonListItem";
-import { getAllArchives } from "@/db/archive-method";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { router } from "expo-router";
+import { ArchiveSelectList } from "@/components/create-record/ArchiveSelectList";
+import ArchiveModal from "@/components/common/ArchiveModal";
+import { useEffect, useState } from "react";
+import { useArchiveList } from "@/hooks/useArchiveList";
 
 export default function SelectArchive() {
-  const archiveData = getAllArchives();
-
-  // const data: CommonListItemProps[] = archiveData.map((archive) => ({
-  //   leftIcon: "chevron-right",
-  //   name: archive.name,
-  //   _id: archive._id.toHexString(),
-  //   rightIcon: "dots-horizontal-circle",
-  //   setSelected: () => {
-  //     dispatch(setRecordArchive(archive));
-  //     router.back();
-  //   },
-  //   selected: archive._id.toHexString() === currentArchive?._id.toHexString(),
-  // }));
+  const [modalVisible, setModalVisible] = useState(false);
+  const { refreshArchiveList } = useArchiveList();
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <HeaderWithTitle title="아카이브" />
-      {/* <ArchiveList data={data} /> */}
+      <HeaderWithTitle title="아카이브" setModalVisible={setModalVisible} />
+      <ArchiveSelectList modalVisible={modalVisible} />
+      <ArchiveModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </SafeAreaView>
   );
 }

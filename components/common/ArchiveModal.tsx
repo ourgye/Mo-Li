@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Pressable, Text, View, TextInput, Alert } from "react-native";
 
 import styles from "./style/ArchiveModal";
+import { useArchiveList } from "@/hooks/useArchiveList";
 
 export default function ArchiveModal({
   modalVisible,
@@ -15,8 +16,28 @@ export default function ArchiveModal({
   archiveId?: string;
 }) {
   const [archiveName, setArchiveName] = useState("");
+  const { createNewArchive } = useArchiveList();
 
-  const handleCreateArchive = () => {};
+  const handleCreateArchive = () => {
+    if (archiveName === "") {
+      Alert.alert("아카이브 이름을 입력해주세요");
+    } else {
+      // 아카이브 생성
+      if (!modify) {
+        try {
+          createNewArchive(archiveName);
+        } catch (e) {
+          console.log(e);
+        }
+        console.log("아카이브 생성");
+      } else {
+        // 아카이브 수정
+        console.log("아카이브 수정");
+      }
+      setModalVisible(!modalVisible);
+      setArchiveName("");
+    }
+  };
 
   return (
     <Modal visible={modalVisible} animationType="slide" transparent>

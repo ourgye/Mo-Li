@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { RecordType } from "@/constants/types.interface";
 import { nanoid } from "nanoid";
 import { ImagePickerResult, ImagePickerSuccessResult } from "expo-image-picker";
+import { saveImage2File } from "@/utils/saveImage2File";
+import { useCallback, useMemo } from "react";
 
 interface NewRecordType {
   date: string;
@@ -31,24 +33,33 @@ export function useHomeNewRecord() {
   const setRecordDate = (date: string) => {
     dispatch(homeNewRecordAction.setRecordDate(date));
   };
-  const setRecordImage = (image: string) => {
+  const setRecordImage = useCallback((image: ImagePickerResult) => {
     dispatch(homeNewRecordAction.setRecordImage(image));
-  };
-  const setRecordBody = (body: string) => {
+  }, []);
+  const setRecordBody = useCallback((body: string) => {
     dispatch(homeNewRecordAction.setRecordBody(body));
-  };
+  }, []);
   const setRecordArchive = (archive: { id: string; name: string }) => {
     dispatch(homeNewRecordAction.setRecordArchive(archive));
   };
 
-  const handleCreateNewRecord = ({ data }: { data: NewRecordType }) => {
+  const handleCreateNewRecordHome = async () => {
+    // 이미지 파일로 저장
+    const id = nanoid();
+    const imagePath = await saveImage2File(newRecordImage, id);
+
+    if (!newRecordArchive.id && !newRecordArchive.name) {
+      alert("No archive selected");
+      return;
+    }
+
     const newRecord: RecordType = {
-      _id: nanoid(),
-      date: data.date,
-      imagePath: data.image.assets[0].uri,
-      body: data.body,
-      archiveId: data.archiveId,
-      archiveName: data.archiveName,
+      _id: id,
+      date: newRecordDate,
+      imagePath: imagePath,
+      body: newRecordBody,
+      archiveId: newRecordArchive.id as string,
+      archiveName: newRecordArchive.name as string,
     };
     dispatch(createNewRecordThunk.createNewRecord(newRecord));
   };
@@ -63,6 +74,6 @@ export function useHomeNewRecord() {
     setRecordImage,
     setRecordBody,
     setRecordArchive,
-    handleCreateNewRecord,
+    handleCreateNewRecordHome,
   };
 }

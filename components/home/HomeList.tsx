@@ -16,7 +16,12 @@ export function HomeList() {
     selectedDateRecords,
     handleChangeCurrentArchive,
   } = useCalendar();
-  const { archiveList } = useArchiveList();
+  const { archiveList, refreshArchiveList } = useArchiveList();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    refreshArchiveList();
+  }, [modalVisible]);
 
   useEffect(() => {
     handleChangeCurrentArchive(currentArchive, selectedDate);
@@ -24,6 +29,10 @@ export function HomeList() {
 
   return (
     <View style={{ flex: 1 }}>
+      <ArchiveModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
       {selectedDateRecords.length > 0 ? (
         <FlatList
           scrollEnabled={false}
@@ -50,11 +59,7 @@ export function HomeList() {
             >
               <Text style={typos.subtitle_typo}>나의 아카이브</Text>
               <View>
-                <AddArchiveButton
-                  onPress={() => {
-                    console.log("add archive button pressed");
-                  }}
-                />
+                <AddArchiveButton setModalVisible={setModalVisible} />
               </View>
             </View>
           }

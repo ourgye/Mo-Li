@@ -101,4 +101,8 @@ const checkDummyNeeded = async () => {
   }
 };
 
-export { checkDummyNeeded };
+const clearAllData = async () => {
+  await AsyncStorage.clear();
+};
+
+export { checkDummyNeeded, clearAllData };

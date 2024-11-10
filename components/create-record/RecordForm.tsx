@@ -4,12 +4,25 @@ import { useState } from "react";
 import { View, Text, Pressable, StyleSheet, TextInput } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
+import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 import styles from "./style/RecordForm";
 
-export function RecordForm() {
+export function RecordForm({}: {}) {
+  const {
+    newRecordDate,
+    newRecordArchive,
+    newRecordBody,
+    setRecordArchive,
+    setRecordDate,
+    setRecordBody,
+  } = useHomeNewRecord();
   const date = new Date().toISOString().split("T")[0];
+  const [isDatePickerVisible, setDatePickerVisibility] =
+    useState<boolean>(false);
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const handleRecordBodyChange = (text: string) => {
+    setRecordBody(text);
+  };
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -20,7 +33,7 @@ export function RecordForm() {
   };
 
   const handleConfirm = (date: Date) => {
-    console.warn("A date has been picked: ", date);
+    setRecordDate(date.toISOString().split("T")[0]);
     hideDatePicker();
   };
 
@@ -38,7 +51,7 @@ export function RecordForm() {
         confirmTextIOS="확인"
         cancelTextIOS="취소"
       />
-      {/* 아카이브 */}
+      {/*============================== 아카이브  ==============================*/}
       <View style={styles.bottomLine}>
         <Text style={[styles.text16]}>아카이브</Text>
         <Pressable
@@ -49,7 +62,7 @@ export function RecordForm() {
         >
           {/* value from state management */}
           <Text style={[styles.text16]}>
-            {/* {archive ? archive.name : "아카이브 선택"} */}
+            {newRecordArchive.name ? newRecordArchive.name : "아카이브 선택"}
           </Text>
           <MaterialCommunityIcons
             name="chevron-right"
@@ -58,12 +71,11 @@ export function RecordForm() {
           />
         </Pressable>
       </View>
-      {/* 날짜 */}
+      {/* ============================== 날짜 ============================== */}
       <View style={styles.bottomLine}>
         <Text style={[styles.text16]}>날짜</Text>
         <Pressable style={[styles.inputContainer]} onPress={showDatePicker}>
-          {/* value from state management */}
-          <Text style={styles.text16}>{date}</Text>
+          <Text style={styles.text16}>{newRecordDate}</Text>
           <MaterialCommunityIcons
             name="chevron-right"
             size={24}
@@ -71,7 +83,7 @@ export function RecordForm() {
           />
         </Pressable>
       </View>
-      {/* 내용 */}
+      {/* ============================== 내용 ============================== */}
       <View style={[styles.bottomLine]}>
         <Text style={[styles.text16]}>내용</Text>
         <View style={[styles.inputContainer]}>
@@ -86,8 +98,8 @@ export function RecordForm() {
             autoComplete="off"
             autoCorrect={false}
             autoCapitalize="none"
-            // value={body}
-            // onChangeText={(text) => dispatch(setRecordBody(text))}
+            value={newRecordBody}
+            onChangeText={handleRecordBodyChange}
           />
         </View>
       </View>
