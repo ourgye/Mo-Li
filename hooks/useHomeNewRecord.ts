@@ -1,5 +1,6 @@
 import {
   homeNewRecordAction,
+  newRecordArchiveSelector,
   homeNewRecordSelector,
   createNewRecordThunk,
 } from "@/slices/home/homeNewRecordSlice";
@@ -12,17 +13,46 @@ import { useCallback, useMemo } from "react";
 
 export function useHomeNewRecord() {
   const dispatch = useAppDispatch();
-  const newRecord = useAppSelector(homeNewRecordSelector.selectRecord);
-  const newRecordDate = useAppSelector(homeNewRecordSelector.selectRecordDate);
-  const newRecordImage = useAppSelector(
-    homeNewRecordSelector.selectRecordImage,
-  );
-  const newRecordBody = useAppSelector(homeNewRecordSelector.selectRecordBody);
-  const newRecordArchive = useAppSelector(
-    homeNewRecordSelector.selectRecordArchive,
-  );
-  const recordIsThereNew = useAppSelector(
+  const newRecord_s = useAppSelector(homeNewRecordSelector.selectRecord);
+  const [
+    newRecordDate_s,
+    newRecordImage_s,
+    newRecordBody_s,
+    newRecordArchive_s,
+  ] = [
+    useAppSelector(homeNewRecordSelector.selectRecordDate),
+    useAppSelector(homeNewRecordSelector.selectRecordImage),
+    useAppSelector(homeNewRecordSelector.selectRecordBody),
+    useAppSelector(newRecordArchiveSelector),
+  ];
+  const recordIsThereNew_s = useAppSelector(
     homeNewRecordSelector.selectIsThereNewRecord,
+  );
+
+  const [
+    newRecord,
+    newRecordDate,
+    newRecordImage,
+    newRecordBody,
+    newRecordArchive,
+    recordIsThereNew,
+  ] = useMemo(
+    () => [
+      newRecord_s,
+      newRecordDate_s,
+      newRecordImage_s,
+      newRecordBody_s,
+      newRecordArchive_s,
+      recordIsThereNew_s,
+    ],
+    [
+      newRecord_s,
+      newRecordDate_s,
+      newRecordImage_s,
+      newRecordBody_s,
+      newRecordArchive_s,
+      recordIsThereNew_s,
+    ],
   );
 
   const setRecordDate = (date: string) => {

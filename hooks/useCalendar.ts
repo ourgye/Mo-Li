@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import {
   calendarAction,
@@ -10,12 +10,34 @@ import { ArchiveType } from "@/constants/types.interface";
 export function useCalendar() {
   const dispatch = useAppDispatch();
 
-  const selectedDate = useAppSelector(calendarSelector.selectSelectedDate);
-  const currentArchive = useAppSelector(calendarSelector.selectCurrentArchive);
-  const currentRecords = useAppSelector(calendarSelector.selectCurrentRecords);
-  const selectedDateRecords = useAppSelector(
-    calendarSelector.selectSelectedDateRecords,
-  );
+  const [
+    selectedDate_s,
+    currentArchive_s,
+    currentRecords_s,
+    selectedDateRecords_s,
+  ] = [
+    useAppSelector(calendarSelector.selectSelectedDate),
+    useAppSelector(calendarSelector.selectCurrentArchive),
+    useAppSelector(calendarSelector.selectCurrentRecords),
+    useAppSelector(calendarSelector.selectSelectedDateRecords),
+  ];
+
+  const [selectedDate, currentArchive, currentRecords, selectedDateRecords] =
+    useMemo(
+      () => [
+        selectedDate_s,
+        currentArchive_s,
+        currentRecords_s,
+        selectedDateRecords_s,
+      ],
+      [
+        selectedDate_s,
+        currentArchive_s,
+        currentRecords_s,
+        selectedDateRecords_s,
+      ],
+    );
+
   const handleChangeSelectedDate = useCallback(
     (date: string) => {
       dispatch(calendarAction.setSelectedDate(date));

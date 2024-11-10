@@ -1,6 +1,11 @@
 import { RecordType } from "@/constants/types.interface";
 import { createRecord } from "@/db/record-method";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { ImagePickerResult } from "expo-image-picker";
 
 interface RecordState {
@@ -76,14 +81,16 @@ export const homeNewRecordSlice = createSlice({
     selectRecordDate: (state) => state.date,
     selectRecordImage: (state) => state.image,
     selectRecordBody: (state) => state.body,
-    selectRecordArchive: (state) => ({
-      id: state.archiveId,
-      name: state.archiveName,
-    }),
     selectRecord: (state) => state,
     selectIsThereNewRecord: (state) => state.isThereNewRecord,
   },
 });
+export const newRecordArchiveSelector = createSelector(
+  (state) => state.archiveId,
+  (state) => state.archiveName,
+  (archiveId, archiveName) => ({ id: archiveId, name: archiveName }),
+);
+
 export const createNewRecordThunk = { createNewRecord };
 export const homeNewRecordSelector = homeNewRecordSlice.selectors;
 export const homeNewRecordAction = homeNewRecordSlice.actions;
