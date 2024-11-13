@@ -15,7 +15,7 @@ export default function CreateRecord() {
           showsVerticalScrollIndicator={false}
         >
           <RecordFormImage />
-          <RecordForm />
+          <RecordForm type="archive" />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

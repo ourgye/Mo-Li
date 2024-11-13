@@ -6,16 +6,50 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 import styles from "./style/RecordForm";
+import { useArchiveNewRecord } from "@/hooks/useArchiveNewRecord";
 
-export function RecordForm({}: {}) {
+export function RecordForm({ type }: { type: "home" | "archive" }) {
+  const {
+    newRecordDate: newRecordDate_c,
+    newRecordArchive: newRecordArchive_c,
+    newRecordBody: newRecordBody_c,
+    setRecordDate: setRecordDate_c,
+    setRecordBody: setRecordBody_c,
+  } = useHomeNewRecord();
+
+  const {
+    newRecordDate: newRecordDate_a,
+    newRecordArchive: newRecordArchive_a,
+    newRecordBody: newRecordBody_a,
+    setRecordDate: setRecordDate_a,
+    setRecordBody: setRecordBody_a,
+  } = useArchiveNewRecord();
+
+  const records = {
+    home: {
+      newRecordDate: newRecordDate_c,
+      newRecordArchive: newRecordArchive_c,
+      newRecordBody: newRecordBody_c,
+      setRecordDate: setRecordDate_c,
+      setRecordBody: setRecordBody_c,
+    },
+    archive: {
+      newRecordDate: newRecordDate_a,
+      newRecordArchive: newRecordArchive_a,
+      newRecordBody: newRecordBody_a,
+      setRecordDate: setRecordDate_a,
+      setRecordBody: setRecordBody_a,
+    },
+  };
+
   const {
     newRecordDate,
     newRecordArchive,
     newRecordBody,
-    setRecordArchive,
     setRecordDate,
     setRecordBody,
-  } = useHomeNewRecord();
+  } = records[type];
+
   const date = new Date().toISOString().split("T")[0];
   const [isDatePickerVisible, setDatePickerVisibility] =
     useState<boolean>(false);

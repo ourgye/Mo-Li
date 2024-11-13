@@ -15,7 +15,7 @@ export function AddArchiveButton({
   return (
     // <Pressable style={styles.iconWrapper} onPress={onPress}>
     <View style={{ flexDirection: "row" }}>
-      {/* ============================ 아카이브 추가 버튼 ============================ */}
+      {/* ================================ 아카이브 추가 버튼 ================================= */}
       <Pressable onPress={handleOnPressAddArchive} style={styles.iconWrapper}>
         <SvgIcon name="Add_white_icon" size={24} />
       </Pressable>

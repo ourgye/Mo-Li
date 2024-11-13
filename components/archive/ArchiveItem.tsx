@@ -1,32 +1,21 @@
 import { View, Text, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAppDispatch } from "@/hooks/reduxHooks";
-import { setCurrentArchive } from "@/slices/archiveSlice";
-import { ArchiveDataWithRecentDate } from "@/constants/types.interface";
 
 import styles from "./style/ArchiveItem";
+import { ArchiveType } from "@/constants/types.interface";
 
 export function ArchiveItem({
   isSelected,
   data,
-  index,
-  setShowArchives,
+  onPressArchiveItem,
 }: {
   isSelected: boolean | undefined;
-  data: ArchiveDataWithRecentDate;
-  index: number;
-  setShowArchives: any;
+  data: ArchiveType;
+  onPressArchiveItem: () => void;
 }) {
-  const dispatch = useAppDispatch();
-
   return (
-    <Pressable
-      style={styles.container}
-      onPress={() => {
-        dispatch(setCurrentArchive(data));
-        setShowArchives(false);
-      }}
-    >
+    <Pressable style={styles.container} onPress={onPressArchiveItem}>
       <View style={styles.titleWrapper}>
         <View style={styles.iconWrapper}>
           {isSelected && (
@@ -43,8 +32,8 @@ export function ArchiveItem({
       </View>
       <View style={styles.totalDateWrapper}>
         <Text style={styles.totalDate}>
-          {data.recordLength + " 개"}
-          {data.recentDate && " | " + data.recentDate}
+          {data.count + " 개"}
+          {data.lastDate && " | " + data.lastDate}
         </Text>
       </View>
     </Pressable>
