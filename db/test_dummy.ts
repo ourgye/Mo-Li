@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import { createArchive, getAllArchives } from "./archive-method";
 import { createRecord, getAllRecords } from "./record-method";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import dayjs from "dayjs";
 
 const randomImagePathList = [
   "https://picsum.photos/200/300",
@@ -14,10 +15,19 @@ const randomImagePathList = [
   "https://picsum.photos/300/400",
 ];
 
-function randomDate(start: Date, end: Date) {
-  return new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime()),
-  );
+const randomImageRatioList = [
+  3 / 2,
+  1,
+  200 / 230,
+  400 / 200,
+  9 / 16,
+  16 / 9,
+  4 / 3,
+];
+
+function randomDate(start: dayjs.Dayjs, end: dayjs.Dayjs) {
+  const diff = end.diff(start);
+  return start.add(Math.random() * diff, "millisecond");
 }
 
 const testCreateArchiveDummy = () => {
@@ -58,19 +68,17 @@ const testCreateRecordDummy = async () => {
     const archives = await getAllArchives();
     const records: RecordType[] = Array.from({ length: 10 }, (_, i) => {
       const randomArchiveIndex = Math.floor(Math.random() * archives.length);
-
+      const r_i = Math.floor(Math.random() * randomImagePathList.length);
       return {
         _id: nanoid(),
         archiveId: archives[randomArchiveIndex]._id,
         archiveName: archives[randomArchiveIndex].name,
-        imagePath:
-          randomImagePathList[
-            Math.floor(Math.random() * randomImagePathList.length)
-          ],
-        date: randomDate(new Date(2024, 10, 1), new Date())
-          .toISOString()
-          .split("T")[0],
+        imagePath: randomImagePathList[r_i],
+        date: randomDate(dayjs().add(-3, "day"), dayjs()).format(
+          "YYYY-MM-DDTHH:mm:ss",
+        ),
         body: `레코드${i} 내용`,
+        imageRatio: randomImageRatioList[r_i],
       };
     });
 

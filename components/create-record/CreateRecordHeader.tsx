@@ -5,18 +5,14 @@ import { router } from "expo-router";
 import styles from "./style/Header";
 import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 
-export default function ArchiveSelectHeader({
-  to,
-}: {
-  to: "archive" | "home";
-}) {
+export default function ArchiveSelectHeader() {
   const { handleCreateNewRecordHome } = useHomeNewRecord();
   const handleOnPressBack = () => {
     router.back();
   };
   const handleOnCreate = () => {
-    if (to === "home") handleCreateNewRecordHome();
-    router.push({ pathname: `/(tabs)/(${to})` });
+    handleCreateNewRecordHome();
+    router.back();
   };
 
   return (

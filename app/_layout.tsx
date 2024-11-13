@@ -34,9 +34,10 @@ export default function RootLayout() {
 
   // add dummy data
   // useEffect(() => {
-  //   clearAllData();
-  //   checkDummyNeeded();
-  // }, []);
+  //   console.log("reloading");
+  //   // clearAllData();
+  //   // checkDummyNeeded();
+  // });
 
   return (
     <Provider store={store}>
@@ -44,6 +45,14 @@ export default function RootLayout() {
         <SafeAreaProvider>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="create-record"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="select-archive"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </SafeAreaProvider>
       </GestureHandlerRootView>

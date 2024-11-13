@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ArchiveDraggableHeader } from "@/components/setting/ArchiveDraggableHeader";
 import ArchiveDraggableList from "@/components/setting/ArchiveDraggableList";
 
-export default function SelectArchive() {
+export default function ArchiveManage() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <ArchiveDraggableHeader />

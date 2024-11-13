@@ -10,12 +10,10 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: colors.blued1,
-        tabBarInactiveTintColor: colors.black0,
         tabBarStyle: {
-          backgroundColor: colors.gray2,
           position: "absolute",
           borderColor: colors.black0,
+          backgroundColor: colors.gray2,
           borderTopColor: colors.black0,
           height: 52,
           borderWidth: 1,
@@ -25,6 +23,12 @@ export default function TabLayout() {
           marginHorizontal: 20,
           borderRadius: 100,
         },
+        tabBarIconStyle: {
+          width: 56,
+          height: 40,
+          alignItems: "center",
+          justifyContent: "center",
+        },
       }}
     >
       <Tabs.Screen
@@ -32,9 +36,7 @@ export default function TabLayout() {
         options={{
           title: "Main",
           tabBarIcon: ({ focused }) => (
-            <View
-              style={focused ? styles.selectedIconWrapper : styles.iconWrapper}
-            >
+            <View style={focused && styles.selectedIconWrapper}>
               <TabBarIcon
                 name={focused ? "Calendar_active_icon" : "Calendar_icon"}
                 color={focused ? colors.blued1 : colors.black0}
@@ -48,9 +50,7 @@ export default function TabLayout() {
         options={{
           title: "Archive",
           tabBarIcon: ({ focused }) => (
-            <View
-              style={focused ? styles.selectedIconWrapper : styles.iconWrapper}
-            >
+            <View style={focused && styles.selectedIconWrapper}>
               <TabBarIcon
                 name={focused ? "Feed_active_icon" : "Feed_icon"}
                 color={focused ? colors.blued1 : colors.black0}
@@ -64,9 +64,7 @@ export default function TabLayout() {
         options={{
           title: "Setting",
           tabBarIcon: ({ focused }) => (
-            <View
-              style={focused ? styles.selectedIconWrapper : styles.iconWrapper}
-            >
+            <View style={focused && styles.selectedIconWrapper}>
               <TabBarIcon
                 name={focused ? "Setting_active_icon" : "Setting_icon"}
                 color={focused ? colors.blued1 : colors.black0}
@@ -83,17 +81,11 @@ const styles = StyleSheet.create({
   selectedIconWrapper: {
     width: 56,
     height: 40,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.white0,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.black0,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  iconWrapper: {
-    width: 56,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

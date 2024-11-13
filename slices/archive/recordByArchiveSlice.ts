@@ -6,6 +6,7 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 
 interface ArchiveState {
   currentArchive: ArchiveType | undefined;
@@ -38,11 +39,12 @@ const recordByArchiveSlice = createSlice({
     },
     setCurrentOrder(state, action: PayloadAction<"최신순" | "오래된순">) {
       state.currentOrder = action.payload;
+      console.log(state.recordList);
       state.recordList = state.recordList.sort((a, b) => {
-        if (action.payload === "최신순") {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        }
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
+        const value =
+          dayjs(a.date, "YYYY-MM-DDTHH:mm:ss").valueOf() -
+          dayjs(b.date, "YYYY-MM-DDTHH:mm:ss").valueOf();
+        return action.payload === "최신순" ? -value : value;
       });
     },
   },
@@ -58,10 +60,10 @@ const recordByArchiveSlice = createSlice({
         }
 
         state.recordList = recordList.sort((a, b) => {
-          if (state.currentOrder === "최신순") {
-            return new Date(b.date).getTime() - new Date(a.date).getTime();
-          }
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
+          const value =
+            dayjs(a.date, "YYYY-MM-DDTHH:mm:ss").valueOf() -
+            dayjs(b.date, "YYYY-MM-DDTHH:mm:ss").valueOf();
+          return state.currentOrder === "최신순" ? -value : value;
         });
       },
     );

@@ -9,7 +9,7 @@ import orderList from "@/constants/Order";
 export default function Archive() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <FloatingCreateRecordButton from="(archive)" />
+      <FloatingCreateRecordButton />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ArchiveInfo />
         <View style={styles.body}>

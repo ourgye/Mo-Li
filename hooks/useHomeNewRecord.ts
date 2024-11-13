@@ -19,11 +19,13 @@ export function useHomeNewRecord() {
     newRecordImage_s,
     newRecordBody_s,
     newRecordArchive_s,
+    newRecordImageRatio_s,
   ] = [
     useAppSelector(homeNewRecordSelector.selectRecordDate),
     useAppSelector(homeNewRecordSelector.selectRecordImage),
     useAppSelector(homeNewRecordSelector.selectRecordBody),
     useAppSelector(newRecordArchiveSelector),
+    useAppSelector(homeNewRecordSelector.selectImageRatio),
   ];
   const recordIsThereNew_s = useAppSelector(
     homeNewRecordSelector.selectIsThereNewRecord,
@@ -35,6 +37,7 @@ export function useHomeNewRecord() {
     newRecordImage,
     newRecordBody,
     newRecordArchive,
+    newRecordImageRatio,
     recordIsThereNew,
   ] = useMemo(
     () => [
@@ -43,6 +46,7 @@ export function useHomeNewRecord() {
       newRecordImage_s,
       newRecordBody_s,
       newRecordArchive_s,
+      newRecordImageRatio_s,
       recordIsThereNew_s,
     ],
     [
@@ -51,6 +55,7 @@ export function useHomeNewRecord() {
       newRecordImage_s,
       newRecordBody_s,
       newRecordArchive_s,
+      newRecordImageRatio_s,
       recordIsThereNew_s,
     ],
   );
@@ -70,6 +75,9 @@ export function useHomeNewRecord() {
   const setRecordIsThereNew = useCallback((isThere: boolean) => {
     dispatch(homeNewRecordAction.setIsThereNewRecord(isThere));
   }, []);
+  const setImageRatio = useCallback((ratio: number) => {
+    dispatch(homeNewRecordAction.setImageRatio(ratio));
+  }, []);
 
   const handleCreateNewRecordHome = async () => {
     // 이미지 파일로 저장
@@ -88,6 +96,7 @@ export function useHomeNewRecord() {
       body: newRecordBody,
       archiveId: newRecordArchive.id as string,
       archiveName: newRecordArchive.name as string,
+      imageRatio: newRecordImageRatio,
     };
     dispatch(createNewRecordThunk.createNewRecord(newRecord));
     setRecordIsThereNew(true);
@@ -100,12 +109,14 @@ export function useHomeNewRecord() {
     newRecordImage,
     newRecordBody,
     newRecordArchive,
+    newRecordImageRatio,
     recordIsThereNew,
     setRecordDate,
     setRecordImage,
     setRecordBody,
     setRecordArchive,
     setRecordIsThereNew,
+    setImageRatio,
     handleCreateNewRecordHome,
   };
 }

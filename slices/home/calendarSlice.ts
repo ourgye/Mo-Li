@@ -3,6 +3,7 @@
 import { ArchiveType, RecordType } from "@/constants/types.interface";
 import { getAllRecords, getRecordByArchive } from "@/db/record-method";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 
 export type CalendarState = {
   selectedDate: string;
@@ -12,7 +13,7 @@ export type CalendarState = {
 };
 
 const initialState: CalendarState = {
-  selectedDate: new Date().toISOString().split("T")[0],
+  selectedDate: dayjs().format("YYYY-MM-DD"),
   currentArchive: undefined,
   currentRecords: [],
   selectedDateRecors: [],
@@ -53,7 +54,7 @@ const calendarSlice = createSlice({
     },
     setSelectedDateRecords(state, action: PayloadAction<string>) {
       const records = state.currentRecords.filter(
-        (record) => record.date === action.payload,
+        (record) => record.date.split("T")[0] === action.payload,
       );
       console.log("setSelectedDateRecords", records);
       state.selectedDateRecors = records;
