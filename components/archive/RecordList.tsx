@@ -13,6 +13,7 @@ export function RecordList() {
     recordList: data,
     currentOrder,
     setCurrentOrder,
+    setSelectedRecord,
   } = useRecordByArchive();
 
   if (!currentArchive || currentArchive.count === 0)
@@ -22,7 +23,11 @@ export function RecordList() {
     <MasonryList
       data={data}
       renderItem={({ item, i }: { item: any; i: number }) => (
-        <RecordItem item={item} index={i} />
+        <RecordItem
+          item={item}
+          index={i}
+          setSelectedRecord={setSelectedRecord}
+        />
       )}
       contentContainerStyle={styles.container}
       numColumns={3}

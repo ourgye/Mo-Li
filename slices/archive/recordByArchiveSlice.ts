@@ -12,12 +12,14 @@ interface ArchiveState {
   currentArchive: ArchiveType | undefined;
   currentOrder: "최신순" | "오래된순";
   recordList: RecordType[];
+  selectedRecord: RecordType | undefined;
 }
 
 const intialState: ArchiveState = {
   currentArchive: undefined,
   recordList: [],
   currentOrder: "최신순",
+  selectedRecord: undefined,
 };
 
 const getRecordByArchiveID = createAsyncThunk(
@@ -47,6 +49,9 @@ const recordByArchiveSlice = createSlice({
         return action.payload === "최신순" ? -value : value;
       });
     },
+    setSelectedRecord(state, action: PayloadAction<RecordType | undefined>) {
+      state.selectedRecord = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -72,6 +77,7 @@ const recordByArchiveSlice = createSlice({
     selectCurrentArchive: (state) => state.currentArchive,
     selectRecordList: (state) => state.recordList,
     selectCurrentOrder: (state) => state.currentOrder,
+    selectSelectedRecord: (state) => state.selectedRecord,
   },
 });
 

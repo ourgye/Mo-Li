@@ -9,16 +9,19 @@ import styles from "./style/RecordItem";
 export function RecordItem({
   item,
   index,
+  setSelectedRecord,
 }: {
   item: RecordType;
   index: number;
+  setSelectedRecord: (record: RecordType) => void;
 }) {
   // 가로 세로 크기 비율을 유지하면서 이미지를 출력(가로는 width-48(padding) / 3)
   const dimension = useWindowDimensions();
   const _width = Math.round((dimension.width - 48 - 24) / 3);
 
   const onPressItem = () => {
-    router.navigate("/(archive)/record-detail");
+    setSelectedRecord(item);
+    router.navigate("/(tabs)/(archive)/record-detail");
   };
 
   return (

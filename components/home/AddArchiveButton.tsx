@@ -22,7 +22,7 @@ export function AddArchiveButton({
       {/* ============================ 아카이브 수정 페이지 이동 버튼 ============================ */}
       <Pressable
         onPress={() => {
-          router.push("/(tabs)/archive-manage");
+          router.navigate("/(tabs)/(setting)/archive-manage");
         }}
         style={styles.iconWrapper}
       >
