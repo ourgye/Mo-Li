@@ -6,6 +6,9 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 import styles from "./style/RecordForm";
+import colors from "@/assets/colors/colors";
+import typos from "@/assets/fonts/typos";
+import SvgIcon from "../common/SvgIcon";
 
 export function RecordForm({}: {}) {
   const {
@@ -47,52 +50,44 @@ export function RecordForm({}: {}) {
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         locale="ko_KR"
-        accentColor="#00CFF9"
+        accentColor={colors.blue0}
         confirmTextIOS="확인"
         cancelTextIOS="취소"
       />
       {/*============================== 아카이브  ==============================*/}
       <View style={styles.bottomLine}>
-        <Text style={[styles.text16]}>아카이브</Text>
+        <Text style={typos.subtitle_typo}>아카이브</Text>
         <Pressable
-          style={[styles.inputContainer]}
+          style={styles.inputContainer}
           onPress={() => {
             router.navigate("./select-archive");
           }}
         >
           {/* value from state management */}
-          <Text style={[styles.text16]}>
+          <Text style={typos.body1_typo}>
             {newRecordArchive.name ? newRecordArchive.name : "아카이브 선택"}
           </Text>
-          <MaterialCommunityIcons
-            name="chevron-right"
-            size={24}
-            color="black"
-          />
+          <SvgIcon name="Select_yellow_icon" size={20} />
         </Pressable>
       </View>
       {/* ============================== 날짜 ============================== */}
       <View style={styles.bottomLine}>
-        <Text style={[styles.text16]}>날짜</Text>
-        <Pressable style={[styles.inputContainer]} onPress={showDatePicker}>
-          <Text style={styles.text16}>{newRecordDate}</Text>
-          <MaterialCommunityIcons
-            name="chevron-right"
-            size={24}
-            color="black"
-          />
+        <Text style={typos.subtitle_typo}>날짜</Text>
+        <Pressable style={styles.inputContainer} onPress={showDatePicker}>
+          <Text style={typos.body1_typo}>{newRecordDate}</Text>
+          <SvgIcon name="Select_yellow_icon" size={20} />
         </Pressable>
       </View>
       {/* ============================== 내용 ============================== */}
-      <View style={[styles.bottomLine]}>
-        <Text style={[styles.text16]}>내용</Text>
-        <View style={[styles.inputContainer]}>
+      <View style={styles.bottomLine}>
+        <Text style={typos.subtitle_typo}>내용</Text>
+        <View style={styles.inputContainer}>
           {/* value from state management */}
           <TextInput
             editable
             multiline
             scrollEnabled
-            style={[styles.text16, styles.textArea]}
+            style={[typos.body1_typo, styles.textArea]}
             placeholder="내용을 입력해주세요"
             spellCheck={false}
             autoComplete="off"

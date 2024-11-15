@@ -4,6 +4,8 @@ import { router } from "expo-router";
 
 import styles from "./style/Header";
 import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
+import SvgIcon from "../common/SvgIcon";
+import typos from "@/assets/fonts/typos";
 
 export default function ArchiveSelectHeader({
   to,
@@ -22,12 +24,12 @@ export default function ArchiveSelectHeader({
   return (
     <View style={styles.headerContainer}>
       {/* =================== 뒤로가기 버튼  =================== */}
-      <Pressable onPress={handleOnPressBack}>
-        <MaterialCommunityIcons name="chevron-left" size={32} color="black" />
+      <Pressable onPress={handleOnPressBack} style={styles.iconWrapper}>
+        <SvgIcon name="Back_icon" size={24} />
       </Pressable>
       {/* =================== 게시 버튼  =================== */}
       <Pressable style={styles.button} onPress={handleOnCreate}>
-        <Text style={styles.buttonTitle}>게시</Text>
+        <Text style={typos.body1_typo}>게시</Text>
       </Pressable>
     </View>
   );

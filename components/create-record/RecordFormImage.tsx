@@ -23,16 +23,16 @@ export default function RecordFormImage() {
 
   return (
     <Pressable
-      style={[styles.recordImage, !newRecordImage && { height: 234 }]}
+      style={[styles.recordImage, !newRecordImage && { height: 240 }]}
       onPress={handleImagePicker}
     >
       {newRecordImage?.assets && (
         <Image
           source={{ uri: newRecordImage.assets[0].uri }}
-          width={234}
+          width={240}
           height={
             (newRecordImage.assets[0].height / newRecordImage.assets[0].width) *
-            234
+            240
           }
           resizeMethod="resize"
         />

@@ -5,6 +5,7 @@ import { View, Text, Pressable, TextInput } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import styles from "./style/RecordForm";
+import typos from "@/assets/fonts/typos";
 
 export function RecordForm() {
   const date = new Date().toISOString().split("T")[0];
@@ -39,7 +40,7 @@ export function RecordForm() {
       />
       {/* 아카이브 */}
       <View style={styles.bottomLine}>
-        <Text style={[styles.text16]}>아카이브</Text>
+        <Text style={typos.body1_typo}>아카이브</Text>
         <Pressable
           style={[styles.inputContainer]}
           onPress={() => {
@@ -47,7 +48,7 @@ export function RecordForm() {
           }}
         >
           {/* value from state management */}
-          <Text style={[styles.text16]}>
+          <Text style={typos.body1_typo}>
             {/* {archive ? archive.name : "아카이브 선택"} */}
           </Text>
           <MaterialCommunityIcons
@@ -59,10 +60,10 @@ export function RecordForm() {
       </View>
       {/* 날짜 */}
       <View style={styles.bottomLine}>
-        <Text style={[styles.text16]}>날짜</Text>
+        <Text style={typos.body1_typo}>날짜</Text>
         <Pressable style={[styles.inputContainer]} onPress={showDatePicker}>
           {/* value from state management */}
-          <Text style={styles.text16}>{date}</Text>
+          <Text style={typos.body1_typo}>{date}</Text>
           <MaterialCommunityIcons
             name="chevron-right"
             size={24}
@@ -72,14 +73,14 @@ export function RecordForm() {
       </View>
       {/* 내용 */}
       <View style={[styles.bottomLine]}>
-        <Text style={[styles.text16]}>내용</Text>
+        <Text style={typos.body1_typo}>내용</Text>
         <View style={[styles.inputContainer]}>
           {/* value from state management */}
           <TextInput
             editable
             multiline
             scrollEnabled
-            style={[styles.text16, styles.textArea]}
+            style={[typos.body1_typo, styles.textArea]}
             placeholder="내용을 입력해주세요"
             spellCheck={false}
             autoComplete="off"
