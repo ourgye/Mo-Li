@@ -1,4 +1,4 @@
-import { RecordData } from "@/constants/types.interface";
+import { RecordType } from "@/constants/types.interface";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { View, Text, Image, useWindowDimensions } from "react-native";
@@ -10,19 +10,11 @@ export function RecordDetailItem({
   item,
   index,
 }: {
-  item: RecordData;
+  item: RecordType;
   index: number;
 }) {
   const dimension = useWindowDimensions();
-  const [height, setHeight] = useState<number>(0);
   const _width = Math.round(dimension.width - 48 - 32);
-  const imagePath = FileSystem.documentDirectory + item.imagePath;
-
-  useEffect(() => {
-    Image.getSize(imagePath, (width, height) => {
-      setHeight((_width * height) / width);
-    });
-  });
 
   return (
     <View style={styles.container}>
@@ -37,9 +29,9 @@ export function RecordDetailItem({
       <View>
         <Image
           borderRadius={16}
-          source={{ uri: imagePath }}
+          source={{ uri: item.imagePath }}
           width={_width}
-          height={height}
+          height={_width * item.imageRatio}
         />
       </View>
       <View>

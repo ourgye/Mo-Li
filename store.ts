@@ -1,16 +1,18 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import calendarReducer from "@/slices/home/calendarSlice";
-import homeNewRecordReducer from "@/slices/home/homeNewRecordSlice";
 import archiveListReducer from "@/slices/archiveListSlice";
+import homeNewRecordReducer from "@/slices/home/homeNewRecordSlice";
 import archiveNewRecordReducer from "@/slices/archive/archiveNewRecordSlice";
+import recordByArchiveReducer from "@/slices/archive/recordByArchiveSlice";
 
 export const store = configureStore({
   reducer: {
     calendar: calendarReducer,
-    "home-new-record": homeNewRecordReducer,
-    "archive-new-records": archiveNewRecordReducer,
     archives: archiveListReducer,
+    "home-new-record": homeNewRecordReducer,
+    "archive-new-record": archiveNewRecordReducer,
+    "record-by-archive": recordByArchiveReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

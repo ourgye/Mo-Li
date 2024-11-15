@@ -4,6 +4,7 @@ import styles from "../common/style/CommonList";
 import { ArchiveType } from "@/constants/types.interface";
 import { useArchiveList } from "@/hooks/useArchiveList";
 import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
+import { useEffect } from "react";
 
 interface ArchiveSelectListItemProps {
   selectedId: string;
@@ -46,7 +47,7 @@ const ArchiveSelectListItem = ({
 };
 
 export function ArchiveSelectList({ modalVisible }: { modalVisible: boolean }) {
-  const { archiveList } = useArchiveList();
+  const { archiveList, refreshing, refreshArchiveList } = useArchiveList();
   const { newRecordArchive, setRecordArchive } = useHomeNewRecord();
 
   const handleSelectArchive = (archive: ArchiveType) => {

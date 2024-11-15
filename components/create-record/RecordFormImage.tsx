@@ -6,7 +6,7 @@ import { memo, useCallback } from "react";
 import styles from "./style/RecordForm";
 
 export default function RecordFormImage() {
-  const { newRecordImage, setRecordImage } = useHomeNewRecord();
+  const { newRecordImage, setRecordImage, setImageRatio } = useHomeNewRecord();
 
   const handleImagePicker = useCallback(async () => {
     try {
@@ -16,6 +16,7 @@ export default function RecordFormImage() {
       });
       if (image.canceled) throw new Error("Image picker canceled");
       setRecordImage(image);
+      setImageRatio(image.assets[0].height / image.assets[0].width);
     } catch (e) {
       console.log(e);
     }

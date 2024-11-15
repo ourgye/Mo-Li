@@ -20,6 +20,7 @@ web-build/
 
 # build files
 ios/
+android/
 
 expo-env.d.ts
 # @end expo-cli

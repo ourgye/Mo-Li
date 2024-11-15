@@ -5,6 +5,12 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "space-between",
   },
+  bodyHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+  },
 });
 
 export default styles;

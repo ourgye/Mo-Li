@@ -4,6 +4,7 @@ export interface RecordType {
   _id: string;
   date: string;
   imagePath: string;
+  imageRatio: number; // height / width
   body: string;
   archiveId: string;
   archiveName: string;

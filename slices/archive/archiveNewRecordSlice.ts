@@ -1,48 +1,104 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RecordType } from "@/constants/types.interface";
+import { createRecord } from "@/db/record-method";
+import { RootState } from "@/store";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
+import dayjs from "dayjs";
+import { ImagePickerResult } from "expo-image-picker";
 
-interface RecordState{
+interface RecordState {
   date: string;
-  image: string | undefined;
+  image: ImagePickerResult | undefined;
   body: string;
-  archive: string | undefined;
+  archiveId: string | undefined;
+  archiveName: string | undefined;
+  imageRatio: number;
+
+  isThereNewRecord: boolean;
 }
 
 const initialState: RecordState = {
-  date: new Date().toISOString().split("T")[0],
+  date: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
   image: undefined,
   body: "",
-  archive: undefined,
+  archiveId: undefined,
+  archiveName: undefined,
+  imageRatio: 0,
+  isThereNewRecord: false,
 };
 
+const createNewRecord = createAsyncThunk(
+  "archive-new-record/createNewRecord",
+  async (record: RecordType) => {
+    try {
+      // record를 db에 저장
+      await createRecord(record);
+    } catch (e) {
+      console.error("[ERROR] error from creating new record", e);
+    }
+  },
+);
+
 export const archiveNewRecordSlice = createSlice({
-  name: "home-new-record",
+  name: "archive-new-record",
   initialState,
   reducers: {
     setRecordDate(state, action: PayloadAction<string>) {
       state.date = action.payload;
     },
-    setRecordImage(state, action: PayloadAction<string>) {
+    setRecordImage(state, action: PayloadAction<ImagePickerResult>) {
       state.image = action.payload;
     },
     setRecordBody(state, action: PayloadAction<string>) {
       state.body = action.payload;
     },
-    setRecordArchive(state, action: PayloadAction<string>) {
-      state.archive = action.payload;
+    setRecordArchive(
+      state,
+      action: PayloadAction<{ id: string; name: string }>,
+    ) {
+      state.archiveId = action.payload.id;
+      state.archiveName = action.payload.name;
+    },
+    setIsThereNewRecord(state, action: PayloadAction<boolean>) {
+      state.isThereNewRecord = action.payload;
+    },
+    setImageRatio(state, action: PayloadAction<number>) {
+      state.imageRatio = action.payload;
     },
     resetRecord(state) {
       state = initialState;
-    }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createNewRecord.fulfilled, (state) => {
+      console.log("archiveNewRecordSlice createNewRecord.fulfilled");
+      state.date = initialState.date;
+      state.image = initialState.image;
+      state.body = initialState.body;
+      state.archiveId = initialState.archiveId;
+      state.archiveName = initialState.archiveName;
+      state.isThereNewRecord = initialState.isThereNewRecord;
+    });
   },
   selectors: {
     selectRecordDate: (state) => state.date,
     selectRecordImage: (state) => state.image,
     selectRecordBody: (state) => state.body,
-    selectRecordArchive: (state) => state.archive,
+    selectImageRatio: (state) => state.imageRatio,
     selectRecord: (state) => state,
-  }
+    selectIsThereNewRecord: (state) => state.isThereNewRecord,
+  },
 });
+export const newRecordArchiveSelector = createSelector(
+  (state: RootState) => state["archive-new-record"],
+  (state) => ({ id: state.archiveId, name: state.archiveName }),
+);
 
+export const createNewRecordThunk = { createNewRecord };
 export const archiveNewRecordSelector = archiveNewRecordSlice.selectors;
 export const archiveNewRecordAction = archiveNewRecordSlice.actions;
 export default archiveNewRecordSlice.reducer;

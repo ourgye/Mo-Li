@@ -9,17 +9,58 @@ import styles from "./style/RecordForm";
 import colors from "@/assets/colors/colors";
 import typos from "@/assets/fonts/typos";
 import SvgIcon from "../common/SvgIcon";
+import { useArchiveNewRecord } from "@/hooks/useArchiveNewRecord";
+import dayjs from "dayjs";
 
-export function RecordForm({}: {}) {
+export function RecordForm() {
   const {
     newRecordDate,
     newRecordArchive,
     newRecordBody,
-    setRecordArchive,
     setRecordDate,
     setRecordBody,
   } = useHomeNewRecord();
-  const date = new Date().toISOString().split("T")[0];
+
+  // const {
+  //   newRecordDate: newRecordDate_c,
+  //   newRecordArchive: newRecordArchive_c,
+  //   newRecordBody: newRecordBody_c,
+  //   setRecordDate: setRecordDate_c,
+  //   setRecordBody: setRecordBody_c,
+  // } = useHomeNewRecord();
+
+  // const {
+  //   newRecordDate: newRecordDate_a,
+  //   newRecordArchive: newRecordArchive_a,
+  //   newRecordBody: newRecordBody_a,
+  //   setRecordDate: setRecordDate_a,
+  //   setRecordBody: setRecordBody_a,
+  // } = useArchiveNewRecord();
+
+  // const records = {
+  //   home: {
+  //     newRecordDate: newRecordDate_c,
+  //     newRecordArchive: newRecordArchive_c,
+  //     newRecordBody: newRecordBody_c,
+  //     setRecordDate: setRecordDate_c,
+  //     setRecordBody: setRecordBody_c,
+  //   },
+  //   archive: {
+  //     newRecordDate: newRecordDate_a,
+  //     newRecordArchive: newRecordArchive_a,
+  //     newRecordBody: newRecordBody_a,
+  //     setRecordDate: setRecordDate_a,
+  //     setRecordBody: setRecordBody_a,
+  //   },
+  // };
+  // const {
+  //   newRecordDate,
+  //   newRecordArchive,
+  //   newRecordBody,
+  //   setRecordDate,
+  //   setRecordBody,
+  // } = records[type];
+
   const [isDatePickerVisible, setDatePickerVisibility] =
     useState<boolean>(false);
 
@@ -36,7 +77,8 @@ export function RecordForm({}: {}) {
   };
 
   const handleConfirm = (date: Date) => {
-    setRecordDate(date.toISOString().split("T")[0]);
+    console.log(date);
+    setRecordDate(dayjs(date).format("YYYY-MM-DDTHH:mm:ss"));
     hideDatePicker();
   };
 
@@ -44,7 +86,7 @@ export function RecordForm({}: {}) {
     <View style={styles.container}>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
-        date={new Date(date)}
+        date={dayjs().toDate()}
         mode="date"
         display="inline"
         onConfirm={handleConfirm}
@@ -60,7 +102,7 @@ export function RecordForm({}: {}) {
         <Pressable
           style={styles.inputContainer}
           onPress={() => {
-            router.navigate("./select-archive");
+            router.navigate("/select-archive");
           }}
         >
           {/* value from state management */}
@@ -74,7 +116,7 @@ export function RecordForm({}: {}) {
       <View style={styles.bottomLine}>
         <Text style={typos.subtitle_typo}>날짜</Text>
         <Pressable style={styles.inputContainer} onPress={showDatePicker}>
-          <Text style={typos.body1_typo}>{newRecordDate}</Text>
+          <Text style={typos.body1_typo}>{newRecordDate.split("T")[0]}</Text>
           <SvgIcon name="Select_yellow_icon" size={20} />
         </Pressable>
       </View>

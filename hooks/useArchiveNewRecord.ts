@@ -1,9 +1,9 @@
 import {
-  homeNewRecordAction,
+  archiveNewRecordAction,
   newRecordArchiveSelector,
-  homeNewRecordSelector,
+  archiveNewRecordSelector,
   createNewRecordThunk,
-} from "@/slices/home/homeNewRecordSlice";
+} from "@/slices/archive/archiveNewRecordSlice";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { RecordType } from "@/constants/types.interface";
 import { nanoid } from "nanoid";
@@ -11,9 +11,9 @@ import { ImagePickerResult, ImagePickerSuccessResult } from "expo-image-picker";
 import { saveImage2File } from "@/utils/saveImage2File";
 import { useCallback, useMemo } from "react";
 
-export function useHomeNewRecord() {
+export function useArchiveNewRecord() {
   const dispatch = useAppDispatch();
-  const newRecord_s = useAppSelector(homeNewRecordSelector.selectRecord);
+  const newRecord_s = useAppSelector(archiveNewRecordSelector.selectRecord);
   const [
     newRecordDate_s,
     newRecordImage_s,
@@ -21,14 +21,14 @@ export function useHomeNewRecord() {
     newRecordArchive_s,
     newRecordImageRatio_s,
   ] = [
-    useAppSelector(homeNewRecordSelector.selectRecordDate),
-    useAppSelector(homeNewRecordSelector.selectRecordImage),
-    useAppSelector(homeNewRecordSelector.selectRecordBody),
+    useAppSelector(archiveNewRecordSelector.selectRecordDate),
+    useAppSelector(archiveNewRecordSelector.selectRecordImage),
+    useAppSelector(archiveNewRecordSelector.selectRecordBody),
     useAppSelector(newRecordArchiveSelector),
-    useAppSelector(homeNewRecordSelector.selectImageRatio),
+    useAppSelector(archiveNewRecordSelector.selectImageRatio),
   ];
   const recordIsThereNew_s = useAppSelector(
-    homeNewRecordSelector.selectIsThereNewRecord,
+    archiveNewRecordSelector.selectIsThereNewRecord,
   );
 
   const [
@@ -37,8 +37,8 @@ export function useHomeNewRecord() {
     newRecordImage,
     newRecordBody,
     newRecordArchive,
-    newRecordImageRatio,
     recordIsThereNew,
+    newRecordImageRatio,
   ] = useMemo(
     () => [
       newRecord_s,
@@ -46,8 +46,8 @@ export function useHomeNewRecord() {
       newRecordImage_s,
       newRecordBody_s,
       newRecordArchive_s,
-      newRecordImageRatio_s,
       recordIsThereNew_s,
+      newRecordImageRatio_s,
     ],
     [
       newRecord_s,
@@ -55,28 +55,28 @@ export function useHomeNewRecord() {
       newRecordImage_s,
       newRecordBody_s,
       newRecordArchive_s,
-      newRecordImageRatio_s,
       recordIsThereNew_s,
+      newRecordImageRatio_s,
     ],
   );
 
   const setRecordDate = (date: string) => {
-    dispatch(homeNewRecordAction.setRecordDate(date));
+    dispatch(archiveNewRecordAction.setRecordDate(date));
   };
   const setRecordImage = useCallback((image: ImagePickerResult) => {
-    dispatch(homeNewRecordAction.setRecordImage(image));
+    dispatch(archiveNewRecordAction.setRecordImage(image));
   }, []);
   const setRecordBody = useCallback((body: string) => {
-    dispatch(homeNewRecordAction.setRecordBody(body));
+    dispatch(archiveNewRecordAction.setRecordBody(body));
   }, []);
   const setRecordArchive = (archive: { id: string; name: string }) => {
-    dispatch(homeNewRecordAction.setRecordArchive(archive));
+    dispatch(archiveNewRecordAction.setRecordArchive(archive));
   };
   const setRecordIsThereNew = useCallback((isThere: boolean) => {
-    dispatch(homeNewRecordAction.setIsThereNewRecord(isThere));
+    dispatch(archiveNewRecordAction.setIsThereNewRecord(isThere));
   }, []);
   const setImageRatio = useCallback((ratio: number) => {
-    dispatch(homeNewRecordAction.setImageRatio(ratio));
+    dispatch(archiveNewRecordAction.setImageRatio(ratio));
   }, []);
 
   const handleCreateNewRecordHome = async () => {
@@ -100,7 +100,7 @@ export function useHomeNewRecord() {
     };
     dispatch(createNewRecordThunk.createNewRecord(newRecord));
     setRecordIsThereNew(true);
-    // dispatch(homeNewRecordAction.resetRecord());
+    // dispatch(archiveNewRecordAction.resetRecord());
   };
 
   return {

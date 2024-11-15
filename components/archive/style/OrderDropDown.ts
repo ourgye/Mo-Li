@@ -1,3 +1,4 @@
+import colors from "@/assets/colors/colors";
 import { StyleSheet, Dimensions } from "react-native";
 
 let width = Dimensions.get("window").width; //full width
@@ -18,13 +19,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "#EFEFEF",
   },
-  itemContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    height: 32,
-    padding: 8,
-  },
+
   selectedTextStyle: {
     fontSize: 14,
   },
@@ -37,6 +32,18 @@ const styles = StyleSheet.create({
   },
   itemTextStyle: {
     fontSize: 14,
+  },
+  itemContainer: {
+    //backgroundColor: colors.gray1,
+    height: 32,
+    paddingHorizontal: 8,
+    justifyContent: "center",
+  },
+  selectedItemContainer: {
+    backgroundColor: colors.yellow0,
+    borderColor: colors.black0,
+    borderWidth: 1,
+    borderRadius: 16,
   },
 });
 

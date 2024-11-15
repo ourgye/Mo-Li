@@ -1,13 +1,12 @@
 import { StyleSheet } from "react-native";
-import { HeaderWithTitle } from "@/components/common/HeaderWithTitle";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RecordDetailList } from "@/components/archive/RecordDetailList";
-import { useAppSelector } from "@/hooks/reduxHooks";
+import { RecordDetailHeader } from "@/components/archive/RecordDetailHeader";
 
 export default function RecordDetail() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      {/* <HeaderWithTitle title={currentArchive?.name} /> */}
+      <RecordDetailHeader />
       <RecordDetailList />
     </SafeAreaView>
   );

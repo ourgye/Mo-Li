@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RecordType } from "@/constants/types.interface";
 import { Mutex } from "async-mutex";
+import { deleteImage } from "@/utils/deleteImage";
 
 const recordMutex = new Mutex();
 
@@ -25,6 +26,8 @@ const createRecord = async (record: RecordType) => {
       // add new record
       records.push(record._id);
 
+      const date = record.date.split("T")[0];
+
       // increase count to archive
       const archive = await AsyncStorage.getItem(record.archiveId).then(
         (res) => (res ? JSON.parse(res) : null),
@@ -33,9 +36,9 @@ const createRecord = async (record: RecordType) => {
         archive.count += 1;
         // set last date
         if (!archive.lastDate) {
-          archive.lastDate = record.date;
-        } else if (new Date(archive.lastDate) < new Date(record.date)) {
-          archive.lastDate = record.date;
+          archive.lastDate = date;
+        } else if (new Date(archive.lastDate) < new Date(date)) {
+          archive.lastDate = date;
         }
 
         await AsyncStorage.setItem(record.archiveId, JSON.stringify(archive));
@@ -55,7 +58,11 @@ const createRecord = async (record: RecordType) => {
 };
 
 // 레코드 삭제
-const deleteRecord = async (recordId: string, archiveId: string) => {
+const deleteRecord = async (
+  recordId: string,
+  archiveId: string,
+  imagePath: string,
+) => {
   await recordMutex.runExclusive(async () => {
     try {
       if (!process.env.EXPO_PUBLIC_DB_RECORD_COLLECTION)
@@ -89,6 +96,8 @@ const deleteRecord = async (recordId: string, archiveId: string) => {
       // save new record list
       await AsyncStorage.setItem(REC_ARC_KEY, JSON.stringify(newRecords));
 
+      // delete image
+      if (imagePath) await deleteImage(imagePath);
       // delete record
       await AsyncStorage.removeItem(recordId);
     } catch (e) {

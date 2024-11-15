@@ -1,15 +1,23 @@
 import React, { useEffect, useRef } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { RecordDetailItem } from "./RecordDetailItem";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
 import styles from "./style/RecordDetailList";
+import { useRecordByArchive } from "@/hooks/useRecordByArchive";
+import { Text } from "react-native";
+import { OrderCustomDropDown } from "./OrderDropDown";
 
 export function RecordDetailList() {
-  const order: boolean = true;
+  const {
+    currentArchive,
+    recordList: data,
+    currentOrder,
+    setCurrentOrder,
+    selectedRecord,
+  } = useRecordByArchive();
   const recordlistRef = useRef<FlatList<any>>(null);
-
-  useEffect(() => {}, []);
+  const index = data.findIndex((item) => item._id === selectedRecord?._id);
 
   const onScrollToIndexFailed = (info: {
     index: number;
@@ -24,14 +32,25 @@ export function RecordDetailList() {
 
   return (
     <FlatList
-      data={[]}
+      data={data}
       ref={recordlistRef}
       renderItem={({ item, index }) => {
         return <RecordDetailItem item={item} index={index} />;
       }}
-      keyExtractor={(item) => item._id.toHexString()}
+      showsVerticalScrollIndicator={false}
+      initialScrollIndex={index}
       onScrollToIndexFailed={onScrollToIndexFailed}
+      keyExtractor={(item) => item._id}
       contentContainerStyle={styles.contentContainer}
+      ListHeaderComponent={
+        <View style={styles.bodyHeader}>
+          <Text>{currentArchive?.count}개 레코드</Text>
+          <OrderCustomDropDown
+            current={currentOrder}
+            setOrder={setCurrentOrder}
+          />
+        </View>
+      }
     />
   );
 }

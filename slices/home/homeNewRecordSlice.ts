@@ -7,6 +7,7 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 import { ImagePickerResult } from "expo-image-picker";
 
 interface RecordState {
@@ -15,16 +16,17 @@ interface RecordState {
   body: string;
   archiveId: string | undefined;
   archiveName: string | undefined;
-
+  imageRatio: number;
   isThereNewRecord: boolean;
 }
 
 const initialState: RecordState = {
-  date: new Date().toISOString().split("T")[0],
+  date: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
   image: undefined,
   body: "",
   archiveId: undefined,
   archiveName: undefined,
+  imageRatio: 0,
   isThereNewRecord: false,
 };
 
@@ -63,8 +65,11 @@ export const homeNewRecordSlice = createSlice({
     setIsThereNewRecord(state, action: PayloadAction<boolean>) {
       state.isThereNewRecord = action.payload;
     },
+    setImageRatio(state, action: PayloadAction<number>) {
+      state.imageRatio = action.payload;
+    },
     resetRecord(state) {
-      state = initialState;
+      state = { ...initialState, date: dayjs().format("YYYY-MM-DDTHH:mm:ss") };
     },
   },
   extraReducers: (builder) => {
@@ -82,6 +87,7 @@ export const homeNewRecordSlice = createSlice({
     selectRecordDate: (state) => state.date,
     selectRecordImage: (state) => state.image,
     selectRecordBody: (state) => state.body,
+    selectImageRatio: (state) => state.imageRatio,
     selectRecord: (state) => state,
     selectIsThereNewRecord: (state) => state.isThereNewRecord,
   },

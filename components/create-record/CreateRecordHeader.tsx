@@ -7,18 +7,14 @@ import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
 
-export default function ArchiveSelectHeader({
-  to,
-}: {
-  to: "archive" | "home";
-}) {
+export default function ArchiveSelectHeader() {
   const { handleCreateNewRecordHome } = useHomeNewRecord();
   const handleOnPressBack = () => {
     router.back();
   };
   const handleOnCreate = () => {
-    if (to === "home") handleCreateNewRecordHome();
-    router.push({ pathname: `/(tabs)/(${to})` });
+    handleCreateNewRecordHome();
+    router.back();
   };
 
   return (
