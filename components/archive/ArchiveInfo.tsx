@@ -6,6 +6,7 @@ import { useArchiveList } from "@/hooks/useArchiveList";
 import { useRecordByArchive } from "@/hooks/useRecordByArchive";
 import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import SvgIcon from "../common/SvgIcon";
 
 export function ArchiveInfo() {
   const { archiveList } = useArchiveList();
@@ -29,11 +30,7 @@ export function ArchiveInfo() {
     <>
       <Pressable style={styles.titleContainer} onPress={handleOnPressTitle}>
         <Text style={styles.title}>{currentArchive?.name}</Text>
-        <MaterialCommunityIcons
-          name="chevron-down-circle"
-          size={16}
-          color="black"
-        />
+        <SvgIcon name="Dropdown_icon" size={20} />
       </Pressable>
       {showArchives && (
         <FlatList
@@ -47,15 +44,6 @@ export function ArchiveInfo() {
               onPressArchiveItem={() => {
                 setCurrentArchive(item);
                 handleOnPressArchiveItem(item._id);
-              }}
-            />
-          )}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                height: 0.7,
-                backgroundColor: "#CBCBCB",
-                marginHorizontal: 16,
               }}
             />
           )}

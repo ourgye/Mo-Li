@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 
 interface ArchiveState {
   currentArchive: ArchiveType | undefined;
-  currentOrder: "최신순" | "오래된순";
+  currentOrder: "최신순" | "오래된 순";
   recordList: RecordType[];
   selectedRecord: RecordType | undefined;
 }
@@ -26,7 +26,7 @@ const getRecordByArchiveID = createAsyncThunk(
   "record-by-archive/getRecordByArchive",
   async (archiveId: string) => {
     return await getRecordByArchive(archiveId);
-  },
+  }
 );
 
 const recordByArchiveSlice = createSlice({
@@ -39,7 +39,7 @@ const recordByArchiveSlice = createSlice({
     setRecordList(state, action: PayloadAction<RecordType[]>) {
       state.recordList = action.payload;
     },
-    setCurrentOrder(state, action: PayloadAction<"최신순" | "오래된순">) {
+    setCurrentOrder(state, action: PayloadAction<"최신순" | "오래된 순">) {
       state.currentOrder = action.payload;
       console.log(state.recordList);
       state.recordList = state.recordList.sort((a, b) => {
@@ -70,7 +70,7 @@ const recordByArchiveSlice = createSlice({
             dayjs(b.date, "YYYY-MM-DDTHH:mm:ss").valueOf();
           return state.currentOrder === "최신순" ? -value : value;
         });
-      },
+      }
     );
   },
   selectors: {

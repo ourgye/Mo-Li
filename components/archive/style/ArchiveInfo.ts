@@ -1,18 +1,21 @@
+import colors from "@/assets/colors/colors";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: colors.white0,
+    padding: 8,
+    borderColor: colors.black0,
     borderRadius: 16,
+    borderWidth: 1,
   },
   titleContainer: {
+    //backgroundColor: colors.blue0,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    flexDirection: "row",
-    paddingHorizontal: 24,
-    // 임시 상위 패딩 (맘대로 변경 가능)
-    paddingTop: 16,
+    marginTop: 16,
   },
   title: {
     fontSize: 24,

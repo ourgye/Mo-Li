@@ -10,14 +10,14 @@ export function useRecordByArchive() {
   const dispatch = useAppDispatch();
 
   const currentArchive = useAppSelector(
-    recordByArchiveSelector.selectCurrentArchive,
+    recordByArchiveSelector.selectCurrentArchive
   );
   const recordList = useAppSelector(recordByArchiveSelector.selectRecordList);
   const currentOrder = useAppSelector(
-    recordByArchiveSelector.selectCurrentOrder,
+    recordByArchiveSelector.selectCurrentOrder
   );
   const selectedRecord = useAppSelector(
-    recordByArchiveSelector.selectSelectedRecord,
+    recordByArchiveSelector.selectSelectedRecord
   );
 
   const handleChangeArchive = async (archiveId: string) => {
@@ -26,7 +26,7 @@ export function useRecordByArchive() {
   const setCurrentArchive = (archive: ArchiveType) => {
     dispatch(recordByArchiveAction.setCurrentArchive(archive));
   };
-  const setCurrentOrder = (order: "최신순" | "오래된순") => {
+  const setCurrentOrder = (order: "최신순" | "오래된 순") => {
     dispatch(recordByArchiveAction.setCurrentOrder(order));
   };
   const setSelectedRecord = (record: RecordType) => {

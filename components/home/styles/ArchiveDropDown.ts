@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
   dropdown: {
     backgroundColor: colors.yellow0,
     height: 32,
-    //paddingVertical: 8,
     paddingHorizontal: 16,
     justifyContent: "center",
     borderColor: colors.black0,
@@ -26,7 +25,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   itemContainer: {
-    //backgroundColor: colors.gray1,
     height: 32,
     paddingHorizontal: 8,
     justifyContent: "center",

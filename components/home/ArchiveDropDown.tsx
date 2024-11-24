@@ -22,7 +22,7 @@ export default function ArchiveDropDown() {
 
   const dropdownData = useMemo(
     () => [allTypeArchive, ...archiveList],
-    [archiveList],
+    [archiveList]
   );
 
   return (

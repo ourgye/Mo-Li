@@ -19,6 +19,7 @@ import colors from "../colors/colors";
 const customTextProps = {
   style: {
     fontFamily: "Pretendard-Regular",
+    fontSize: 16,
     color: colors.black0,
   },
 };

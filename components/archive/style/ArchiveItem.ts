@@ -1,38 +1,30 @@
+import colors from "@/assets/colors/colors";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    container: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      padding: 16,
-    },
-    titleWrapper: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 8,
-    },
-    title: {
-      fontSize: 16,
-      textAlign: "center",
-    },
-    clicked: {
-      color: "#00CFF9",
-    },
-    iconWrapper: {
-      width: 10,
-      height: 16,
-    },
-    totalDateWrapper: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "flex-end",
-    },
-    totalDate: {
-      fontSize: 12,
-      color: "#888888",
-    },
+  titleWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  totalDateWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginVertical: 4,
+  },
+  selectedItemContainer: {
+    backgroundColor: colors.yellow0,
+    borderColor: colors.black0,
+    borderWidth: 1,
+    borderRadius: 16,
+  },
 });
 
-export default styles
-  
+export default styles;

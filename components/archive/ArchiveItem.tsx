@@ -4,6 +4,7 @@ import { useAppDispatch } from "@/hooks/reduxHooks";
 
 import styles from "./style/ArchiveItem";
 import { ArchiveType } from "@/constants/types.interface";
+import typos from "@/assets/fonts/typos";
 
 export function ArchiveItem({
   isSelected,
@@ -15,23 +16,17 @@ export function ArchiveItem({
   onPressArchiveItem: () => void;
 }) {
   return (
-    <Pressable style={styles.container} onPress={onPressArchiveItem}>
+    <Pressable
+      style={[styles.itemContainer, isSelected && styles.selectedItemContainer]}
+      onPress={onPressArchiveItem}
+    >
       <View style={styles.titleWrapper}>
-        <View style={styles.iconWrapper}>
-          {isSelected && (
-            <MaterialCommunityIcons
-              name="chevron-right"
-              size={16}
-              color="#00CFF9"
-            />
-          )}
-        </View>
-        <Text style={[styles.title, isSelected && styles.clicked]}>
+        <Text style={[isSelected ? typos.subtitle1_typo : typos.body1_typo]}>
           {data.name}
         </Text>
       </View>
       <View style={styles.totalDateWrapper}>
-        <Text style={styles.totalDate}>
+        <Text style={typos.caption2_typo}>
           {data.count + " 개"}
           {data.lastDate && " | " + data.lastDate}
         </Text>
