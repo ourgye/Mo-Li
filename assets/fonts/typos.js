@@ -30,9 +30,14 @@ const typos = StyleSheet.create({
     fontSize: 24,
     color: colors.black0,
   },
-  subtitle_typo: {
+  subtitle1_typo: {
     fontFamily: "Pretendard-SemiBold",
     fontSize: 16,
+    color: colors.black0,
+  },
+  subtitle2_typo: {
+    fontFamily: "Pretendard-SemiBold",
+    fontSize: 18,
     color: colors.black0,
   },
   body1_typo: {

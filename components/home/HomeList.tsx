@@ -69,7 +69,7 @@ export function HomeList() {
                 alignItems: "center",
               }}
             >
-              <Text style={typos.subtitle_typo}>나의 아카이브</Text>
+              <Text style={typos.subtitle1_typo}>나의 아카이브</Text>
               <View>
                 <AddArchiveButton setModalVisible={setModalVisible} />
               </View>

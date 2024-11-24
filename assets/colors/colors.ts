@@ -3,6 +3,7 @@
 const colors = {
   white0: "#FFFFFF",
   black0: "#191919",
+  modal0: "rgba(0, 0, 0, 0.2)",
 
   blue0: "#A8D0FF", //main
   blued1: "#4282CF", //dark

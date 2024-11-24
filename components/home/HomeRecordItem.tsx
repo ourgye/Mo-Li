@@ -60,7 +60,7 @@ export function HomeRecordItem({ record }: { record: RecordType }) {
         {DynamicImage(imagePath)}
         <View style={styles.itemTextWrapper}>
           <Text
-            style={typos.subtitle_typo}
+            style={typos.subtitle1_typo}
             ellipsizeMode="tail"
             numberOfLines={1}
           >

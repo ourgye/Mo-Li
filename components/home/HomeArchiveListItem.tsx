@@ -13,7 +13,7 @@ export function ArchiveListItem({ archive }: { archive: ArchiveType }) {
         }}
         style={styles.itemWrapper}
       >
-        <Text style={[typos.subtitle_typo]}>{archive.name}</Text>
+        <Text style={[typos.subtitle1_typo]}>{archive.name}</Text>
         <View style={styles.itemRight}>
           <Text style={typos.caption2_typo}>
             {archive.count != 0

@@ -1,47 +1,40 @@
+import colors from "@/assets/colors/colors";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   centeredView: {
+    backgroundColor: colors.modal0,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
   },
   modalView: {
-    width: 300,
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    backgroundColor: colors.white0,
+    width: "80%",
+    padding: 24,
+    gap: 24,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    borderWidth: 1,
+    borderRadius: 16,
+    borderColor: colors.black0,
+  },
+  buttonView: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   button: {
-    borderRadius: 20,
-    padding: 8,
-    elevation: 2,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    borderWidth: 1,
+    borderRadius: 32,
+    borderColor: colors.black0,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: colors.blue0,
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+    backgroundColor: colors.gray2,
   },
 });
 

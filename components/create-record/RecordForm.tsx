@@ -98,7 +98,7 @@ export function RecordForm() {
       />
       {/*============================== 아카이브  ==============================*/}
       <View style={styles.bottomLine}>
-        <Text style={typos.subtitle_typo}>아카이브</Text>
+        <Text style={typos.subtitle1_typo}>아카이브</Text>
         <Pressable
           style={styles.inputContainer}
           onPress={() => {
@@ -114,7 +114,7 @@ export function RecordForm() {
       </View>
       {/* ============================== 날짜 ============================== */}
       <View style={styles.bottomLine}>
-        <Text style={typos.subtitle_typo}>날짜</Text>
+        <Text style={typos.subtitle1_typo}>날짜</Text>
         <Pressable style={styles.inputContainer} onPress={showDatePicker}>
           <Text style={typos.body1_typo}>{newRecordDate.split("T")[0]}</Text>
           <SvgIcon name="Select_yellow_icon" size={20} />
@@ -122,7 +122,7 @@ export function RecordForm() {
       </View>
       {/* ============================== 내용 ============================== */}
       <View style={styles.bottomLine}>
-        <Text style={typos.subtitle_typo}>내용</Text>
+        <Text style={typos.subtitle1_typo}>내용</Text>
         <View style={styles.inputContainer}>
           {/* value from state management */}
           <TextInput
