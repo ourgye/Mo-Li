@@ -5,6 +5,7 @@ import archiveListReducer from "@/slices/archiveListSlice";
 import homeNewRecordReducer from "@/slices/home/homeNewRecordSlice";
 import archiveNewRecordReducer from "@/slices/archive/archiveNewRecordSlice";
 import recordByArchiveReducer from "@/slices/archive/recordByArchiveSlice";
+import devtoolsEnhancer from "redux-devtools-expo-dev-plugin";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,9 @@ export const store = configureStore({
     "archive-new-record": archiveNewRecordReducer,
     "record-by-archive": recordByArchiveReducer,
   },
+  devTools: false,
+  enhancers: (getDefaultEnhancers) =>
+    getDefaultEnhancers().concat(devtoolsEnhancer()),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

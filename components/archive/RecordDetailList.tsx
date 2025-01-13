@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, useWindowDimensions, View } from "react-native";
 import { RecordDetailItem } from "./RecordDetailItem";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
@@ -7,6 +7,7 @@ import styles from "./style/RecordDetailList";
 import { useRecordByArchive } from "@/hooks/useRecordByArchive";
 import { Text } from "react-native";
 import { OrderCustomDropDown } from "./OrderDropDown";
+import { RecordType } from "@/constants/types.interface";
 
 export function RecordDetailList() {
   const {
@@ -18,6 +19,7 @@ export function RecordDetailList() {
   } = useRecordByArchive();
   const recordlistRef = useRef<FlatList<any>>(null);
   const index = data.findIndex((item) => item._id === selectedRecord?._id);
+  recordlistRef.current?.scrollToIndex({ index });
 
   const onScrollToIndexFailed = (info: {
     index: number;
@@ -37,9 +39,9 @@ export function RecordDetailList() {
       renderItem={({ item, index }) => {
         return <RecordDetailItem item={item} index={index} />;
       }}
-      showsVerticalScrollIndicator={false}
       initialScrollIndex={index}
       onScrollToIndexFailed={onScrollToIndexFailed}
+      showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item._id}
       contentContainerStyle={styles.contentContainer}
       ListHeaderComponent={

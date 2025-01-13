@@ -3,8 +3,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FloatingCreateRecordButton } from "@/components/common/FloatingCreateRecordButton";
 import { ArchiveInfo } from "@/components/archive/ArchiveInfo";
 import { RecordList } from "@/components/archive/RecordList";
-import { OrderCustomDropDown } from "@/components/archive/OrderDropDown";
-import orderList from "@/constants/Order";
+// import { OrderCustomDropDown } from "@/components/archive/OrderDropDown";
+// import orderList from "@/constants/Order";
 
 export default function Archive() {
   return (

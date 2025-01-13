@@ -7,6 +7,8 @@ import styles from "./styles/HomeRecordItem";
 import { RecordType } from "@/constants/types.interface";
 import typos from "@/assets/fonts/typos";
 
+// ratio 설정 변경 필요
+
 export function HomeRecordItem({ record }: { record: RecordType }) {
   const [height, setHeight] = useState<number>(0);
   // line height + font size = 32 (추후 제대로 계산해야함)

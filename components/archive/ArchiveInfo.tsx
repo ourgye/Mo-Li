@@ -4,15 +4,17 @@ import { ArchiveItem } from "./ArchiveItem";
 import styles from "./style/ArchiveInfo";
 import { useArchiveList } from "@/hooks/useArchiveList";
 import { useRecordByArchive } from "@/hooks/useRecordByArchive";
-import { useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
 import SvgIcon from "../common/SvgIcon";
+import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 
 export function ArchiveInfo() {
-  const { archiveList } = useArchiveList();
+  const { archiveList, refreshing, refreshArchiveList } = useArchiveList();
   const { currentArchive, setCurrentArchive, handleChangeArchive } =
     useRecordByArchive();
+  const { recordIsThereNew } = useHomeNewRecord();
   const [showArchives, setShowArchives] = useState<boolean>(false);
+
   const handleOnPressTitle = () => {
     setShowArchives(!showArchives);
   };
@@ -25,6 +27,29 @@ export function ArchiveInfo() {
     setCurrentArchive(archiveList[0]);
     handleChangeArchive(archiveList[0]._id);
   }
+
+  useEffect(() => {
+    console.log("refreshing", refreshing);
+    if (refreshing) {
+      refreshArchiveList();
+    }
+  }, [refreshing]);
+
+  useEffect(() => {
+    if (recordIsThereNew && currentArchive) {
+      if (currentArchive) {
+        const refreshedArchive = archiveList.find(
+          (archive) => archive._id === currentArchive._id,
+        );
+
+        if (refreshedArchive) {
+          setCurrentArchive(refreshedArchive);
+          console.log("refreshedArchive", refreshedArchive);
+          handleChangeArchive(refreshedArchive._id);
+        }
+      }
+    }
+  }, [recordIsThereNew, currentArchive]);
 
   return (
     <>

@@ -19,7 +19,7 @@ export function RecordDetailItem({
   return (
     <View style={styles.container}>
       <View style={styles.itemHeader}>
-        <Text>{item.date}</Text>
+        <Text>{item.date.split("T")[0]}</Text>
         <MaterialCommunityIcons
           name="dots-horizontal-circle"
           size={16}

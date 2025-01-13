@@ -99,7 +99,7 @@ export function useHomeNewRecord() {
       imageRatio: newRecordImageRatio,
     };
     dispatch(createNewRecordThunk.createNewRecord(newRecord));
-    setRecordIsThereNew(true);
+    // setRecordIsThereNew(true);
     // dispatch(homeNewRecordAction.resetRecord());
   };
 

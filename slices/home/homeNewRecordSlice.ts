@@ -80,7 +80,7 @@ export const homeNewRecordSlice = createSlice({
       state.body = initialState.body;
       state.archiveId = initialState.archiveId;
       state.archiveName = initialState.archiveName;
-      state.isThereNewRecord = initialState.isThereNewRecord;
+      state.isThereNewRecord = true;
     });
   },
   selectors: {

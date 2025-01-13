@@ -35,8 +35,8 @@ export default function RootLayout() {
   // add dummy data
   // useEffect(() => {
   //   console.log("reloading");
-  //   // clearAllData();
-  //   // checkDummyNeeded();
+  //   clearAllData();
+  //   checkDummyNeeded();
   // });
 
   return (

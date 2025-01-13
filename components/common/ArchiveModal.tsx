@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
-import { Modal, Pressable, Text, View, TextInput, Alert } from "react-native";
+import {
+  Modal,
+  Pressable,
+  Text,
+  View,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 
 import styles from "./style/ArchiveModal";
 import { useArchiveList } from "@/hooks/useArchiveList";
@@ -57,6 +66,9 @@ export default function ArchiveModal({
 
   return (
     <Modal visible={modalVisible} transparent>
+      <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
+        <View style={styles.modalOverlay} />
+      </TouchableWithoutFeedback>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={typos.subtitle2_typo}>

@@ -2,6 +2,13 @@ import colors from "@/assets/colors/colors";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  modalOverlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   centeredView: {
     backgroundColor: colors.modal0,
     flex: 1,

@@ -1,6 +1,4 @@
 import { View, Text, Pressable } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useAppDispatch } from "@/hooks/reduxHooks";
 
 import styles from "./style/ArchiveItem";
 import { ArchiveType } from "@/constants/types.interface";

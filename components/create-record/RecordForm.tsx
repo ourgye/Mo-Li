@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View, Text, Pressable, StyleSheet, TextInput } from "react-native";
@@ -9,7 +8,6 @@ import styles from "./style/RecordForm";
 import colors from "@/assets/colors/colors";
 import typos from "@/assets/fonts/typos";
 import SvgIcon from "../common/SvgIcon";
-import { useArchiveNewRecord } from "@/hooks/useArchiveNewRecord";
 import dayjs from "dayjs";
 
 export function RecordForm() {
