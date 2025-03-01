@@ -75,7 +75,6 @@ export function RecordForm() {
   };
 
   const handleConfirm = (date: Date) => {
-    console.log(date);
     setRecordDate(dayjs(date).format("YYYY-MM-DDTHH:mm:ss"));
     hideDatePicker();
   };

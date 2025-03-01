@@ -7,7 +7,7 @@ import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
 
-export default function ArchiveSelectHeader() {
+export default function CreateRecordHeader() {
   const { handleCreateNewRecordHome } = useHomeNewRecord();
   const handleOnPressBack = () => {
     router.back();

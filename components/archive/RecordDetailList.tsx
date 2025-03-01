@@ -17,42 +17,44 @@ export function RecordDetailList() {
     setCurrentOrder,
     selectedRecord,
   } = useRecordByArchive();
-  const recordlistRef = useRef<FlatList<any>>(null);
-  const index = data.findIndex((item) => item._id === selectedRecord?._id);
-  recordlistRef.current?.scrollToIndex({ index });
+  // const recordlistRef = useRef<FlatList<any>>(null);
+  // const index = data.findIndex((item) => item._id === selectedRecord?._id);
 
-  const onScrollToIndexFailed = (info: {
-    index: number;
-    highestMeasuredFrameIndex: number;
-  }) => {
-    console.warn("Failed to scroll to index:", info.index);
-    console.warn(
-      "Highest measured frame index:",
-      info.highestMeasuredFrameIndex,
-    );
-  };
+  // const onScrollToIndexFailed = (info: {
+  //   index: number;
+  //   highestMeasuredFrameIndex: number;
+  // }) => {
+  //   console.warn("Failed to scroll to index:", info.index);
+  //   console.warn(
+  //     "Highest measured frame index:",
+  //     info.highestMeasuredFrameIndex,
+  //   );
+  // };
 
-  return (
-    <FlatList
-      data={data}
-      ref={recordlistRef}
-      renderItem={({ item, index }) => {
-        return <RecordDetailItem item={item} index={index} />;
-      }}
-      initialScrollIndex={index}
-      onScrollToIndexFailed={onScrollToIndexFailed}
-      showsVerticalScrollIndicator={false}
-      keyExtractor={(item) => item._id}
-      contentContainerStyle={styles.contentContainer}
-      ListHeaderComponent={
-        <View style={styles.bodyHeader}>
-          <Text>{currentArchive?.count}개 레코드</Text>
-          <OrderCustomDropDown
-            current={currentOrder}
-            setOrder={setCurrentOrder}
-          />
-        </View>
-      }
-    />
+  return selectedRecord ? (
+    <RecordDetailItem item={selectedRecord} />
+  ) : (
+    <Text>선택된 레코드가 없습니다.</Text>
   );
+  // <FlatList
+  //   data={data}
+  //   ref={recordlistRef}
+  //   renderItem={({ item, index }) => {
+  //     return <RecordDetailItem item={item} index={index} />;
+  //   }}
+  //   initialScrollIndex={index}
+  //   onScrollToIndexFailed={onScrollToIndexFailed}
+  //   showsVerticalScrollIndicator={false}
+  //   keyExtractor={(item) => item._id}
+  //   contentContainerStyle={styles.contentContainer}
+  //   ListHeaderComponent={
+  //     <View style={styles.bodyHeader}>
+  //       <Text>{currentArchive?.count}개 레코드</Text>
+  //       <OrderCustomDropDown
+  //         current={currentOrder}
+  //         setOrder={setCurrentOrder}
+  //       />
+  //     </View>
+  //   }
+  // />
 }

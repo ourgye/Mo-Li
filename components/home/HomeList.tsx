@@ -28,6 +28,7 @@ export function HomeList() {
   useEffect(() => {
     if (recordIsThereNew) {
       console.log("recordIsThereNew - main page", recordIsThereNew);
+      setRefreshing(true);
       handleChangeCurrentArchive(currentArchive, selectedDate);
       setTimeout(() => setRecordIsThereNew(false), 100);
     }

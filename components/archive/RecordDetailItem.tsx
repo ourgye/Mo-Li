@@ -6,13 +6,7 @@ import * as FileSystem from "expo-file-system";
 
 import styles from "./style/RecordDetailItem";
 
-export function RecordDetailItem({
-  item,
-  index,
-}: {
-  item: RecordType;
-  index: number;
-}) {
+export function RecordDetailItem({ item }: { item: RecordType }) {
   const dimension = useWindowDimensions();
   const _width = Math.round(dimension.width - 48 - 32);
 
