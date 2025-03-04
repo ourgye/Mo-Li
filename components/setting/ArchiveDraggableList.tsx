@@ -9,6 +9,9 @@ import { useArchiveList } from "@/hooks/useArchiveList";
 import { useEffect, useState } from "react";
 import ArchiveModal from "../common/ArchiveModal";
 import { MenuView, NativeActionEvent } from "@react-native-menu/menu";
+import colors from "@/assets/colors/colors";
+import typos from "@/assets/fonts/typos";
+import SvgIcon from "../common/SvgIcon";
 
 export default function ArchiveDraggableList() {
   const { archiveList, setRefreshing, handleChangeArchiveListOrder } =
@@ -44,13 +47,16 @@ export default function ArchiveDraggableList() {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            gap: 8,
+            //gap: 8,
             flexGrow: 1,
           }}
         >
-          <Text style={[styles.title]}>{item.name}</Text>
+          <Text style={typos.body1_typo}>{item.name}</Text>
         </View>
-        <View style={styles.container}>
+        <Pressable
+          onPress={() => (setModalVisible ? setModalVisible(true) : null)}
+        >
+          <SvgIcon name="More_icon" size={24} />
           <MenuView
             title="Options"
             onPressAction={handleOnPressOptions}
@@ -73,7 +79,7 @@ export default function ArchiveDraggableList() {
               <Text>...</Text>
             </View>
           </MenuView>
-        </View>
+        </Pressable>
       </TouchableOpacity>
     );
   };
@@ -92,7 +98,7 @@ export default function ArchiveDraggableList() {
         renderItem={ArchiveSelectListItem}
         keyExtractor={(item) => item._id}
         ItemSeparatorComponent={() => (
-          <View style={{ height: 0.7, backgroundColor: "#CBCBCB" }} />
+          <View style={{ height: 0.4, backgroundColor: colors.gray3 }} />
         )}
         onDragEnd={({ data }) => {
           setSettingArchiveList(data);

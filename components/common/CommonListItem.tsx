@@ -3,6 +3,7 @@ import { View, Text, Pressable } from "react-native";
 import ArchiveMenu from "./ArchiveMenu";
 
 import styles from "./style/CommonList";
+import typos from "@/assets/fonts/typos";
 
 export interface CommonListItemProps {
   selected?: boolean;
@@ -27,7 +28,7 @@ export function CommonListItem({
         }}
       >
         <View>
-          <Text style={[styles.title, selected && { color: "#00CFF9" }]}>
+          <Text style={[typos.header_typo, selected && { color: "#00CFF9" }]}>
             {data?.name}
           </Text>
         </View>

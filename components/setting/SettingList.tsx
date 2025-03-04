@@ -4,6 +4,8 @@ import data from "@/constants/MyPage";
 import styles from "../common/style/CommonList";
 import { MyPageListType } from "@/constants/types.interface";
 import { Link } from "expo-router";
+import typos from "@/assets/fonts/typos";
+import colors from "@/assets/colors/colors";
 
 const SettingListItem = ({ data }: { data: MyPageListType }) => {
   return (
@@ -19,7 +21,7 @@ const SettingListItem = ({ data }: { data: MyPageListType }) => {
         },
       ]}
     >
-      <Text style={[styles.title]}>{data?.name}</Text>
+      <Text style={typos.body1_typo}>{data?.name}</Text>
     </Link>
   );
 };
@@ -32,7 +34,7 @@ export default function SettingList() {
       keyExtractor={(item) => item._id.toString()}
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => (
-        <View style={{ height: 0.7, backgroundColor: "#CBCBCB" }} />
+        <View style={{ height: 0.4, backgroundColor: colors.gray3 }} />
       )}
       contentContainerStyle={styles.container}
       style={{ flex: 1 }}

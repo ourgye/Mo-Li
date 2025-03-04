@@ -1,10 +1,13 @@
+import colors from "@/assets/colors/colors";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: colors.white0,
     borderRadius: 16,
     paddingHorizontal: 16,
+    borderColor: colors.black0,
+    borderWidth: 1,
   },
   itemContainer: {
     flexDirection: "row",
@@ -17,9 +20,6 @@ const styles = StyleSheet.create({
     height: 16,
     justifyContent: "center",
     alignItems: "center",
-  },
-  title: {
-    fontSize: 16,
   },
 });
 

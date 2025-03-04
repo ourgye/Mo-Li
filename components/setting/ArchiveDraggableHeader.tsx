@@ -1,10 +1,11 @@
 import { View, Pressable, Text, StyleSheet } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 import styles from "../common/style/HeaderWithTitle";
 import { useState } from "react";
 import ArchiveModal from "../common/ArchiveModal";
+import SvgIcon from "../common/SvgIcon";
+import typos from "@/assets/fonts/typos";
 
 export function ArchiveDraggableHeader() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -20,14 +21,13 @@ export function ArchiveDraggableHeader() {
           router.back();
         }}
       >
-        <MaterialCommunityIcons name="chevron-left" size={32} color="black" />
+        <SvgIcon name="Back_icon" size={24} />
       </Pressable>
-      <Text style={styles.headerTitle}>아카이브 관리</Text>
-      {/* ========================= + 버튼 ========================= */}
+      <Text style={typos.header_typo}>아카이브 관리</Text>
       <Pressable
         onPress={() => (setModalVisible ? setModalVisible(true) : null)}
       >
-        <MaterialCommunityIcons name="plus" size={32} color="black" />
+        <SvgIcon name="Add_icon" size={24} />
       </Pressable>
     </View>
   );
