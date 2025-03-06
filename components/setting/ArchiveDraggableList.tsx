@@ -32,13 +32,13 @@ export default function ArchiveDraggableList() {
     isActive,
   }: RenderItemParams<ArchiveType>) => {
     const handleOnPressOptions = ({ nativeEvent }: NativeActionEvent) => {
-      if (nativeEvent.event === "modify") {
-        setSelectedArchive(item);
-        setModalVisible(true);
-      }
-      if (nativeEvent.event === "delete") {
-        // console.log("delete");
-      }
+      // if (nativeEvent.event === "modify") {
+      //   setSelectedArchive(item);
+      //   setModalVisible(true);
+      // }
+      // if (nativeEvent.event === "delete") {
+      //   // console.log("delete");
+      // }
     };
 
     return (
@@ -53,33 +53,26 @@ export default function ArchiveDraggableList() {
         >
           <Text style={typos.body1_typo}>{item.name}</Text>
         </View>
-        <Pressable
-          onPress={() => (setModalVisible ? setModalVisible(true) : null)}
+        <MenuView
+          title="Options"
+          onPressAction={handleOnPressOptions}
+          actions={[
+            {
+              id: "modify",
+              title: "수정",
+            },
+            {
+              id: "delete",
+              title: "삭제",
+              attributes: {
+                destructive: true,
+              },
+            },
+          ]}
+          shouldOpenOnLongPress={false}
         >
           <SvgIcon name="More_icon" size={24} />
-          <MenuView
-            title="Options"
-            onPressAction={handleOnPressOptions}
-            actions={[
-              {
-                id: "modify",
-                title: "수정",
-              },
-              {
-                id: "delete",
-                title: "삭제",
-                attributes: {
-                  destructive: true,
-                },
-              },
-            ]}
-            shouldOpenOnLongPress={false}
-          >
-            <View>
-              <Text>...</Text>
-            </View>
-          </MenuView>
-        </Pressable>
+        </MenuView>
       </TouchableOpacity>
     );
   };
