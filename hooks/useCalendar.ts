@@ -45,9 +45,10 @@ export function useCalendar() {
     },
     [dispatch],
   );
+
   const handleChangeCurrentArchive = useCallback(
     async (archive: ArchiveType | undefined, date: string) => {
-      console.log("handleChangeCurrentArchive", archive, date);
+      // console.log("handleChangeCurrentArchive", archive, date);
 
       dispatch(calendarAction.setCurrentArchive(archive));
       await dispatch(calendarThunks.fetchCurrentArchiveRecords(archive));
@@ -56,6 +57,10 @@ export function useCalendar() {
     [dispatch, handleChangeSelectedDate],
   );
 
+  const handleIndexRefresh = useCallback(() => {
+    dispatch(calendarAction.setToInitialState());
+  }, [dispatch]);
+
   return {
     selectedDate,
     currentArchive,
@@ -63,5 +68,6 @@ export function useCalendar() {
     selectedDateRecords,
     handleChangeSelectedDate,
     handleChangeCurrentArchive,
+    handleIndexRefresh,
   };
 }

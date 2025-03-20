@@ -1,5 +1,9 @@
 import { ArchiveType, RecordType } from "@/constants/types.interface";
-import { getRecordByArchive } from "@/db/record-method";
+import {
+  getRecordByArchive,
+  deleteAllRecordsByArchive,
+  deleteRecord,
+} from "@/db/record-method";
 import {
   createAsyncThunk,
   createSelector,
@@ -26,7 +30,15 @@ const getRecordByArchiveID = createAsyncThunk(
   "record-by-archive/getRecordByArchive",
   async (archiveId: string) => {
     return await getRecordByArchive(archiveId);
-  }
+  },
+);
+
+const deleteRecordsByArchiveID = createAsyncThunk(
+  "record-by-archive/deleteRecordsByArchive",
+  async (archiveId: string) => {
+    await deleteAllRecordsByArchive(archiveId);
+    return archiveId;
+  },
 );
 
 const recordByArchiveSlice = createSlice({
@@ -70,7 +82,17 @@ const recordByArchiveSlice = createSlice({
             dayjs(b.date, "YYYY-MM-DDTHH:mm:ss").valueOf();
           return state.currentOrder === "최신순" ? -value : value;
         });
-      }
+      },
+    );
+    // 수정 필요
+    builder.addCase(
+      deleteRecordsByArchiveID.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        if (state.currentArchive?._id === action.payload) {
+          state.currentArchive = undefined;
+          state.recordList = [];
+        }
+      },
     );
   },
   selectors: {
@@ -83,6 +105,7 @@ const recordByArchiveSlice = createSlice({
 
 export const recordByArchiveThunk = {
   getRecordByArchiveID,
+  deleteRecordsByArchiveID,
 };
 export const recordByArchiveAction = recordByArchiveSlice.actions;
 export const recordByArchiveSelector = recordByArchiveSlice.selectors;

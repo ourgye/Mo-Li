@@ -17,7 +17,6 @@ interface RecordState {
   archiveId: string | undefined;
   archiveName: string | undefined;
   imageRatio: number;
-
   isThereNewRecord: boolean;
 }
 
@@ -32,7 +31,7 @@ const initialState: RecordState = {
 };
 
 const createNewRecord = createAsyncThunk(
-  "archive-new-record/createNewRecord",
+  "home/createNewRecord",
   async (record: RecordType) => {
     try {
       // record를 db에 저장
@@ -43,8 +42,8 @@ const createNewRecord = createAsyncThunk(
   },
 );
 
-export const archiveNewRecordSlice = createSlice({
-  name: "archive-new-record",
+export const newRecordSlice = createSlice({
+  name: "new-record",
   initialState,
   reducers: {
     setRecordDate(state, action: PayloadAction<string>) {
@@ -70,18 +69,17 @@ export const archiveNewRecordSlice = createSlice({
       state.imageRatio = action.payload;
     },
     resetRecord(state) {
-      state = initialState;
+      state = { ...initialState, date: dayjs().format("YYYY-MM-DDTHH:mm:ss") };
     },
   },
   extraReducers: (builder) => {
     builder.addCase(createNewRecord.fulfilled, (state) => {
-      console.log("archiveNewRecordSlice createNewRecord.fulfilled");
       state.date = initialState.date;
       state.image = initialState.image;
       state.body = initialState.body;
       state.archiveId = initialState.archiveId;
       state.archiveName = initialState.archiveName;
-      state.isThereNewRecord = initialState.isThereNewRecord;
+      state.isThereNewRecord = true;
     });
   },
   selectors: {
@@ -94,11 +92,11 @@ export const archiveNewRecordSlice = createSlice({
   },
 });
 export const newRecordArchiveSelector = createSelector(
-  (state: RootState) => state["archive-new-record"],
+  (state: RootState) => state["new-record"],
   (state) => ({ id: state.archiveId, name: state.archiveName }),
 );
 
 export const createNewRecordThunk = { createNewRecord };
-export const archiveNewRecordSelector = archiveNewRecordSlice.selectors;
-export const archiveNewRecordAction = archiveNewRecordSlice.actions;
-export default archiveNewRecordSlice.reducer;
+export const newRecordSelector = newRecordSlice.selectors;
+export const newRecordAction = newRecordSlice.actions;
+export default newRecordSlice.reducer;

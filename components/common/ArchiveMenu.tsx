@@ -1,10 +1,10 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MenuView } from "@react-native-menu/menu";
 import { useState } from "react";
 import { View, Platform, Alert } from "react-native";
 import ArchiveModal from "./ArchiveModal";
 
 import styles from "./style/ArchiveMenu";
+import SvgIcon from "./SvgIcon";
 
 export default function ArchiveMenu({
   _id,
@@ -15,8 +15,7 @@ export default function ArchiveMenu({
 }) {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const onPressDelete = () => {
-  };
+  const onPressDelete = () => {};
 
   const onPressAction = ({ nativeEvent }: { nativeEvent: any }) => {
     const event = nativeEvent.event.toString();
@@ -39,7 +38,7 @@ export default function ArchiveMenu({
             onPress: onPressDelete,
             style: "destructive",
           },
-        ]
+        ],
       );
     }
   };
@@ -48,7 +47,7 @@ export default function ArchiveMenu({
     <View style={styles.container}>
       {modalVisible && (
         <ArchiveModal
-          archiveId={_id}
+          // archiveId={_id}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           modify
@@ -79,11 +78,7 @@ export default function ArchiveMenu({
         ]}
         shouldOpenOnLongPress={false}
       >
-        <MaterialCommunityIcons
-          name="dots-horizontal-circle"
-          size={16}
-          color="gray"
-        />
+        <SvgIcon name="More_icon" size={24} />
       </MenuView>
     </View>
   );

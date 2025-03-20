@@ -6,18 +6,20 @@ import {
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { ArchiveType, RecordType } from "@/constants/types.interface";
 
-export function useRecordByArchive() {
+export function useRecord() {
   const dispatch = useAppDispatch();
 
   const currentArchive = useAppSelector(
-    recordByArchiveSelector.selectCurrentArchive
+    recordByArchiveSelector.selectCurrentArchive,
   );
+
+  // 아카이브 리스트에 따라 레코드를 가져오는 로직
   const recordList = useAppSelector(recordByArchiveSelector.selectRecordList);
   const currentOrder = useAppSelector(
-    recordByArchiveSelector.selectCurrentOrder
+    recordByArchiveSelector.selectCurrentOrder,
   );
   const selectedRecord = useAppSelector(
-    recordByArchiveSelector.selectSelectedRecord
+    recordByArchiveSelector.selectSelectedRecord,
   );
 
   const handleChangeArchive = async (archiveId: string) => {
@@ -33,12 +35,17 @@ export function useRecordByArchive() {
     dispatch(recordByArchiveAction.setSelectedRecord(record));
   };
 
+  const handelDeleteRecordsByArchive = async (archiveId: string) => {
+    await dispatch(recordByArchiveThunk.deleteRecordsByArchiveID(archiveId));
+  };
+
   return {
     currentArchive,
     recordList,
     currentOrder,
     selectedRecord,
     handleChangeArchive,
+    handelDeleteRecordsByArchive,
     setCurrentArchive,
     setCurrentOrder,
     setSelectedRecord,

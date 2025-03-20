@@ -3,7 +3,7 @@ import { FlatList, View, Pressable, Text } from "react-native";
 import styles from "../common/style/CommonList";
 import { ArchiveType } from "@/constants/types.interface";
 import { useArchiveList } from "@/hooks/useArchiveList";
-import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
+import { useNewRecord } from "@/hooks/useNewRecord";
 import { useEffect } from "react";
 
 interface ArchiveSelectListItemProps {
@@ -48,7 +48,7 @@ const ArchiveSelectListItem = ({
 
 export function ArchiveSelectList({ modalVisible }: { modalVisible: boolean }) {
   const { archiveList, refreshing, refreshArchiveList } = useArchiveList();
-  const { newRecordArchive, setRecordArchive } = useHomeNewRecord();
+  const { newRecordArchive, setRecordArchive } = useNewRecord();
 
   const handleSelectArchive = (archive: ArchiveType) => {
     setRecordArchive({ id: archive._id, name: archive.name });

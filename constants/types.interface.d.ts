@@ -7,7 +7,6 @@ export interface RecordType {
   imageRatio: number; // height / width
   body: string;
   archiveId: string;
-  archiveName: string;
 }
 
 export interface ArchiveType {

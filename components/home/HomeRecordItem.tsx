@@ -9,7 +9,13 @@ import typos from "@/assets/fonts/typos";
 
 // ratio 설정 변경 필요
 
-export function HomeRecordItem({ record }: { record: RecordType }) {
+export function HomeRecordItem({
+  record,
+  archiveName,
+}: {
+  record: RecordType;
+  archiveName: string;
+}) {
   const [height, setHeight] = useState<number>(0);
   // line height + font size = 32 (추후 제대로 계산해야함)
   // text 자를 때 사용
@@ -66,7 +72,7 @@ export function HomeRecordItem({ record }: { record: RecordType }) {
             ellipsizeMode="tail"
             numberOfLines={1}
           >
-            {record.archiveName}
+            {archiveName}
           </Text>
           <Text
             style={typos.body2_typo}

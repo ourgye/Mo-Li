@@ -4,11 +4,9 @@ import { RecordItem } from "./RecordItem";
 import { Text, View } from "react-native";
 
 import styles from "./style/RecordList";
-import { useRecordByArchive } from "@/hooks/useRecordByArchive";
+import { useRecord } from "@/hooks/useRecord";
 import { OrderCustomDropDown } from "./OrderDropDown";
-// import { useEffect } from "react";
-// import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
-// import { useArchiveList } from "@/hooks/useArchiveList";
+import { useArchiveList } from "@/hooks/useArchiveList";
 
 export function RecordList() {
   const {
@@ -17,23 +15,9 @@ export function RecordList() {
     currentOrder,
     setCurrentOrder,
     setSelectedRecord,
-    // handleChangeArchive,
-  } = useRecordByArchive();
-
-  // const { recordIsThereNew } = useHomeNewRecord();
-
-  // useEffect(() => {
-  //   console.log(
-  //     "recordIsThereNew - archive page; record list",
-  //     recordIsThereNew,
-  //   );
-  //   if (recordIsThereNew && currentArchive) {
-  //     handleChangeArchive(currentArchive._id);
-  //   }
-  // }, [recordIsThereNew]);
-
-  if (!currentArchive || currentArchive.count === 0)
-    return <Text>데이터가 없습니다.</Text>;
+    handleChangeArchive,
+  } = useRecord();
+  const { archiveList } = useArchiveList();
 
   return (
     <MasonryList
@@ -50,13 +34,25 @@ export function RecordList() {
       showsVerticalScrollIndicator={false}
       refreshControl={false}
       ListHeaderComponent={
-        <View style={styles.bodyHeader}>
-          <Text>{currentArchive.count}개 레코드</Text>
-          <OrderCustomDropDown
-            current={currentOrder}
-            setOrder={setCurrentOrder}
-          />
-        </View>
+        !currentArchive ||
+        archiveList.find((item) => item._id === currentArchive?._id)?.count ===
+          0 ? (
+          <Text>데이터가 없습니다.</Text>
+        ) : (
+          <View style={styles.bodyHeader}>
+            <Text>
+              {
+                archiveList.find((item) => item._id === currentArchive?._id)
+                  ?.count
+              }
+              개 레코드
+            </Text>
+            <OrderCustomDropDown
+              current={currentOrder}
+              setOrder={setCurrentOrder}
+            />
+          </View>
+        )
       }
     />
   );

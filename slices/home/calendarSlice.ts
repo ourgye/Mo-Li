@@ -9,14 +9,14 @@ export type CalendarState = {
   selectedDate: string;
   currentArchive: ArchiveType | undefined;
   currentRecords: RecordType[];
-  selectedDateRecors: RecordType[];
+  selectedDateRecords: RecordType[];
 };
 
 const initialState: CalendarState = {
   selectedDate: dayjs().format("YYYY-MM-DD"),
   currentArchive: undefined,
   currentRecords: [],
-  selectedDateRecors: [],
+  selectedDateRecords: [],
 };
 
 const fetchCurrentArchiveRecords = createAsyncThunk(
@@ -57,7 +57,12 @@ const calendarSlice = createSlice({
         (record) => record.date.split("T")[0] === action.payload,
       );
       console.log("setSelectedDateRecords", records);
-      state.selectedDateRecors = records;
+      state.selectedDateRecords = records;
+    },
+    setToInitialState(state) {
+      state.currentArchive = undefined;
+      state.currentRecords = [];
+      state.selectedDateRecords = [];
     },
   },
   extraReducers: (builder) => {
@@ -76,7 +81,7 @@ const calendarSlice = createSlice({
     selectSelectedDate: (state) => state.selectedDate,
     selectCurrentArchive: (state) => state.currentArchive,
     selectCurrentRecords: (state) => state.currentRecords,
-    selectSelectedDateRecords: (state) => state.selectedDateRecors,
+    selectSelectedDateRecords: (state) => state.selectedDateRecords,
   },
 });
 

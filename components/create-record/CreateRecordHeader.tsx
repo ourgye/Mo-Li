@@ -1,20 +1,23 @@
 import { View, Pressable, Text, StyleSheet } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 import styles from "./style/Header";
-import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
+import { useNewRecord } from "@/hooks/useNewRecord";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
 
 export default function CreateRecordHeader() {
-  const { handleCreateNewRecordHome } = useHomeNewRecord();
+  const { handleCreateNewRecordHome } = useNewRecord();
   const handleOnPressBack = () => {
     router.back();
   };
-  const handleOnCreate = () => {
-    handleCreateNewRecordHome();
-    router.back();
+  const handleOnCreate = async () => {
+    try {
+      await handleCreateNewRecordHome();
+      router.back();
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (

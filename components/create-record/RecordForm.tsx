@@ -3,7 +3,7 @@ import { useState } from "react";
 import { View, Text, Pressable, StyleSheet, TextInput } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
+import { useNewRecord } from "@/hooks/useNewRecord";
 import styles from "./style/RecordForm";
 import colors from "@/assets/colors/colors";
 import typos from "@/assets/fonts/typos";
@@ -17,47 +17,7 @@ export function RecordForm() {
     newRecordBody,
     setRecordDate,
     setRecordBody,
-  } = useHomeNewRecord();
-
-  // const {
-  //   newRecordDate: newRecordDate_c,
-  //   newRecordArchive: newRecordArchive_c,
-  //   newRecordBody: newRecordBody_c,
-  //   setRecordDate: setRecordDate_c,
-  //   setRecordBody: setRecordBody_c,
-  // } = useHomeNewRecord();
-
-  // const {
-  //   newRecordDate: newRecordDate_a,
-  //   newRecordArchive: newRecordArchive_a,
-  //   newRecordBody: newRecordBody_a,
-  //   setRecordDate: setRecordDate_a,
-  //   setRecordBody: setRecordBody_a,
-  // } = useArchiveNewRecord();
-
-  // const records = {
-  //   home: {
-  //     newRecordDate: newRecordDate_c,
-  //     newRecordArchive: newRecordArchive_c,
-  //     newRecordBody: newRecordBody_c,
-  //     setRecordDate: setRecordDate_c,
-  //     setRecordBody: setRecordBody_c,
-  //   },
-  //   archive: {
-  //     newRecordDate: newRecordDate_a,
-  //     newRecordArchive: newRecordArchive_a,
-  //     newRecordBody: newRecordBody_a,
-  //     setRecordDate: setRecordDate_a,
-  //     setRecordBody: setRecordBody_a,
-  //   },
-  // };
-  // const {
-  //   newRecordDate,
-  //   newRecordArchive,
-  //   newRecordBody,
-  //   setRecordDate,
-  //   setRecordBody,
-  // } = records[type];
+  } = useNewRecord();
 
   const [isDatePickerVisible, setDatePickerVisibility] =
     useState<boolean>(false);

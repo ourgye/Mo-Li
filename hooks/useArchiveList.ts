@@ -1,7 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import {
-  createArchiveListThunk,
+  archiveListThunk,
   archiveListAction,
   archiveListSelector,
 } from "@/slices/archiveListSlice";
@@ -15,27 +14,31 @@ export function useArchiveList() {
   const refreshing = useAppSelector(archiveListSelector.refreshingSelector);
 
   useEffect(() => {
-    dispatch(createArchiveListThunk.fetchArchiveList());
+    dispatch(archiveListThunk.fetchArchiveList());
   }, [dispatch]);
 
   const refreshArchiveList = () => {
-    dispatch(createArchiveListThunk.fetchArchiveList());
+    dispatch(archiveListThunk.fetchArchiveList());
   };
 
   const handleCreateNewArchive = async (archiveName: string) => {
-    await dispatch(createArchiveListThunk.createNewArchive(archiveName));
+    await dispatch(archiveListThunk.createNewArchive(archiveName));
   };
 
   const handleChangeArchiveListOrder = async (
     newArchiveList: ArchiveType[],
   ) => {
     const newOrder = newArchiveList.map((archive) => archive._id);
-    await dispatch(createArchiveListThunk.changeArchiveListOrder(newOrder));
+    await dispatch(archiveListThunk.changeArchiveListOrder(newOrder));
   };
 
   const handleChangeArchiveName = async (archive: ArchiveType) => {
-    await dispatch(createArchiveListThunk.modifyArchiveName(archive));
-    await dispatch(createArchiveListThunk.fetchArchiveList());
+    await dispatch(archiveListThunk.modifyArchiveName(archive));
+    await dispatch(archiveListThunk.fetchArchiveList());
+  };
+
+  const handleDeleteArchive = async (archive: ArchiveType) => {
+    await dispatch(archiveListThunk.deleteArchiveTh(archive));
   };
 
   const setRefreshState = (state: boolean) => {
@@ -49,6 +52,7 @@ export function useArchiveList() {
     refreshArchiveList,
     handleChangeArchiveListOrder,
     handleChangeArchiveName,
+    handleDeleteArchive,
     createNewArchive: handleCreateNewArchive,
   };
 }

@@ -4,10 +4,10 @@ import { router } from "expo-router";
 import { useState } from "react";
 
 import styles from "../common/style/HeaderWithTitle";
-import { useRecordByArchive } from "@/hooks/useRecordByArchive";
+import { useRecord } from "@/hooks/useRecord";
 
 export function RecordDetailHeader() {
-  const { currentArchive } = useRecordByArchive();
+  const { currentArchive } = useRecord();
 
   return (
     <View style={styles.headerContainer}>

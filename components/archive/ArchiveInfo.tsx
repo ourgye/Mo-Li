@@ -3,16 +3,16 @@ import { ArchiveItem } from "./ArchiveItem";
 
 import styles from "./style/ArchiveInfo";
 import { useArchiveList } from "@/hooks/useArchiveList";
-import { useRecordByArchive } from "@/hooks/useRecordByArchive";
+import { useRecord } from "@/hooks/useRecord";
 import { useEffect, useState } from "react";
 import SvgIcon from "../common/SvgIcon";
-import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
+import { useNewRecord } from "@/hooks/useNewRecord";
 
 export function ArchiveInfo() {
   const { archiveList, refreshing, refreshArchiveList } = useArchiveList();
   const { currentArchive, setCurrentArchive, handleChangeArchive } =
-    useRecordByArchive();
-  const { recordIsThereNew } = useHomeNewRecord();
+    useRecord();
+  const { recordIsThereNew } = useNewRecord();
   const [showArchives, setShowArchives] = useState<boolean>(false);
 
   const handleOnPressTitle = () => {
@@ -50,6 +50,13 @@ export function ArchiveInfo() {
       }
     }
   }, [recordIsThereNew, currentArchive]);
+
+  if (!currentArchive)
+    return (
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>아카이브가 없습니다. </Text>
+      </View>
+    );
 
   return (
     <>

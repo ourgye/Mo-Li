@@ -7,16 +7,16 @@ export const saveImage2File = async (
 ) => {
   if (!image) {
     console.log("No image");
-    return "";
+    throw new Error("No image");
   }
 
   if (!image.assets) {
     console.log("No image assets");
-    return "";
+    throw new Error("No image");
   }
   if (FileSystem.documentDirectory === null) {
     console.log("No document directory");
-    return "";
+    throw new Error("No document directory");
   }
   const fileName = image.assets[0].uri.split("/").pop();
   const newPath = FileSystem.documentDirectory + id + fileName;

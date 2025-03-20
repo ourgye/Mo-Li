@@ -1,12 +1,12 @@
 import { Image, Pressable } from "react-native";
-import { useHomeNewRecord } from "@/hooks/useHomeNewRecord";
+import { useNewRecord } from "@/hooks/useNewRecord";
 import * as ImagePicker from "expo-image-picker";
 import { memo, useCallback } from "react";
 
 import styles from "./style/RecordForm";
 
 export default function RecordFormImage() {
-  const { newRecordImage, setRecordImage, setImageRatio } = useHomeNewRecord();
+  const { newRecordImage, setRecordImage, setImageRatio } = useNewRecord();
 
   const handleImagePicker = useCallback(async () => {
     try {

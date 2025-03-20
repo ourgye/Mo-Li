@@ -4,6 +4,7 @@ import {
   createArchive,
   changeArchiveOrder,
   modifyArchive,
+  deleteArchive,
 } from "@/db/archive-method";
 import { ArchiveType } from "@/constants/types.interface";
 import { nanoid } from "nanoid";
@@ -44,6 +45,14 @@ export const modifyArchiveName = createAsyncThunk(
   },
 );
 
+export const deleteArchiveTh = createAsyncThunk(
+  "archive/delete",
+  async (archive: ArchiveType) => {
+    await deleteArchive(archive._id);
+    return archive._id;
+  },
+);
+
 interface ArchiveListState {
   archiveList: ArchiveType[];
   refreshing: boolean;
@@ -75,6 +84,11 @@ const archiveListSlice = createSlice({
         (a, b) => action.payload.indexOf(a._id) - action.payload.indexOf(b._id),
       );
     });
+    builder.addCase(deleteArchiveTh.fulfilled, (state, action) => {
+      state.archiveList = state.archiveList.filter(
+        (archive) => action.payload !== archive._id,
+      );
+    });
     builder.addCase(modifyArchiveName.fulfilled, (state, action) => {});
   },
   selectors: {
@@ -83,11 +97,12 @@ const archiveListSlice = createSlice({
   },
 });
 
-export const createArchiveListThunk = {
+export const archiveListThunk = {
   fetchArchiveList,
   createNewArchive,
   changeArchiveListOrder,
   modifyArchiveName,
+  deleteArchiveTh,
 };
 export const archiveListSelector = archiveListSlice.selectors;
 export const archiveListAction = archiveListSlice.actions;

@@ -2,8 +2,7 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import calendarReducer from "@/slices/home/calendarSlice";
 import archiveListReducer from "@/slices/archiveListSlice";
-import homeNewRecordReducer from "@/slices/home/homeNewRecordSlice";
-import archiveNewRecordReducer from "@/slices/archive/archiveNewRecordSlice";
+import homeNewRecordReducer from "@/slices/home/newRecordSlice";
 import recordByArchiveReducer from "@/slices/archive/recordByArchiveSlice";
 import devtoolsEnhancer from "redux-devtools-expo-dev-plugin";
 
@@ -11,8 +10,7 @@ export const store = configureStore({
   reducer: {
     calendar: calendarReducer,
     archives: archiveListReducer,
-    "home-new-record": homeNewRecordReducer,
-    "archive-new-record": archiveNewRecordReducer,
+    "new-record": homeNewRecordReducer,
     "record-by-archive": recordByArchiveReducer,
   },
   devTools: false,
