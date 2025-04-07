@@ -29,7 +29,7 @@ export function ArchiveInfo() {
   }
 
   useEffect(() => {
-    console.log("refreshing", refreshing);
+    // console.log("refreshing", refreshing);
     if (refreshing) {
       refreshArchiveList();
     }
