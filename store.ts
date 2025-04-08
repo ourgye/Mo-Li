@@ -16,10 +16,10 @@ export const store = configureStore({
   devTools: false,
   enhancers: (getDefaultEnhancers) =>
     getDefaultEnhancers().concat(devtoolsEnhancer()),
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: false,
+  //   }),
 });
 
 // Infer the type of `store`

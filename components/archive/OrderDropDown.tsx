@@ -21,7 +21,7 @@ export function OrderCustomDropDown({ current, setOrder }: OrderDropDownProps) {
         style={styles.dropdown}
         containerStyle={styles.dropdownContainer}
         placeholderStyle={typos.body2_typo}
-        // selectedTextStyle={typos.body2_typo} // 여기 폰트 적용 안됨
+        selectedTextStyle={typos.body2_typo}
         // itemTextStyle={typos.body2_typo}
         renderRightIcon={() => <SvgIcon name="Down_small_icon" size={10} />}
         renderItem={({ _id, order }) => {

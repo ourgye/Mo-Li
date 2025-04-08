@@ -87,7 +87,7 @@ const deleteRecord = async (
         res ? JSON.parse(res) : null,
       );
       if (archive) {
-        archive.count += 1;
+        archive.count -= 1;
         await AsyncStorage.setItem(archiveId, JSON.stringify(archive));
       } else {
         throw Error("archive not found");
@@ -102,6 +102,23 @@ const deleteRecord = async (
       await AsyncStorage.removeItem(recordId);
     } catch (e) {
       console.error("[ERROR] error from deleting record", e);
+    }
+  });
+};
+
+// 아이디로 레코드 가져오기
+const getRecordbyId = async (id: string) => {
+  return await recordMutex.runExclusive(async () => {
+    if (!process.env.EXPO_PUBLIC_DB_RECORD_COLLECTION)
+      throw new Error(
+        "process.env.EXPO_PUBLIC_DB_RECORD_COLLECTION is not defined",
+      );
+
+    const record = await AsyncStorage.getItem(id);
+    if (record) {
+      return JSON.parse(record) as RecordType;
+    } else {
+      throw new Error("Record not found");
     }
   });
 };
@@ -252,6 +269,14 @@ const deleteAllRecordsByArchive = async (archiveId: string) => {
 
       // remove all records
       records.forEach(async (recordId: string) => {
+        // delete image
+        const record = await AsyncStorage.getItem(recordId).then((res) =>
+          res ? JSON.parse(res) : null,
+        );
+        if (record && record.imagePath) {
+          await deleteImage(record.imagePath);
+        }
+        // delete record
         await AsyncStorage.removeItem(recordId);
       });
 

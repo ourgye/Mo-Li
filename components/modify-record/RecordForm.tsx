@@ -13,18 +13,17 @@ import { useRecord } from "@/hooks/useRecord";
 
 export function RecordForm() {
   const {
-    newRecordDate,
-    newRecordArchive,
-    newRecordBody,
-    setRecordDate,
-    setRecordBody,
-  } = useNewRecord();
+    modifyRecord,
+    currentArchive,
+    setModifyRecordBody,
+    setModifyRecordDate,
+  } = useRecord();
 
   const [isDatePickerVisible, setDatePickerVisibility] =
     useState<boolean>(false);
 
   const handleRecordBodyChange = (text: string) => {
-    setRecordBody(text);
+    setModifyRecordBody(text);
   };
 
   const showDatePicker = () => {
@@ -36,7 +35,7 @@ export function RecordForm() {
   };
 
   const handleConfirm = (date: Date) => {
-    setRecordDate(dayjs(date).format("YYYY-MM-DDTHH:mm:ss"));
+    setModifyRecordDate(dayjs(date).format("YYYY-MM-DDTHH:mm:ss"));
     hideDatePicker();
   };
 
@@ -57,24 +56,23 @@ export function RecordForm() {
       {/*============================== 아카이브  ==============================*/}
       <View style={styles.bottomLine}>
         <Text style={typos.subtitle1_typo}>아카이브</Text>
-        <Pressable
+        <View
           style={styles.inputContainer}
-          onPress={() => {
-            router.navigate("/select-archive");
-          }}
+          // onPress={() => {
+          //   router.navigate("/select-archive");
+          // }}
         >
           {/* value from state management */}
-          <Text style={typos.body1_typo}>
-            {newRecordArchive.name ? newRecordArchive.name : "아카이브 선택"}
-          </Text>
-          <SvgIcon name="Select_yellow_icon" size={20} />
-        </Pressable>
+          <Text style={typos.body1_typo}>{currentArchive?.name}</Text>
+        </View>
       </View>
       {/* ============================== 날짜 ============================== */}
       <View style={styles.bottomLine}>
         <Text style={typos.subtitle1_typo}>날짜</Text>
         <Pressable style={styles.inputContainer} onPress={showDatePicker}>
-          <Text style={typos.body1_typo}>{newRecordDate.split("T")[0]}</Text>
+          <Text style={typos.body1_typo}>
+            {modifyRecord?.date.split("T")[0]}
+          </Text>
           <SvgIcon name="Select_yellow_icon" size={20} />
         </Pressable>
       </View>
@@ -93,7 +91,7 @@ export function RecordForm() {
             autoComplete="off"
             autoCorrect={false}
             autoCapitalize="none"
-            value={newRecordBody}
+            value={modifyRecord?.body}
             onChangeText={handleRecordBodyChange}
           />
         </View>

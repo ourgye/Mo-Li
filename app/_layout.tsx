@@ -53,6 +53,10 @@ export default function RootLayout() {
               name="select-archive"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="modify-record"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </SafeAreaProvider>
       </GestureHandlerRootView>

@@ -82,7 +82,7 @@ export default function ArchiveDraggableList() {
           <Text style={typos.body1_typo}>{item.name}</Text>
         </View>
         <MenuView
-          title="Options"
+          title="옵션"
           onPressAction={handleOnPressOptions}
           actions={[
             {

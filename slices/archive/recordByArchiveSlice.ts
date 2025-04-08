@@ -3,20 +3,20 @@ import {
   getRecordByArchive,
   deleteAllRecordsByArchive,
   deleteRecord,
+  modifyRecord,
 } from "@/db/record-method";
-import {
-  createAsyncThunk,
-  createSelector,
-  createSlice,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
+import { ImagePickerResult } from "expo-image-picker";
 
 interface ArchiveState {
   currentArchive: ArchiveType | undefined;
   currentOrder: "최신순" | "오래된 순";
   recordList: RecordType[];
   selectedRecord: RecordType | undefined;
+  modifyRecord: RecordType | undefined;
+  modifyRecordImage: ImagePickerResult | undefined;
+  modifyRecordImageRatio: number | undefined;
 }
 
 const intialState: ArchiveState = {
@@ -24,6 +24,9 @@ const intialState: ArchiveState = {
   recordList: [],
   currentOrder: "최신순",
   selectedRecord: undefined,
+  modifyRecord: undefined,
+  modifyRecordImage: undefined,
+  modifyRecordImageRatio: undefined,
 };
 
 const getRecordByArchiveID = createAsyncThunk(
@@ -38,6 +41,31 @@ const deleteRecordsByArchiveID = createAsyncThunk(
   async (archiveId: string) => {
     await deleteAllRecordsByArchive(archiveId);
     return archiveId;
+  },
+);
+
+const deleteRecordByID = createAsyncThunk(
+  "record-by-archive/deleteRecordByID",
+  async (record: RecordType) => {
+    await deleteRecord(record._id, record.archiveId, record.imagePath);
+    return record._id;
+  },
+);
+
+const modifyRecordByID = createAsyncThunk(
+  "record-by-archive/modifyRecordByID",
+  async (item: {
+    record: RecordType;
+    newImagePath: string | undefined;
+    newImageRatio: number | undefined;
+  }) => {
+    const newRecord: RecordType = {
+      ...item.record,
+      imagePath: item.newImagePath || item.record.imagePath,
+      imageRatio: item.newImageRatio || item.record.imageRatio,
+    };
+    await modifyRecord(newRecord);
+    return newRecord;
   },
 );
 
@@ -64,7 +92,31 @@ const recordByArchiveSlice = createSlice({
     setSelectedRecord(state, action: PayloadAction<RecordType | undefined>) {
       state.selectedRecord = action.payload;
     },
+    setModifyRecord(state, action: PayloadAction<RecordType | undefined>) {
+      state.modifyRecord = action.payload;
+    },
+    modifyRecordDate(state, action: PayloadAction<string>) {
+      if (state.modifyRecord) {
+        state.modifyRecord.date = action.payload;
+      }
+    },
+    modifyRecordBody(state, action: PayloadAction<string>) {
+      if (state.modifyRecord) {
+        state.modifyRecord.body = action.payload;
+      }
+    },
+    setModifyRecordImage(state, action: PayloadAction<ImagePickerResult>) {
+      state.modifyRecordImage = action.payload;
+    },
+    setModifyRecordImageRatio(state, action: PayloadAction<number>) {
+      state.modifyRecordImageRatio = action.payload;
+    },
+    setModifyRecordImageUndefined(state) {
+      state.modifyRecordImage = undefined;
+      state.modifyRecordImageRatio = undefined;
+    },
   },
+
   extraReducers: (builder) => {
     builder.addCase(
       getRecordByArchiveID.fulfilled,
@@ -94,18 +146,44 @@ const recordByArchiveSlice = createSlice({
         }
       },
     );
+    builder.addCase(
+      deleteRecordByID.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        state.recordList = state.recordList.filter(
+          (record) => record._id !== action.payload,
+        );
+        state.selectedRecord = undefined;
+      },
+    );
+    builder.addCase(
+      modifyRecordByID.fulfilled,
+      (state, action: PayloadAction<RecordType>) => {
+        const index = state.recordList.findIndex(
+          (record) => record._id === action.payload._id,
+        );
+        if (index !== -1) {
+          state.recordList[index] = action.payload;
+          state.selectedRecord = action.payload;
+        }
+      },
+    );
   },
   selectors: {
     selectCurrentArchive: (state) => state.currentArchive,
     selectRecordList: (state) => state.recordList,
     selectCurrentOrder: (state) => state.currentOrder,
     selectSelectedRecord: (state) => state.selectedRecord,
+    selectModifyRecord: (state) => state.modifyRecord,
+    selectModifyRecordImage: (state) => state.modifyRecordImage,
+    selectModifyRecordImageRatio: (state) => state.modifyRecordImageRatio,
   },
 });
 
 export const recordByArchiveThunk = {
   getRecordByArchiveID,
   deleteRecordsByArchiveID,
+  deleteRecordByID,
+  modifyRecordByID,
 };
 export const recordByArchiveAction = recordByArchiveSlice.actions;
 export const recordByArchiveSelector = recordByArchiveSlice.selectors;
