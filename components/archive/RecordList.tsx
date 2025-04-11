@@ -4,56 +4,49 @@ import { RecordItem } from "./RecordItem";
 import { Text, View } from "react-native";
 
 import styles from "./style/RecordList";
-import { useRecord } from "@/hooks/useRecord";
 import { OrderCustomDropDown } from "./OrderDropDown";
-import { useArchiveList } from "@/hooks/useArchiveList";
+import Record from "@/db/schema/record";
+import { useState } from "react";
+import { List } from "realm";
+import { useRealm } from "@realm/react";
+import { useRecordArchiveFiltered } from "@/hooks/useRecordArchiveFilterd";
 
-export function RecordList() {
-  const {
-    currentArchive,
-    recordList: data,
-    currentOrder,
-    setCurrentOrder,
-    setSelectedRecord,
-    handleChangeArchive,
-  } = useRecord();
-  const { archiveList } = useArchiveList();
+export function RecordList({ archiveId }: { archiveId: Realm.BSON.UUID }) {
+  const realm = useRealm();
+  const [currentOrder, setCurrentOrder] = useState<"desc" | "asc">("desc");
+  const records = useRecordArchiveFiltered(realm, archiveId, currentOrder);
+
+  console.log("currentOrder", currentOrder);
 
   return (
-    <MasonryList
-      data={data}
-      renderItem={({ item, i }: { item: any; i: number }) => (
-        <RecordItem
-          item={item}
-          index={i}
-          setSelectedRecord={setSelectedRecord}
-        />
-      )}
-      contentContainerStyle={styles.container}
-      numColumns={3}
-      showsVerticalScrollIndicator={false}
-      refreshControl={false}
-      ListHeaderComponent={
-        !currentArchive ||
-        archiveList.find((item) => item._id === currentArchive?._id)?.count ===
-          0 ? (
-          <Text>데이터가 없습니다.</Text>
-        ) : (
-          <View style={styles.bodyHeader}>
-            <Text>
-              {
-                archiveList.find((item) => item._id === currentArchive?._id)
-                  ?.count
-              }
-              개 레코드
-            </Text>
-            <OrderCustomDropDown
-              current={currentOrder}
-              setOrder={setCurrentOrder}
-            />
-          </View>
-        )
-      }
-    />
+    records && (
+      <MasonryList
+        data={records as Array<Record>}
+        renderItem={({ item, i }: { item: Record; i: number }) => (
+          <RecordItem
+            item={item}
+            index={i}
+            // setSelectedRecord={setSelectedRecord}
+          />
+        )}
+        contentContainerStyle={styles.container}
+        numColumns={3}
+        showsVerticalScrollIndicator={false}
+        refreshControl={false}
+        ListHeaderComponent={
+          !records || records.length === 0 ? (
+            <Text>데이터가 없습니다.</Text>
+          ) : (
+            <View style={styles.bodyHeader}>
+              <Text>{records.length}개 레코드</Text>
+              <OrderCustomDropDown
+                current={currentOrder}
+                setOrder={setCurrentOrder}
+              />
+            </View>
+          )
+        }
+      />
+    )
   );
 }

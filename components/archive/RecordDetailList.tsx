@@ -4,23 +4,9 @@ import { RecordDetailItem } from "./RecordDetailItem";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
 import styles from "./style/RecordDetailList";
-import { useRecord } from "@/hooks/useRecord";
 import { Text } from "react-native";
-import { OrderCustomDropDown } from "./OrderDropDown";
-import { RecordType } from "@/constants/types.interface";
+import Record from "@/db/schema/record";
 
-export function RecordDetailList() {
-  const {
-    currentArchive,
-    recordList: data,
-    currentOrder,
-    setCurrentOrder,
-    selectedRecord,
-  } = useRecord();
-
-  return selectedRecord ? (
-    <RecordDetailItem item={selectedRecord} />
-  ) : (
-    <Text>선택된 레코드가 없습니다.</Text>
-  );
+export function RecordDetail() {
+  return <Text>선택된 레코드가 없습니다.</Text>;
 }

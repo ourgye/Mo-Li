@@ -1,15 +1,49 @@
 import { FlatList, View, Pressable, Text } from "react-native";
 
 import styles from "../common/style/CommonList";
-import { ArchiveType } from "@/constants/types.interface";
-import { useArchiveList } from "@/hooks/useArchiveList";
 import { useNewRecord } from "@/hooks/useNewRecord";
 import { useEffect } from "react";
+import { useArchive } from "@/hooks/useArchive";
+import { useRealm } from "@realm/react";
+import Archive from "@/db/schema/archive";
+import dayjs from "dayjs";
 
 interface ArchiveSelectListItemProps {
   selectedId: string;
-  setSelected: () => any;
-  data: ArchiveType;
+  data: Archive;
+  setSelected: () => void;
+}
+
+export function ArchiveSelectList({ modalVisible }: { modalVisible: boolean }) {
+  const realm = useRealm();
+  const archive = realm.objects(Archive);
+  const { newRecordArchive, setRecordArchive } = useNewRecord();
+
+  const handleSelectArchive = (item: Archive) => {
+    setRecordArchive(item);
+  };
+
+  return (
+    <FlatList
+      data={archive}
+      renderItem={({ item }) => (
+        <ArchiveSelectListItem
+          key={`${item._id}`}
+          data={item}
+          selectedId={newRecordArchive?._id.toString() ?? ""}
+          setSelected={() => handleSelectArchive(item)}
+        />
+      )}
+      scrollEnabled={true}
+      keyExtractor={(item) => item._id.toString()}
+      showsVerticalScrollIndicator={false}
+      ItemSeparatorComponent={() => (
+        <View style={{ height: 0.7, backgroundColor: "#CBCBCB" }} />
+      )}
+      contentContainerStyle={styles.container}
+      style={{ flex: 1 }}
+    />
+  );
 }
 
 const ArchiveSelectListItem = ({
@@ -31,48 +65,17 @@ const ArchiveSelectListItem = ({
         <Text
           style={[
             styles.title,
-            selectedId === data._id && { color: "#00CFF9" },
+            selectedId === data._id.toString() && { color: "#00CFF9" },
           ]}
         >
           {data.name}
         </Text>
         <Text>
-          {data.count != 0
-            ? data.count + "개 | " + data.lastDate
+          {data.count
+            ? data.count + "개 | " + dayjs(data.lastDate).format("YYYY-MM-DD")
             : "컨텐츠가 없습니다"}
         </Text>
       </View>
     </Pressable>
   );
 };
-
-export function ArchiveSelectList({ modalVisible }: { modalVisible: boolean }) {
-  const { archiveList, refreshing, refreshArchiveList } = useArchiveList();
-  const { newRecordArchive, setRecordArchive } = useNewRecord();
-
-  const handleSelectArchive = (archive: ArchiveType) => {
-    setRecordArchive({ id: archive._id, name: archive.name });
-  };
-
-  return (
-    <FlatList
-      data={archiveList}
-      renderItem={({ item }) => (
-        <ArchiveSelectListItem
-          key={`${item._id}`}
-          data={item}
-          selectedId={newRecordArchive.id || ""}
-          setSelected={() => handleSelectArchive(item)}
-        />
-      )}
-      scrollEnabled={true}
-      keyExtractor={(item) => item._id}
-      showsVerticalScrollIndicator={false}
-      ItemSeparatorComponent={() => (
-        <View style={{ height: 0.7, backgroundColor: "#CBCBCB" }} />
-      )}
-      contentContainerStyle={styles.container}
-      style={{ flex: 1 }}
-    />
-  );
-}

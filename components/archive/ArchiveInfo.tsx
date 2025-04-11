@@ -2,54 +2,33 @@ import { FlatList, View, StyleSheet, Pressable, Text } from "react-native";
 import { ArchiveItem } from "./ArchiveItem";
 
 import styles from "./style/ArchiveInfo";
-import { useArchiveList } from "@/hooks/useArchiveList";
-import { useRecord } from "@/hooks/useRecord";
 import { useEffect, useState } from "react";
 import SvgIcon from "../common/SvgIcon";
-import { useNewRecord } from "@/hooks/useNewRecord";
+import { useArchive } from "@/hooks/useArchive";
+import { useRealm } from "@realm/react";
+import Archive from "@/db/schema/archive";
+import Realm from "realm";
 
-export function ArchiveInfo() {
-  const { archiveList, refreshing, refreshArchiveList } = useArchiveList();
-  const { currentArchive, setCurrentArchive, handleChangeArchive } =
-    useRecord();
-  const { recordIsThereNew } = useNewRecord();
+interface ArchiveInfoProps {
+  currentArchive: Archive | undefined;
+  setCurrentArchive: (archive: Archive) => void;
+  archive: Realm.Results<Archive> | undefined;
+}
+
+export function ArchiveInfo({
+  currentArchive,
+  setCurrentArchive,
+  archive,
+}: ArchiveInfoProps) {
   const [showArchives, setShowArchives] = useState<boolean>(false);
 
   const handleOnPressTitle = () => {
     setShowArchives(!showArchives);
   };
-  const handleOnPressArchiveItem = (archiveId: string) => {
-    handleChangeArchive(archiveId);
+  const handleOnPressArchiveItem = (archive: Archive) => {
+    setCurrentArchive(archive);
     setShowArchives(false);
   };
-  // 초기 로딩 시 currentArchive가 없을 경우 첫번째 아카이브를 선택
-  if (!currentArchive && archiveList.length > 0) {
-    setCurrentArchive(archiveList[0]);
-    handleChangeArchive(archiveList[0]._id);
-  }
-
-  useEffect(() => {
-    // console.log("refreshing", refreshing);
-    if (refreshing) {
-      refreshArchiveList();
-    }
-  }, [refreshing]);
-
-  useEffect(() => {
-    if (recordIsThereNew && currentArchive) {
-      if (currentArchive) {
-        const refreshedArchive = archiveList.find(
-          (archive) => archive._id === currentArchive._id,
-        );
-
-        if (refreshedArchive) {
-          setCurrentArchive(refreshedArchive);
-          console.log("refreshedArchive", refreshedArchive);
-          handleChangeArchive(refreshedArchive._id);
-        }
-      }
-    }
-  }, [recordIsThereNew, currentArchive]);
 
   if (!currentArchive)
     return (
@@ -67,15 +46,16 @@ export function ArchiveInfo() {
       {showArchives && (
         <FlatList
           style={styles.container}
-          data={archiveList}
+          data={archive}
           renderItem={({ item, index }) => (
             <ArchiveItem
-              key={item._id}
-              isSelected={currentArchive?._id === item._id}
+              key={item._id.toString()}
+              isSelected={
+                currentArchive?._id.toString() === item._id.toString()
+              }
               data={item}
               onPressArchiveItem={() => {
-                setCurrentArchive(item);
-                handleOnPressArchiveItem(item._id);
+                handleOnPressArchiveItem(item);
               }}
             />
           )}

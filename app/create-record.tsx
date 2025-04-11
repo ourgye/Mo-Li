@@ -1,21 +1,14 @@
 import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RecordForm } from "@/components/create-record/RecordForm";
-import CreateRecordHeader from "@/components/create-record/CreateRecordHeader";
-import RecordFormImage from "@/components/create-record/RecordFormImage";
+import { useNewRecord } from "@/hooks/useNewRecord";
+import { useEffect } from "react";
 
 export default function CreateRecord() {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-16}>
-        <CreateRecordHeader />
-        <ScrollView
-          contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 72 }}
-          showsVerticalScrollIndicator={false}
-        >
-          <RecordFormImage />
-          <RecordForm />
-        </ScrollView>
+        <RecordForm />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

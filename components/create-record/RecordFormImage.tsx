@@ -12,7 +12,6 @@ export default function RecordFormImage() {
     try {
       const image = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        // allowsEditing: true,
       });
       if (image.canceled) throw new Error("Image picker canceled");
       setRecordImage(image);

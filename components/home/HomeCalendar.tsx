@@ -8,55 +8,33 @@ import SvgIcon from "../common/SvgIcon";
 import styles from "./styles/HomeCalendar";
 import colors from "@/assets/colors/colors";
 import { useCalendar } from "@/hooks/useCalendar";
-
-const daysKo = {
-  monthNames: [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월",
-  ],
-  dayNames: [
-    "일요일",
-    "월요일",
-    "화요일",
-    "수요일",
-    "목요일",
-    "금요일",
-    "토요일",
-  ],
-  dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
-};
+import dayjs from "dayjs";
+import daysKo from "@/constants/dayko";
+import { useArchive } from "@/hooks/useArchive";
+import { useRealm } from "@realm/react";
 
 export function HomeCalendar() {
-  const { selectedDate, currentRecords, handleChangeSelectedDate } =
-    useCalendar();
+  const realm = useRealm();
+  const archives = useArchive(realm);
+  const { selectedDate, handleChangeSelectedDate } = useCalendar();
   const customHeaderProps: any = useRef();
   const [currentMonth, setCurrentMonth] = useState<number>(
-    new Date(selectedDate).getMonth(),
+    dayjs(selectedDate, "YYYY-MM-DD").get("month") + 1,
   );
 
   const recordStyle = { color: "grey", selectedDotColor: "white" };
   const dotsDates: { [key: string]: any } = {};
 
-  currentRecords.forEach((record: { date: string }) => {
-    const date: string = record.date;
-    if (dotsDates[date] === undefined) {
-      dotsDates[date] = {};
-    }
-    if (dotsDates[date].dots === undefined) {
-      dotsDates[date].dots = [];
-    }
-    dotsDates[date].dots.push(recordStyle);
-  });
+  // currentRecords.forEach((record: { date: string }) => {
+  //   const date: string = record.date;
+  //   if (dotsDates[date] === undefined) {
+  //     dotsDates[date] = {};
+  //   }
+  //   if (dotsDates[date].dots === undefined) {
+  //     dotsDates[date].dots = [];
+  //   }
+  //   dotsDates[date].dots.push(recordStyle);
+  // });
 
   const markedDates: any = {
     ...dotsDates,

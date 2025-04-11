@@ -41,14 +41,13 @@ export function OrderCustomDropDown({ current, setOrder }: OrderDropDownProps) {
         data={data}
         maxHeight={300}
         labelField="order"
-        valueField="_id"
+        valueField="value"
         placeholder={current}
         value={current}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
-          console.log(item);
-          setOrder(item.order);
+          setOrder(item.value);
         }}
       />
     </View>

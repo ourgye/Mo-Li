@@ -4,46 +4,43 @@ import DraggableFlatList, {
 import { Alert, Pressable, Text, TouchableOpacity, View } from "react-native";
 
 import styles from "../common/style/CommonList";
-import { ArchiveType } from "@/constants/types.interface";
-import { useArchiveList } from "@/hooks/useArchiveList";
 import { useEffect, useState } from "react";
 import ArchiveModal from "../common/ArchiveModal";
 import { MenuView, NativeActionEvent } from "@react-native-menu/menu";
 import colors from "@/assets/colors/colors";
 import typos from "@/assets/fonts/typos";
 import SvgIcon from "../common/SvgIcon";
-import { useRecord } from "@/hooks/useRecord";
+import { useArchive } from "@/hooks/useArchive";
+import { useRealm } from "@realm/react";
+import { deleteArchive, reorderArchives } from "@/db/crud/archive-method";
+import Archive from "@/db/schema/archive";
 
 export default function ArchiveDraggableList() {
-  const {
-    archiveList,
-    setRefreshing,
-    handleChangeArchiveListOrder,
-    handleDeleteArchive,
-  } = useArchiveList();
-  const { handelDeleteRecordsByArchive } = useRecord();
+  const realm = useRealm();
+  const archive = useArchive(realm);
+  // const [data, setData] = useState<Archive[]>([]);
 
-  const [settingArchiveList, setSettingArchiveList] =
-    useState<ArchiveType[]>(archiveList);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [selectedArchive, setSelectedArchive] = useState<ArchiveType>();
+  const [selectedArchive, setSelectedArchive] = useState<Archive>();
 
-  useEffect(() => {
-    setSettingArchiveList(archiveList);
-  }, [archiveList]);
+  // useEffect(() => {
+  //   const archiveList = archive?.map((item) => {
+  //     return {
+  //       _id: item._id,
+  //       name: item.name,
+  //       lastDate: item.lastDate,
+  //       count: item.count,
+  //       records: item.records,
+  //     } as Archive;
+  //   });
+  //   setData(archiveList ?? []);
+  // }, [archive]);
 
   const ArchiveSelectListItem = ({
     item,
     drag,
     isActive,
-  }: RenderItemParams<ArchiveType>) => {
-    const deleteArchive = async (archive: ArchiveType) => {
-      await handleDeleteArchive(archive);
-      await handelDeleteRecordsByArchive(archive._id).then(() =>
-        setRefreshing(true),
-      );
-    };
-
+  }: RenderItemParams<Archive>) => {
     const handleOnPressOptions = ({ nativeEvent }: NativeActionEvent) => {
       if (nativeEvent.event === "modify") {
         setSelectedArchive(item);
@@ -62,7 +59,7 @@ export default function ArchiveDraggableList() {
             },
             {
               text: "삭제",
-              onPress: () => deleteArchive(item),
+              onPress: () => deleteArchive(realm, item._id as Realm.BSON.UUID),
               style: "destructive",
             },
           ],
@@ -105,7 +102,7 @@ export default function ArchiveDraggableList() {
     );
   };
 
-  if (settingArchiveList.length === 0) {
+  if (!archive || archive.length === 0) {
     return (
       <View
         style={{
@@ -144,21 +141,21 @@ export default function ArchiveDraggableList() {
       <ArchiveModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        archive={selectedArchive}
+        archiveId={
+          selectedArchive ? (selectedArchive._id as Realm.BSON.UUID) : undefined
+        }
         modify={true}
       />
       <DraggableFlatList
         containerStyle={[styles.container]}
-        data={settingArchiveList}
+        data={archive as unknown as Archive[]}
         renderItem={ArchiveSelectListItem}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item._id.toString()}
         ItemSeparatorComponent={() => (
           <View style={{ height: 0.4, backgroundColor: colors.gray3 }} />
         )}
         onDragEnd={({ data }) => {
-          setSettingArchiveList(data);
-          handleChangeArchiveListOrder(data);
-          setRefreshing(true);
+          reorderArchives(realm, data);
         }}
       />
     </View>

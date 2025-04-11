@@ -1,25 +1,21 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
-import calendarReducer from "@/slices/home/calendarSlice";
-import archiveListReducer from "@/slices/archiveListSlice";
-import homeNewRecordReducer from "@/slices/home/newRecordSlice";
-import recordByArchiveReducer from "@/slices/archive/recordByArchiveSlice";
+import calendarReducer from "@/slices/calendarSlice";
+import recordReducer from "@/slices/recordSlice";
 import devtoolsEnhancer from "redux-devtools-expo-dev-plugin";
 
 export const store = configureStore({
   reducer: {
     calendar: calendarReducer,
-    archives: archiveListReducer,
-    "new-record": homeNewRecordReducer,
-    "record-by-archive": recordByArchiveReducer,
+    record: recordReducer,
   },
   devTools: false,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
   enhancers: (getDefaultEnhancers) =>
-    getDefaultEnhancers().concat(devtoolsEnhancer()),
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: false,
-  //   }),
+    getDefaultEnhancers().concat(devtoolsEnhancer({ trace: true })),
 });
 
 // Infer the type of `store`

@@ -1,73 +1,55 @@
 import { useCallback, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
-import {
-  calendarAction,
-  calendarSelector,
-  calendarThunks,
-} from "@/slices/home/calendarSlice";
-import { ArchiveType } from "@/constants/types.interface";
+import { calendarAction, calendarSelector } from "@/slices/calendarSlice";
+import Realm from "realm";
+import Archive from "@/db/schema/archive";
 
-export function useCalendar() {
+const useCalendar = () => {
   const dispatch = useAppDispatch();
 
-  const [
-    selectedDate_s,
-    currentArchive_s,
-    currentRecords_s,
-    selectedDateRecords_s,
-  ] = [
-    useAppSelector(calendarSelector.selectSelectedDate),
-    useAppSelector(calendarSelector.selectCurrentArchive),
-    useAppSelector(calendarSelector.selectCurrentRecords),
-    useAppSelector(calendarSelector.selectSelectedDateRecords),
+  const [selectedDate, currentArchiveId, currentArchiveName] = [
+    useAppSelector(calendarSelector.seletedDateSelector),
+    useAppSelector(calendarSelector.currentArchiveIdSeletor),
+    useAppSelector(calendarSelector.currentArchiveNameSeletor),
   ];
-
-  const [selectedDate, currentArchive, currentRecords, selectedDateRecords] =
-    useMemo(
-      () => [
-        selectedDate_s,
-        currentArchive_s,
-        currentRecords_s,
-        selectedDateRecords_s,
-      ],
-      [
-        selectedDate_s,
-        currentArchive_s,
-        currentRecords_s,
-        selectedDateRecords_s,
-      ],
-    );
 
   const handleChangeSelectedDate = useCallback(
     (date: string) => {
       dispatch(calendarAction.setSelectedDate(date));
-      dispatch(calendarAction.setSelectedDateRecords(date));
+    },
+    [dispatch],
+  );
+
+  const handleChangeCurrentArchiveId = useCallback(
+    async (archiveId: Realm.BSON.UUID | undefined) => {
+      dispatch(calendarAction.setCurrentArchiveId(archiveId));
+    },
+    [dispatch, handleChangeSelectedDate],
+  );
+
+  const handleChangeCurrentArchiveName = useCallback(
+    (name: string | undefined) => {
+      dispatch(calendarAction.setCurrentArchiveName(name));
     },
     [dispatch],
   );
 
   const handleChangeCurrentArchive = useCallback(
-    async (archive: ArchiveType | undefined, date: string) => {
-      // console.log("handleChangeCurrentArchive", archive, date);
-
+    (archive: Archive | undefined) => {
       dispatch(calendarAction.setCurrentArchive(archive));
-      await dispatch(calendarThunks.fetchCurrentArchiveRecords(archive));
-      handleChangeSelectedDate(date);
     },
-    [dispatch, handleChangeSelectedDate],
+    [handleChangeCurrentArchiveId, handleChangeCurrentArchiveName],
   );
-
-  const handleIndexRefresh = useCallback(() => {
-    dispatch(calendarAction.setToInitialState());
-  }, [dispatch]);
 
   return {
     selectedDate,
-    currentArchive,
-    currentRecords,
-    selectedDateRecords,
+    currentArchiveId,
+    currentArchiveName,
     handleChangeSelectedDate,
+    handleChangeCurrentArchiveId,
+    handleChangeCurrentArchiveName,
     handleChangeCurrentArchive,
-    handleIndexRefresh,
   };
-}
+};
+
+export { useCalendar };

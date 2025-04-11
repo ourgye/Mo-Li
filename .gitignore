@@ -30,3 +30,6 @@ expo-env.d.ts
 
 # window
 %ProgramData%
+
+# dummy data files
+assets/images/dummy-images/*

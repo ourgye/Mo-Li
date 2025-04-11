@@ -1,42 +1,42 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import styles from "./styles/ArchiveDropDown";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
-import { ArchiveType } from "@/constants/types.interface";
 import { useCalendar } from "@/hooks/useCalendar";
-import { useArchiveList } from "@/hooks/useArchiveList";
+import { useArchive } from "@/hooks/useArchive";
+import { useQuery, useRealm } from "@realm/react";
+import Archive from "@/db/schema/archive";
 
 export default function ArchiveDropDown() {
-  const allTypeArchive: ArchiveType = {
-    _id: "0",
-    name: "전체",
-    lastDate: undefined,
-    count: 0,
-  };
-
-  const { selectedDate, currentArchive, handleChangeCurrentArchive } =
+  const { currentArchiveId, currentArchiveName, handleChangeCurrentArchive } =
     useCalendar();
-  const { archiveList, refreshArchiveList } = useArchiveList();
+  const realm = useRealm();
+  const archives = useArchive(realm);
+  const allArchive = Archive.generateDummyAll() as Archive;
 
-  const dropdownData = useMemo(
-    () => [allTypeArchive, ...archiveList],
-    [archiveList]
+  const [currentArchive, setCurrentArchive] = useState<string>(
+    currentArchiveName ?? "전체",
   );
+  const data = [allArchive, ...(archives || [])];
 
   return (
     <View style={styles.container}>
       <Dropdown
+        key={currentArchiveId?.toString() || "dropdown"}
         style={styles.dropdown}
         containerStyle={styles.dropdownContainer}
         selectedTextStyle={typos.body2_typo}
+        placeholderStyle={typos.body2_typo}
         itemTextStyle={typos.body2_typo}
         renderRightIcon={() => <SvgIcon name="Down_small_icon" size={10} />}
+        data={data}
         renderItem={(item) => {
-          const isSelected = currentArchive
-            ? item._id === currentArchive?._id
-            : item._id === allTypeArchive._id;
+          const isSelected = currentArchiveId
+            ? item._id.toString() === currentArchiveId.toString()
+            : item._id.toString() === "VIEW_ALL";
+
           return (
             <View
               style={[
@@ -51,17 +51,18 @@ export default function ArchiveDropDown() {
             </View>
           );
         }}
-        data={dropdownData}
         maxHeight={300}
         labelField="name"
         valueField="_id"
-        placeholder={currentArchive ? currentArchive.name : allTypeArchive.name}
-        value={currentArchive ? currentArchive._id : allTypeArchive._id}
-        onChange={(archive) => {
-          if (archive._id === "0") {
-            handleChangeCurrentArchive(undefined, selectedDate);
+        placeholder={currentArchive}
+        value={currentArchiveId}
+        onChange={(item: Archive) => {
+          if (item._id === "VIEW_ALL") {
+            handleChangeCurrentArchive(undefined);
+            setCurrentArchive("전체");
           } else {
-            handleChangeCurrentArchive(archive, selectedDate);
+            handleChangeCurrentArchive(item as Archive);
+            setCurrentArchive(item.name);
           }
         }}
       />

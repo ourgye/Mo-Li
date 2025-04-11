@@ -6,22 +6,18 @@ import { HomeCalendar } from "@/components/home/HomeCalendar";
 import { ScrollView } from "react-native-gesture-handler";
 import { useCalendar } from "@/hooks/useCalendar";
 
-export default function HomeScreen() {
-  // const { handleIndexRefresh } = useCalendar();
+import createDummyData from "@/db/create-dummy";
+import { useRealm } from "@realm/react";
 
-  // const onScrollBeginDrag = () => {
-  //   console.log("onScrollBeginDrag");
-  //   handleIndexRefresh();
-  // };
+export default function HomeScreen() {
+  // create dummy
+  const realm = useRealm();
+  createDummyData(realm);
 
   return (
     <SafeAreaView style={styles.container} edges={["right", "top", "left"]}>
       <FloatingCreateRecordButton />
-      <ScrollView
-        style={{ flex: 1 }}
-        showsVerticalScrollIndicator={false}
-        // onScrollBeginDrag={onScrollBeginDrag}
-      >
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <HomeCalendar />
         <HomeList />
       </ScrollView>

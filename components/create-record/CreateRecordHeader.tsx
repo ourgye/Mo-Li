@@ -6,14 +6,24 @@ import { useNewRecord } from "@/hooks/useNewRecord";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
 
-export default function CreateRecordHeader() {
-  const { handleCreateNewRecordHome } = useNewRecord();
+export default function CreateRecordHeader({
+  createRecord,
+}: {
+  createRecord: () => void;
+}) {
+  const { setInitiailState } = useNewRecord();
+
   const handleOnPressBack = () => {
-    router.back();
-  };
-  const handleOnCreate = async () => {
     try {
-      await handleCreateNewRecordHome();
+      setInitiailState();
+      router.back();
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const handleOnCreate = () => {
+    try {
+      createRecord();
       router.back();
     } catch (error) {
       alert(error);

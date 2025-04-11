@@ -11,56 +11,55 @@ import {
 } from "react-native";
 
 import styles from "./style/ArchiveModal";
-import { useArchiveList } from "@/hooks/useArchiveList";
-import { ArchiveType } from "@/constants/types.interface";
 import typos from "@/assets/fonts/typos";
 import colors from "@/assets/colors/colors";
+import Archive from "@/db/schema/archive";
+import Realm from "realm";
+import { useRealm } from "@realm/react";
+import {
+  getArchiveById,
+  createNewArchive,
+  updateArchive,
+} from "@/db/crud/archive-method";
 
 export default function ArchiveModal({
   modalVisible,
   setModalVisible,
   modify = false,
-  archive,
+  archiveId,
 }: {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
   modify?: boolean;
-  archive?: ArchiveType;
+  archiveId?: Realm.BSON.UUID;
 }) {
-  const [archiveName, setArchiveName] = useState(archive?.name || "");
-  const { createNewArchive, handleChangeArchiveName } = useArchiveList();
+  const realm = useRealm();
+  const archive =
+    modify && archiveId ? getArchiveById(realm, archiveId) : undefined;
+  const [name, setName] = useState<string>(archive?.name ?? "");
+
+  // console.log("archiveId", archiveId);
 
   useEffect(() => {
-    if (archive) {
-      setArchiveName(archive.name);
+    if (modify && archive) {
+      setName(archive.name);
     }
-  }, [archive]);
+  }, [archiveId]);
 
   const handleCreateArchive = () => {
-    if (archiveName === "") {
+    if (name === "") {
       Alert.alert("아카이브 이름을 입력해주세요");
     } else {
       // 아카이브 생성
       if (!modify) {
-        try {
-          createNewArchive(archiveName);
-        } catch (e) {
-          console.log(e);
-        }
-        console.log("아카이브 생성");
+        createNewArchive(realm, name);
       } else {
-        if (archiveName === undefined || archive === undefined) return;
-        const newArchive: ArchiveType = { ...archive, name: archiveName };
-        try {
-          // 아카이브 수정
-          handleChangeArchiveName(newArchive);
-          console.log("아카이브 수정");
-        } catch (e) {
-          console.log(e);
-        }
+        if (name === "" || !archive) return;
+        // 아카이브 수정
+        updateArchive(realm, archive._id as Realm.BSON.UUID, name);
       }
+      setName("");
       setModalVisible(!modalVisible);
-      setArchiveName("");
     }
   };
 
@@ -77,10 +76,10 @@ export default function ArchiveModal({
           <TextInput
             textContentType="name"
             style={typos.body1_typo}
-            placeholder={modify ? "" : "아카이브 이름을 입력하세요"}
-            value={archiveName}
+            placeholder={modify ? name : "아카이브 이름을 입력하세요"}
+            value={name}
             onChangeText={(e) => {
-              setArchiveName(e);
+              setName(e);
             }}
           />
           <View style={styles.buttonView}>
@@ -88,7 +87,6 @@ export default function ArchiveModal({
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(!modalVisible);
-                setArchiveName("");
               }}
             >
               <Text style={typos.body1_typo}>취소</Text>

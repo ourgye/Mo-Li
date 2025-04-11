@@ -1,19 +1,18 @@
 import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { RecordForm } from "@/components/modify-record/RecordForm";
-import RecordFormImage from "@/components/modify-record/RecordFormImage";
 import ModifyRecordHeader from "@/components/modify-record/ModifyRecordHeader";
-import { useRecord } from "@/hooks/useRecord";
 import { useEffect } from "react";
+import { useRealm } from "@realm/react";
+import { useLocalSearchParams } from "expo-router";
+import { getRecordById } from "@/db/crud/record-method";
+import Realm from "realm";
 
 export default function ModifyRecord() {
-  const { setModifyRecord, setModifyRecordImageUndefined, selectedRecord } =
-    useRecord();
+  const realm = useRealm();
+  const { id } = useLocalSearchParams();
+  const record = getRecordById(realm, new Realm.BSON.UUID(id as string));
 
-  useEffect(() => {
-    setModifyRecordImageUndefined();
-    if (selectedRecord) setModifyRecord(selectedRecord);
-  }, []);
+  console.log("modify", record);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -22,10 +21,7 @@ export default function ModifyRecord() {
         <ScrollView
           contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 72 }}
           showsVerticalScrollIndicator={false}
-        >
-          <RecordFormImage />
-          <RecordForm />
-        </ScrollView>
+        ></ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

@@ -7,19 +7,16 @@ import * as FileSystem from "expo-file-system";
 import styles from "./style/RecordDetailItem";
 import { MenuView, NativeActionEvent } from "@react-native-menu/menu";
 import { router } from "expo-router";
-import { useRecord } from "@/hooks/useRecord";
-import { useNewRecord } from "@/hooks/useNewRecord";
+import Record from "@/db/schema/record";
+import dayjs from "dayjs";
 
-export function RecordDetailItem() {
-  const { selectedRecord, handleDeleteRecord } = useRecord();
-  const { setRecordIsThereNew } = useNewRecord();
+export function RecordDetailItem({ record }: { record?: Record }) {
   const dimension = useWindowDimensions();
   const _width = Math.round(dimension.width - 48 - 32);
 
-  const handleOnPressDelete = async (record: RecordType | undefined) => {
+  const handleOnPressDelete = async (record: Record) => {
     if (!record) return;
     try {
-      handleDeleteRecord(record);
     } catch (error) {
       console.error("Error deleting record:", error);
       throw error;
@@ -29,7 +26,7 @@ export function RecordDetailItem() {
 
   const handleOnPressOptions = ({ nativeEvent }: NativeActionEvent) => {
     if (nativeEvent.event === "modify") {
-      router.push({ pathname: "/modify-record" });
+      router.push(`/modify-record/${record?._id.toString()}`);
     } else if (nativeEvent.event === "delete") {
       Alert.alert("레코드 삭제", "레코드를 정말 삭제하시겠습니까?", [
         {
@@ -39,18 +36,19 @@ export function RecordDetailItem() {
         },
         {
           text: "삭제",
-          onPress: () => handleOnPressDelete(selectedRecord),
+          onPress: () => {},
           style: "destructive",
         },
       ]);
     }
   };
-  if (!selectedRecord) return null;
+
+  if (!record) return <>레코드를 불러올 수 없습니다.</>;
 
   return (
     <View style={styles.container}>
       <View style={styles.itemHeader}>
-        <Text>{selectedRecord.date.split("T")[0]}</Text>
+        <Text>{dayjs(record.date).format("YYYY-MM-DD")}</Text>
         <MenuView
           title="옵션"
           onPressAction={handleOnPressOptions}
@@ -79,13 +77,13 @@ export function RecordDetailItem() {
       <View>
         <Image
           borderRadius={16}
-          source={{ uri: selectedRecord.imagePath }}
+          source={{ uri: record.imagePath }}
           width={_width}
-          height={_width * selectedRecord.imageRatio}
+          height={_width * record.imageRatio}
         />
       </View>
       <View>
-        <Text style={styles.bodyText}>{selectedRecord.body}</Text>
+        <Text style={styles.bodyText}>{record.body}</Text>
       </View>
     </View>
   );

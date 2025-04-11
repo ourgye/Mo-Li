@@ -1,8 +1,9 @@
 import { View, Text, Pressable } from "react-native";
 
 import styles from "./style/ArchiveItem";
-import { ArchiveType } from "@/constants/types.interface";
 import typos from "@/assets/fonts/typos";
+import Archive from "@/db/schema/archive";
+import dayjs from "dayjs";
 
 export function ArchiveItem({
   isSelected,
@@ -10,7 +11,7 @@ export function ArchiveItem({
   onPressArchiveItem,
 }: {
   isSelected: boolean | undefined;
-  data: ArchiveType;
+  data: Archive;
   onPressArchiveItem: () => void;
 }) {
   return (
@@ -25,8 +26,8 @@ export function ArchiveItem({
       </View>
       <View style={styles.totalDateWrapper}>
         <Text style={typos.caption2_typo}>
-          {data.count + " 개"}
-          {data.lastDate && " | " + data.lastDate}
+          {data.count ? data.count + " 개" : "컨텐츠가 없습니다"}
+          {data.lastDate && " | " + dayjs(data.lastDate).format("YYYY-MM-DD")}
         </Text>
       </View>
     </Pressable>
