@@ -1,20 +1,20 @@
 import { recordSelector, recordAction } from "@/slices/recordSlice";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
-import { RecordType } from "@/constants/types.interface";
 import { ImagePickerResult, ImagePickerSuccessResult } from "expo-image-picker";
-import { saveImage2File } from "@/utils/saveImage2File";
 import { useCallback, useMemo } from "react";
 import Archive from "@/db/schema/archive";
+import Record from "@/db/schema/record";
 
-export function useNewRecord() {
+export function useRecordForm() {
   const dispatch = useAppDispatch();
   const [
-    newRecord,
-    newRecordDate,
-    newRecordArchive,
-    newRecordImage,
-    newRecordBody,
-    newRecordImageRatio,
+    recordWhole,
+    recordDate,
+    recordArchive,
+    recordImage,
+    recordBody,
+    recordImageRatio,
+    recordImagePath,
   ] = [
     useAppSelector(recordSelector.selectRecord),
     useAppSelector(recordSelector.selectRecordDate),
@@ -22,6 +22,7 @@ export function useNewRecord() {
     useAppSelector(recordSelector.selectRecordImage),
     useAppSelector(recordSelector.selectRecordBody),
     useAppSelector(recordSelector.selectImageRatio),
+    useAppSelector(recordSelector.selectRecordImagePath),
   ];
 
   const setRecordDate = (date: Date) => {
@@ -36,25 +37,38 @@ export function useNewRecord() {
   const setRecordArchive = (archive: Archive) => {
     dispatch(recordAction.setArchive(archive));
   };
-  const setImageRatio = useCallback((ratio: number) => {
+  const setImageRatio = useCallback((ratio: number[]) => {
     dispatch(recordAction.setImageRatio(ratio));
   }, []);
   const setInitiailState = useCallback(() => {
     dispatch(recordAction.resetRecord());
   }, []);
+  const setModifyState = useCallback((record: Record) => {
+    dispatch(
+      recordAction.setRecord({
+        date: record.date,
+        imagePath: record.imagePath,
+        imageRatio: record.imageRatio,
+        body: record.body,
+        archive: record.archive?.[0],
+      }),
+    );
+  }, []);
 
   return {
-    newRecord,
-    newRecordDate,
-    newRecordImage,
-    newRecordArchive,
-    newRecordBody,
-    newRecordImageRatio,
+    recordWhole,
+    recordDate,
+    recordArchive,
+    recordImage,
+    recordBody,
+    recordImageRatio,
+    recordImagePath,
     setRecordDate,
     setRecordImage,
     setRecordBody,
     setRecordArchive,
     setImageRatio,
     setInitiailState,
+    setModifyState,
   };
 }

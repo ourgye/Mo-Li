@@ -5,7 +5,8 @@ import { ImagePickerResult } from "expo-image-picker";
 interface RecordState {
   date: Date;
   image: ImagePickerResult | undefined;
-  imageRatio: number | undefined;
+  imagePath: string[];
+  imageRatio: number[];
   body: string;
   archive: Archive | undefined;
 }
@@ -13,7 +14,8 @@ interface RecordState {
 const initialState: RecordState = {
   date: new Date(),
   image: undefined,
-  imageRatio: undefined,
+  imagePath: [],
+  imageRatio: [],
   archive: undefined,
   body: "",
 };
@@ -31,7 +33,7 @@ export const recordSlice = createSlice({
     setRecordBody(state, action: PayloadAction<string>) {
       state.body = action.payload;
     },
-    setImageRatio(state, action: PayloadAction<number>) {
+    setImageRatio(state, action: PayloadAction<number[]>) {
       state.imageRatio = action.payload;
     },
     setArchive(state, action: PayloadAction<Archive | undefined>) {
@@ -41,10 +43,21 @@ export const recordSlice = createSlice({
       }
       state.archive = action.payload;
     },
+    setRecord(state, action: PayloadAction<Partial<RecordState>>) {
+      const { date, imageRatio, imagePath, body, archive } = action.payload;
+      if (date) state.date = date;
+      if (imageRatio) state.imageRatio = imageRatio;
+      if (imagePath) state.imagePath = imagePath;
+      if (body) state.body = body;
+      if (archive) state.archive = archive;
+
+      state.image = undefined;
+    },
     resetRecord(state) {
       state.date = new Date();
       state.image = undefined;
-      state.imageRatio = undefined;
+      state.imagePath = [];
+      state.imageRatio = [];
       state.body = "";
       state.archive = undefined;
     },
@@ -56,6 +69,7 @@ export const recordSlice = createSlice({
     selectImageRatio: (state) => state.imageRatio,
     selectArchive: (state) => state.archive,
     selectRecord: (state) => state,
+    selectRecordImagePath: (state) => state.imagePath,
   },
 });
 

@@ -21,26 +21,26 @@ const dummyArchives = [
 const dummyRecords = [
   {
     date: new Date(),
-    imagePath: "@/assets/images/dummy-images/beach.jpeg",
-    imageRatio: 1.5,
+    imagePath: ["@/assets/images/dummy-images/beach.jpeg"],
+    imageRatio: [1.5],
     body: "첫 번째 레코드",
   },
   {
     date: new Date(),
-    imagePath: "@/assets/images/dummy-images/gapo1.jpeg",
-    imageRatio: 1.5,
+    imagePath: ["@/assets/images/dummy-images/gapo1.jpeg"],
+    imageRatio: [1.5],
     body: "두 번째 레코드",
   },
   {
     date: new Date(),
-    imagePath: "@/assets/images/dummy-images/gapo2.jpeg",
-    imageRatio: 1.5,
+    imagePath: ["@/assets/images/dummy-images/gapo2.jpeg"],
+    imageRatio: [1.5],
     body: "세 번째 레코드",
   },
   {
     date: new Date(),
-    imagePath: "@/assets/images/dummy-images/joshua.jpeg",
-    imageRatio: 1.5,
+    imagePath: ["@/assets/images/dummy-images/joshua.jpeg"],
+    imageRatio: [1.5],
     body: "네 번째 레코드",
   },
 ];
@@ -48,6 +48,7 @@ const dummyRecords = [
 const createDummyData = (realm: Realm) => {
   // check if the database is empty
   console.log("Realm file path: ", Realm.defaultPath);
+  console.log("Realm schema version: ", Realm.schemaVersion);
   const archives = realm.objects("Archive");
   const records = realm.objects("Record");
 

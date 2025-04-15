@@ -27,12 +27,17 @@ export function RecordItem({
 
   return (
     <Pressable style={{ alignItems: "center" }} onPress={onPressItem}>
+      {/* first image */}
       <Image
         style={[
           styles.image,
-          { width: _width, height: _width * item.imageRatio },
+          {
+            width: _width,
+            height:
+              _width * (item.imageRatio.length > 0 ? item.imageRatio[0] : 1),
+          },
         ]}
-        source={{ uri: item.imagePath }}
+        source={{ uri: item.imagePath.length > 0 ? item.imagePath[0] : "" }}
         // source={require("@/assets/images/dummy-images/joshua.jpeg")}
       />
     </Pressable>

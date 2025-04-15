@@ -4,15 +4,15 @@ import Archive from "./archive";
 class Record extends Realm.Object<Record> {
   _id!: Realm.BSON.UUID;
   date!: Date;
-  imagePath!: string;
-  imageRatio!: number; // height / width
+  imagePath!: string[];
+  imageRatio!: number[]; // height / width
   body!: string;
   archive!: Realm.List<Archive>; // LinkingObjects<Archive>;
 
   static generate(
     date: Date,
-    imagePath: string,
-    imageRatio: number,
+    imagePath: string[],
+    imageRatio: number[],
     body: string,
   ) {
     return {
@@ -30,8 +30,8 @@ class Record extends Realm.Object<Record> {
     properties: {
       _id: "uuid",
       date: "date",
-      imagePath: "string",
-      imageRatio: "float",
+      imagePath: "string[]",
+      imageRatio: "float[]",
       body: "string",
       archive: {
         type: "linkingObjects",

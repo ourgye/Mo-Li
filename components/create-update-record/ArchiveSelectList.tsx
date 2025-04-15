@@ -1,7 +1,7 @@
 import { FlatList, View, Pressable, Text } from "react-native";
 
 import styles from "../common/style/CommonList";
-import { useNewRecord } from "@/hooks/useNewRecord";
+import { useRecordForm } from "@/hooks/useRecordForm";
 import { useEffect } from "react";
 import { useArchive } from "@/hooks/useArchive";
 import { useRealm } from "@realm/react";
@@ -17,7 +17,7 @@ interface ArchiveSelectListItemProps {
 export function ArchiveSelectList({ modalVisible }: { modalVisible: boolean }) {
   const realm = useRealm();
   const archive = realm.objects(Archive);
-  const { newRecordArchive, setRecordArchive } = useNewRecord();
+  const { recordArchive, setRecordArchive } = useRecordForm();
 
   const handleSelectArchive = (item: Archive) => {
     setRecordArchive(item);
@@ -30,7 +30,7 @@ export function ArchiveSelectList({ modalVisible }: { modalVisible: boolean }) {
         <ArchiveSelectListItem
           key={`${item._id}`}
           data={item}
-          selectedId={newRecordArchive?._id.toString() ?? ""}
+          selectedId={recordArchive?._id.toString() ?? ""}
           setSelected={() => handleSelectArchive(item)}
         />
       )}

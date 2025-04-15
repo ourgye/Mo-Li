@@ -4,16 +4,20 @@ import { RecordDetailItem } from "@/components/archive/RecordDetailItem";
 import { RecordDetailHeader } from "@/components/archive/RecordDetailHeader";
 import { ScrollView } from "react-native-gesture-handler";
 import { useLocalSearchParams } from "expo-router/build/hooks";
-import { useRealm } from "@realm/react";
+import { useQuery, useRealm } from "@realm/react";
 import { getRecordById } from "@/db/crud/record-method";
 import Realm from "realm";
+import Record from "@/db/schema/record";
 
 export default function RecordDetail() {
   // get id
   const { id } = useLocalSearchParams();
   // get record from realm
   const realm = useRealm();
-  const record = getRecordById(realm, new Realm.BSON.UUID(id as string));
+  const record = useQuery<Record>("Record").filtered(
+    "_id == $0",
+    new Realm.BSON.UUID(id as string),
+  )[0];
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>

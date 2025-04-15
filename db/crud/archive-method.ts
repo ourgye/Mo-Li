@@ -22,6 +22,7 @@ const deleteArchive = (realm: Realm, archiveId: Realm.BSON.UUID) => {
     realm.write(() => {
       const archive = realm.objectForPrimaryKey<Archive>("Archive", archiveId);
       if (archive) {
+        realm.delete(archive.records);
         realm.delete(archive);
       } else {
         throw new Error("Archive not found");
@@ -72,7 +73,7 @@ const updateArchiveCount = (realm: Realm, id: Realm.BSON.UUID) => {
 // get all archives
 const getAllArchives = (realm: Realm) => {
   try {
-    const archives = realm.objects<Archive>("Archive").sorted("order", false);
+    const archives = realm.objects<Archive>("Archive").sorted("order", true);
     return archives;
   } catch (error) {
     console.error("[ERROR] error from getting all archives", error);
@@ -94,8 +95,9 @@ const getArchiveById = (realm: Realm, archiveId: Realm.BSON.UUID) => {
 const reorderArchives = (realm: Realm, archives: Archive[]) => {
   try {
     realm.write(() => {
+      const length = archives.length;
       archives.forEach((archive: Archive, index: number) => {
-        archive.order = index;
+        archive.order = length - index - 1;
       });
     });
   } catch (error) {

@@ -12,29 +12,41 @@ import dayjs from "dayjs";
 import daysKo from "@/constants/dayko";
 import { useArchive } from "@/hooks/useArchive";
 import { useRealm } from "@realm/react";
+import { useRecordArchiveFiltered } from "@/hooks/useRecordArchiveFilterd";
+import Record from "@/db/schema/record";
 
 export function HomeCalendar() {
   const realm = useRealm();
-  const archives = useArchive(realm);
-  const { selectedDate, handleChangeSelectedDate } = useCalendar();
+  // const archives = useArchive(realm);
+  const { selectedDate, currentArchiveId, handleChangeSelectedDate } =
+    useCalendar();
+  const records = useRecordArchiveFiltered(realm, currentArchiveId);
   const customHeaderProps: any = useRef();
   const [currentMonth, setCurrentMonth] = useState<number>(
     dayjs(selectedDate, "YYYY-MM-DD").get("month") + 1,
   );
 
-  const recordStyle = { color: "grey", selectedDotColor: "white" };
+  const recordStyle = {
+    // selected: true,
+    customStyles: {
+      container: {
+        backgroundColor: "red",
+        justifyContent: "center",
+      },
+    },
+  };
+
   const dotsDates: { [key: string]: any } = {};
 
-  // currentRecords.forEach((record: { date: string }) => {
-  //   const date: string = record.date;
-  //   if (dotsDates[date] === undefined) {
-  //     dotsDates[date] = {};
-  //   }
-  //   if (dotsDates[date].dots === undefined) {
-  //     dotsDates[date].dots = [];
-  //   }
-  //   dotsDates[date].dots.push(recordStyle);
-  // });
+  records.forEach((record: Record) => {
+    const date: string = dayjs(record.date).format("YYYY-MM-DD");
+    if (dotsDates[date] === undefined) {
+      dotsDates[date] = recordStyle;
+    }
+    // if (dotsDates[date].dots === undefined) {
+    //   dotsDates[date].dots = [];
+    // }
+  });
 
   const markedDates: any = {
     ...dotsDates,

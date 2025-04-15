@@ -2,15 +2,16 @@ import { FlatList, Pressable, Text, View } from "react-native";
 import data from "@/constants/MyPage";
 
 import styles from "../common/style/CommonList";
-import { MyPageListType } from "@/constants/types.interface";
 import { Link } from "expo-router";
 import typos from "@/assets/fonts/typos";
 import colors from "@/assets/colors/colors";
+import naviList, { navigationType } from "@/constants/navigation";
 
-const SettingListItem = ({ data }: { data: MyPageListType }) => {
+const SettingListItem = ({ data }: { data: navigationType }) => {
+  if (data.name === "setting") return null;
   return (
     <Link
-      href={data.path}
+      href={data.path || "/"}
       style={[
         styles.itemContainer,
         {
@@ -21,17 +22,21 @@ const SettingListItem = ({ data }: { data: MyPageListType }) => {
         },
       ]}
     >
-      <Text style={typos.body1_typo}>{data?.name}</Text>
+      <Text style={typos.body1_typo}>{data?.nameKo}</Text>
     </Link>
   );
 };
 
 export default function SettingList() {
+  const setting: navigationType = naviList
+    .find((item) => item.name === "(tabs)")
+    ?.children?.find((item) => item.name === "(setting)") as navigationType;
+
   return (
     <FlatList
-      data={data}
+      data={setting.children}
       renderItem={({ item }) => <SettingListItem data={item} />}
-      keyExtractor={(item) => item._id.toString()}
+      keyExtractor={(item) => item._id.toString() + "setting"}
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => (
         <View style={{ height: 0.4, backgroundColor: colors.gray3 }} />

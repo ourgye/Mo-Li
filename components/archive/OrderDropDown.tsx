@@ -24,12 +24,12 @@ export function OrderCustomDropDown({ current, setOrder }: OrderDropDownProps) {
         selectedTextStyle={typos.body2_typo}
         // itemTextStyle={typos.body2_typo}
         renderRightIcon={() => <SvgIcon name="Down_small_icon" size={10} />}
-        renderItem={({ _id, order }) => {
+        renderItem={({ _id, order, value }) => {
           return (
             <View
               style={[
                 styles.itemContainer,
-                order === current && styles.selectedItemContainer,
+                value === current && styles.selectedItemContainer,
               ]}
             >
               <View style={styles.textContainer}>

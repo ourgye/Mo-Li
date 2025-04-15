@@ -18,23 +18,9 @@ import Archive from "@/db/schema/archive";
 export default function ArchiveDraggableList() {
   const realm = useRealm();
   const archive = useArchive(realm);
-  // const [data, setData] = useState<Archive[]>([]);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedArchive, setSelectedArchive] = useState<Archive>();
-
-  // useEffect(() => {
-  //   const archiveList = archive?.map((item) => {
-  //     return {
-  //       _id: item._id,
-  //       name: item.name,
-  //       lastDate: item.lastDate,
-  //       count: item.count,
-  //       records: item.records,
-  //     } as Archive;
-  //   });
-  //   setData(archiveList ?? []);
-  // }, [archive]);
 
   const ArchiveSelectListItem = ({
     item,

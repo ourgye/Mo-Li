@@ -52,13 +52,13 @@ const updateRecord = (
   realm: Realm,
   id: Realm.BSON.UUID,
   date: Date,
-  imagePath: string,
-  imageRatio: number,
+  imagePath: string[],
+  imageRatio: number[],
   body: string,
 ) => {
   try {
     realm.write(() => {
-      const record = realm.objectForPrimaryKey("Record", id);
+      const record = realm.objectForPrimaryKey<Record>("Record", id);
       if (record) {
         record.date = date;
         record.imagePath = imagePath;

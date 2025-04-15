@@ -27,7 +27,7 @@ export function HomeRecordItem({ record }: { record: Record }) {
       <View style={styles.itemBodyWrapper}>
         <DynamicImage
           fixedWidth={fixedWidth}
-          uri={record.imagePath}
+          uri={record.imagePath[0]} // thumbnail
           height={height}
           setHeight={setHeight}
         />

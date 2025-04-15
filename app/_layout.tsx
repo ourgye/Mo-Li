@@ -7,12 +7,12 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import * as SplashScreen from "expo-splash-screen";
-import { RealmProvider } from "@realm/react";
-import Realm from "realm";
+import { RealmProvider, createRealmContext } from "@realm/react";
 
 import { useEffect } from "react";
 import Archive from "@/db/schema/archive";
 import Record from "@/db/schema/record";
+import naviList from "@/constants/navigation";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,39 +35,25 @@ export default function RootLayout() {
     return null;
   }
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const realm = await Realm.open({
-  //       schema: [Archive, Record],
-  //       deleteRealmIfMigrationNeeded: true,
-  //     });
-  //     console.log("Realm opened and initialized");
-  //     realm.close();
-  //   })();
-  // }, []);
-
   return (
     <RealmProvider
       schema={[Archive, Record]}
       deleteRealmIfMigrationNeeded={true}
+      path="mo-li-db.realm"
     >
       <Provider store={store}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <SafeAreaProvider>
             <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen
-                name="create-record"
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="select-archive"
-                options={{ headerShown: false, presentation: "modal" }}
-              />
-              <Stack.Screen
-                name="modify-record/[id]"
-                options={{ headerShown: false, presentation: "modal" }}
-              />
+              {naviList.map((item) => {
+                return (
+                  <Stack.Screen
+                    key={item._id}
+                    name={item.name}
+                    options={{ headerShown: false }}
+                  />
+                );
+              })}
             </Stack>
           </SafeAreaProvider>
         </GestureHandlerRootView>

@@ -16,7 +16,8 @@ const useArchive = (realm: Realm) => {
         [number, Realm.Object<Archive, never> & Archive]
       >,
     ) => {
-      setData(newObjects as Realm.Results<Archive>);
+      const nextArchive = newObjects.sorted("order", true);
+      setData(nextArchive);
     };
     objects?.addListener(listener);
 

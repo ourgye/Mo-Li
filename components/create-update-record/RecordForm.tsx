@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import { useNewRecord } from "@/hooks/useNewRecord";
+import { useRecordForm } from "@/hooks/useRecordForm";
 import styles from "./style/RecordForm";
 import colors from "@/assets/colors/colors";
 import typos from "@/assets/fonts/typos";
@@ -22,24 +22,34 @@ import Record from "@/db/schema/record";
 import Archive from "@/db/schema/archive";
 import { saveImage2File } from "@/utils/saveImage2File";
 import { useRealm } from "@realm/react";
-import { createNewRecord } from "@/db/crud/record-method";
+import { createNewRecord, updateRecord } from "@/db/crud/record-method";
 import {
   updateArchiveCount,
   updateArchiveLastDate,
 } from "@/db/crud/archive-method";
+import ModifyRecordHeader from "./ModifyRecordHeader";
+import { deleteImageAll } from "@/utils/deleteImageAll";
 
-export function RecordForm() {
+export function RecordForm({
+  modify = false,
+  recordId,
+}: {
+  modify?: boolean;
+  recordId?: Realm.BSON.UUID;
+}) {
   const realm = useRealm();
   const {
-    newRecord,
-    newRecordDate,
-    newRecordBody,
-    newRecordImageRatio,
-    newRecordArchive,
+    recordWhole,
+    recordDate,
+    recordBody,
+    recordImage,
+    recordImageRatio,
+    recordImagePath,
+    recordArchive,
     setRecordDate,
     setRecordBody,
     setInitiailState,
-  } = useNewRecord();
+  } = useRecordForm();
   const [isDatePickerVisible, setDatePickerVisibility] =
     useState<boolean>(false);
 
@@ -53,56 +63,116 @@ export function RecordForm() {
 
   const createRecord = () => {
     // 사진 있는 지 확인
-    if (!newRecord.image) {
+    if (!recordWhole.image) {
       throw new Error("사진을 선택해주세요");
     }
     // 아카이브 있는 지 확인
-    if (!newRecordArchive) {
+    if (!recordArchive) {
       throw new Error("아카이브를 선택해주세요");
     }
     // 내용 있는 지 확인
-    if (!newRecordBody) {
+    if (!recordBody) {
       throw new Error("내용을 입력해주세요");
     }
     // 날짜 있는 지 확인
-    if (!newRecordDate) {
+    if (!recordDate) {
       throw new Error("날짜를 선택해주세요");
     }
 
     const record = Record.generate(
-      newRecordDate,
-      "",
-      newRecordImageRatio || 0,
-      newRecordBody,
+      recordDate,
+      [],
+      recordImageRatio,
+      recordBody,
     );
     const createRec = async () => {
       const imagePath = await saveImage2File(
-        newRecord.image,
+        recordWhole.image,
         record._id.toString(),
       );
 
+      console.log("[DEBUG] imagePath", imagePath);
       if (imagePath) {
         record.imagePath = imagePath;
       }
 
-      if (newRecordArchive && imagePath) {
-        createNewRecord(realm, record as Record, newRecordArchive);
-        updateArchiveCount(realm, newRecordArchive._id as Realm.BSON.UUID);
-        updateArchiveLastDate(realm, newRecordArchive._id as Realm.BSON.UUID);
+      if (recordArchive && imagePath) {
+        createNewRecord(realm, record as Record, recordArchive);
+        updateArchiveCount(realm, recordArchive._id as Realm.BSON.UUID);
+        updateArchiveLastDate(realm, recordArchive._id as Realm.BSON.UUID);
       }
     };
     createRec();
     setInitiailState();
   };
 
+  const modifyRecord = (recordId: Realm.BSON.UUID) => {
+    const record = realm.objectForPrimaryKey<Record>(Record, recordId);
+
+    // 사진 있는 지 확인
+    if (!recordWhole.image) {
+      throw new Error("사진을 선택해주세요");
+    }
+    // 아카이브 있는 지 확인
+    if (!recordArchive) {
+      throw new Error("아카이브를 선택해주세요");
+    }
+    // 내용 있는 지 확인
+    if (!recordBody) {
+      throw new Error("내용을 입력해주세요");
+    }
+    // 날짜 있는 지 확인
+    if (!recordDate) {
+      throw new Error("날짜를 선택해주세요");
+    }
+
+    let imagePath: string[] = [];
+    const updateRec = async () => {
+      if (recordImage) {
+        const deleteSuccess = await deleteImageAll(recordImagePath);
+        if (!deleteSuccess) {
+          throw new Error("사진 삭제 실패");
+        }
+        imagePath = await saveImage2File(
+          recordWhole.image,
+          recordId.toString(),
+        );
+      }
+
+      console.log("[DEBUG] imagePath", imagePath);
+      if (imagePath.length === 0) {
+        imagePath = recordImagePath;
+      }
+
+      if (recordArchive && imagePath) {
+        updateRecord(
+          realm,
+          recordId,
+          recordDate,
+          imagePath,
+          recordImageRatio,
+          recordBody,
+        );
+      }
+    };
+    updateRec();
+    setInitiailState();
+  };
+
   return (
     <>
-      <CreateRecordHeader createRecord={createRecord} />
+      {modify ? (
+        <ModifyRecordHeader
+          modifyRecord={() => (recordId ? modifyRecord(recordId) : null)}
+        />
+      ) : (
+        <CreateRecordHeader createRecord={createRecord} />
+      )}
       <ScrollView
         contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 72 }}
         showsVerticalScrollIndicator={false}
       >
-        <RecordFormImage />
+        <RecordFormImage modify />
         <View style={styles.container}>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
@@ -130,7 +200,7 @@ export function RecordForm() {
             >
               {/* value from state management */}
               <Text style={typos.body1_typo}>
-                {(newRecordArchive && newRecordArchive.name) ?? "아카이브 선택"}
+                {(recordArchive && recordArchive.name) ?? "아카이브 선택"}
               </Text>
               <SvgIcon name="Select_yellow_icon" size={20} />
             </Pressable>
@@ -140,7 +210,7 @@ export function RecordForm() {
             <Text style={typos.subtitle1_typo}>날짜</Text>
             <Pressable style={styles.inputContainer} onPress={showDatePicker}>
               <Text style={typos.body1_typo}>
-                {dayjs(newRecordDate).format("YYYY-MM-DD")}
+                {dayjs(recordDate).format("YYYY-MM-DD")}
               </Text>
               <SvgIcon name="Select_yellow_icon" size={20} />
             </Pressable>
@@ -160,7 +230,7 @@ export function RecordForm() {
                 autoComplete="off"
                 autoCorrect={false}
                 autoCapitalize="none"
-                value={newRecordBody}
+                value={recordBody}
                 onChangeText={setRecordBody}
               />
             </View>

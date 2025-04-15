@@ -12,9 +12,12 @@ export default function ArchivePage() {
   const realm = useRealm();
   const archive = useArchive(realm);
   const [currentArchive, setCurrentArchive] = useState<Archive | undefined>();
+  const archiveExists = currentArchive?.isValid?.() ?? false;
 
   useEffect(() => {
-    setCurrentArchive(currentArchive ?? archive?.[0]);
+    if (!currentArchive || !currentArchive.isValid()) {
+      setCurrentArchive(archive?.[0]);
+    }
   }, [archive]);
 
   return (
@@ -23,11 +26,13 @@ export default function ArchivePage() {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ArchiveInfo
           archive={archive}
-          currentArchive={currentArchive}
+          currentArchive={archiveExists ? currentArchive : undefined}
           setCurrentArchive={setCurrentArchive}
         />
         <View style={styles.body}>
-          <RecordList archiveId={currentArchive?._id} />
+          <RecordList
+            archiveId={archiveExists ? currentArchive?._id : undefined}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -2,7 +2,7 @@ import { View, Pressable, Text, StyleSheet } from "react-native";
 import { router } from "expo-router";
 
 import styles from "./style/Header";
-import { useNewRecord } from "@/hooks/useNewRecord";
+import { useRecordForm } from "@/hooks/useRecordForm";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
 
@@ -11,7 +11,7 @@ export default function CreateRecordHeader({
 }: {
   createRecord: () => void;
 }) {
-  const { setInitiailState } = useNewRecord();
+  const { setInitiailState } = useRecordForm();
 
   const handleOnPressBack = () => {
     try {

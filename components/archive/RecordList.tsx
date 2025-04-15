@@ -11,7 +11,11 @@ import { List } from "realm";
 import { useRealm } from "@realm/react";
 import { useRecordArchiveFiltered } from "@/hooks/useRecordArchiveFilterd";
 
-export function RecordList({ archiveId }: { archiveId: Realm.BSON.UUID }) {
+export function RecordList({
+  archiveId,
+}: {
+  archiveId: Realm.BSON.UUID | undefined;
+}) {
   const realm = useRealm();
   const [currentOrder, setCurrentOrder] = useState<"desc" | "asc">("desc");
   const records = useRecordArchiveFiltered(realm, archiveId, currentOrder);

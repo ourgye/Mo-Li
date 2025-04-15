@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "@/components/create-record/ArchiveSelectHeader";
-import { ArchiveSelectList } from "@/components/create-record/ArchiveSelectList";
+import Header from "@/components/create-update-record/ArchiveSelectHeader";
+import { ArchiveSelectList } from "@/components/create-update-record/ArchiveSelectList";
 import ArchiveModal from "@/components/common/ArchiveModal";
 import { useEffect, useState } from "react";
 

@@ -111,7 +111,7 @@ function NoRecordList({
               <AddArchiveButton setModalVisible={setModalVisible} />
             </View>
           </View>
-          {!archiveList && (
+          {(!archiveList || archiveList.length === 0) && (
             <View>
               <Text
                 style={{
