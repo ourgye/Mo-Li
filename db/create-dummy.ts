@@ -47,8 +47,8 @@ const dummyRecords = [
 
 const createDummyData = (realm: Realm) => {
   // check if the database is empty
-  console.log("Realm file path: ", Realm.defaultPath);
-  console.log("Realm schema version: ", Realm.schemaVersion);
+  console.log("Realm file path: ", realm.path);
+  console.log("Realm schema version: ", realm.schemaVersion);
   const archives = realm.objects("Archive");
   const records = realm.objects("Record");
 
