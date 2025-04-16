@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function BackupFile() {
   return (
     <SafeAreaView>
-      <Text>BackupFile</Text>
+      <Text>추후 기능 추가 예정</Text>
     </SafeAreaView>
   );
 }

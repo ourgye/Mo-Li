@@ -38,7 +38,7 @@ export default function RootLayout() {
   return (
     <RealmProvider
       schema={[Archive, Record]}
-      deleteRealmIfMigrationNeeded={true}
+      // deleteRealmIfMigrationNeeded={true}
       path="mo-li-db.realm"
     >
       <Provider store={store}>
