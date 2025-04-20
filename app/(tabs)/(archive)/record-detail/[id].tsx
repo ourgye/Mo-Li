@@ -8,6 +8,7 @@ import { useQuery, useRealm } from "@realm/react";
 import { getRecordById } from "@/db/crud/record-method";
 import Realm from "realm";
 import Record from "@/db/schema/record";
+import RecordDetailList from "@/components/archive/RecordDetailList";
 
 export default function RecordDetail() {
   // get id
@@ -22,9 +23,7 @@ export default function RecordDetail() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <RecordDetailHeader archive={record?.archive?.[0]} />
-      <ScrollView>
-        <RecordDetailItem record={record} />
-      </ScrollView>
+      <RecordDetailList />
     </SafeAreaView>
   );
 }

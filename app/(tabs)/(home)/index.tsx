@@ -8,11 +8,17 @@ import { useCalendar } from "@/hooks/useCalendar";
 
 import createDummyData from "@/db/create-dummy";
 import { useRealm } from "@realm/react";
+import { createHugeData, deleteAllData } from "@/db/create-huge-data";
+
+// import * as FileSystem from "expo-file-system";
 
 export default function HomeScreen() {
   // create dummy
   const realm = useRealm();
   createDummyData(realm);
+  // deleteAllData(realm);
+
+  // createHugeData(realm);
 
   return (
     <SafeAreaView style={styles.container} edges={["right", "top", "left"]}>

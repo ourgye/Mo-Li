@@ -10,10 +10,12 @@ import Record from "@/db/schema/record";
 export function RecordItem({
   item,
   index,
+  order,
   // setSelectedRecord,
 }: {
   item: Record;
   index: number;
+  order?: "desc" | "asc";
   // setSelectedRecord: (record: RecordType) => void;
 }) {
   // 가로 세로 크기 비율을 유지하면서 이미지를 출력(가로는 width-48(padding) / 3)

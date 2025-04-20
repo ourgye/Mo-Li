@@ -1,4 +1,3 @@
-import MasonryList from "@react-native-seoul/masonry-list";
 import { RecordItem } from "./RecordItem";
 
 import { Text, View } from "react-native";
@@ -7,7 +6,7 @@ import styles from "./style/RecordList";
 import { OrderCustomDropDown } from "./OrderDropDown";
 import Record from "@/db/schema/record";
 import { useState } from "react";
-import { List } from "realm";
+import { MasonryFlashList } from "@shopify/flash-list";
 import { useRealm } from "@realm/react";
 import { useRecordArchiveFiltered } from "@/hooks/useRecordArchiveFilterd";
 
@@ -24,19 +23,21 @@ export function RecordList({
 
   return (
     records && (
-      <MasonryList
+      <MasonryFlashList
         data={records as Array<Record>}
+        estimatedItemSize={128}
         renderItem={({ item, i }: { item: Record; i: number }) => (
           <RecordItem
             item={item}
             index={i}
+            order={currentOrder}
             // setSelectedRecord={setSelectedRecord}
           />
         )}
-        contentContainerStyle={styles.container}
+        style={styles.container}
+        // contentContainerStyle={styles.container}
         numColumns={3}
         showsVerticalScrollIndicator={false}
-        refreshControl={false}
         ListHeaderComponent={
           !records || records.length === 0 ? (
             <Text>데이터가 없습니다.</Text>
