@@ -10,16 +10,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   titleContainer: {
-    //backgroundColor: colors.blue0,
+    height: 44,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
     marginTop: 16,
-  },
-  title: {
-    fontSize: 24,
-    textAlign: "center",
   },
 });
 

@@ -17,7 +17,7 @@ export default function ArchiveDropDown() {
   const allArchive = Archive.generateDummyAll() as Archive;
 
   const [currentArchive, setCurrentArchive] = useState<string>(
-    currentArchiveName ?? "전체",
+    currentArchiveName ?? "전체"
   );
   const data = [allArchive, ...(archives || [])];
 
@@ -27,9 +27,9 @@ export default function ArchiveDropDown() {
         key={currentArchiveId?.toString() || "dropdown"}
         style={styles.dropdown}
         containerStyle={styles.dropdownContainer}
-        selectedTextStyle={typos.body2_typo}
-        placeholderStyle={typos.body2_typo}
-        itemTextStyle={typos.body2_typo}
+        selectedTextStyle={typos.body1_typo}
+        placeholderStyle={typos.body1_typo}
+        itemTextStyle={typos.body1_typo}
         renderRightIcon={() => <SvgIcon name="Down_small_icon" size={10} />}
         data={data}
         renderItem={(item) => {

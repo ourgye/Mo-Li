@@ -20,8 +20,8 @@ export function OrderCustomDropDown({ current, setOrder }: OrderDropDownProps) {
       <Dropdown
         style={styles.dropdown}
         containerStyle={styles.dropdownContainer}
-        placeholderStyle={typos.body2_typo}
-        selectedTextStyle={typos.body2_typo}
+        placeholderStyle={typos.body1_typo}
+        selectedTextStyle={typos.body1_typo}
         // itemTextStyle={typos.body2_typo}
         renderRightIcon={() => <SvgIcon name="Down_small_icon" size={10} />}
         renderItem={({ _id, order, value }) => {
@@ -33,7 +33,7 @@ export function OrderCustomDropDown({ current, setOrder }: OrderDropDownProps) {
               ]}
             >
               <View style={styles.textContainer}>
-                <Text style={typos.body2_typo}>{order}</Text>
+                <Text style={typos.body1_typo}>{order}</Text>
               </View>
             </View>
           );

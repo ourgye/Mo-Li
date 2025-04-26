@@ -1,3 +1,5 @@
+import colors from "@/assets/colors/colors";
+import typos from "@/assets/fonts/typos";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -5,7 +7,7 @@ export default function Contact() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <View style={styles.headerContainer}>
-        <Text style={styles.title}>문의하기</Text>
+        <Text style={typos.header_typo}>문의하기</Text>
       </View>
     </SafeAreaView>
   );
@@ -14,7 +16,7 @@ export default function Contact() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F8F8",
+    backgroundColor: colors.gray1,
     paddingHorizontal: 24,
     gap: 24,
     paddingBottom: 24,
@@ -23,9 +25,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 8,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
   },
 });

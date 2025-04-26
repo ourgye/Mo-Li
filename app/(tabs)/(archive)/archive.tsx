@@ -7,6 +7,7 @@ import { useRealm } from "@realm/react";
 import { useArchive } from "@/hooks/useArchive";
 import { useEffect, useState } from "react";
 import Archive from "@/db/schema/archive";
+import colors from "@/assets/colors/colors";
 
 export default function ArchivePage() {
   const realm = useRealm();
@@ -42,11 +43,11 @@ export default function ArchivePage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F8F8",
+    backgroundColor: colors.gray1,
   },
   scrollContainer: {
     paddingHorizontal: 24,
-    gap: 24,
+    gap: 16,
   },
   body: {
     flex: 1,

@@ -21,7 +21,7 @@ export function HomeRecordItem({ record }: { record: Record }) {
 
   return (
     <Pressable style={styles.itemWrapper}>
-      <Text style={typos.caption1_typo}>
+      <Text style={typos.caption2_typo}>
         {dayjs(record.date).format("YYYY-MM-DD")}
       </Text>
       <View style={styles.itemBodyWrapper}>

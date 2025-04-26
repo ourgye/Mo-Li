@@ -50,9 +50,6 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     // marginVertical: 16,
   },
-  customHeaderText: {
-    fontSize: 20,
-  },
   customDayContainer: {
     flex: 1,
     height: 40,

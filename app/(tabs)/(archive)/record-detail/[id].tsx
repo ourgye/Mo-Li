@@ -9,6 +9,7 @@ import { getRecordById } from "@/db/crud/record-method";
 import Realm from "realm";
 import Record from "@/db/schema/record";
 import RecordDetailList from "@/components/archive/RecordDetailList";
+import colors from "@/assets/colors/colors";
 
 export default function RecordDetail() {
   // get id
@@ -17,7 +18,7 @@ export default function RecordDetail() {
   const realm = useRealm();
   const record = useQuery<Record>("Record").filtered(
     "_id == $0",
-    new Realm.BSON.UUID(id as string),
+    new Realm.BSON.UUID(id as string)
   )[0];
 
   return (
@@ -31,7 +32,7 @@ export default function RecordDetail() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F8F8",
+    backgroundColor: colors.gray1,
     paddingHorizontal: 24,
   },
 });

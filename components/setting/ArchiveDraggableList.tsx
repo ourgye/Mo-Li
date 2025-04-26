@@ -48,7 +48,7 @@ export default function ArchiveDraggableList() {
               onPress: () => deleteArchive(realm, item._id as Realm.BSON.UUID),
               style: "destructive",
             },
-          ],
+          ]
         );
       }
     };
@@ -62,10 +62,12 @@ export default function ArchiveDraggableList() {
             flexGrow: 1,
           }}
         >
-          <Text style={typos.body1_typo}>{item.name}</Text>
+          <SvgIcon name="Drag_icon" size={10} />
+          <Text style={[typos.body1_typo, styles.paddingleft]}>
+            {item.name}
+          </Text>
         </View>
         <MenuView
-          title="옵션"
           onPressAction={handleOnPressOptions}
           actions={[
             {
@@ -82,7 +84,7 @@ export default function ArchiveDraggableList() {
           ]}
           shouldOpenOnLongPress={false}
         >
-          <SvgIcon name="More_icon" size={24} />
+          <SvgIcon name="More_icon" size={20} />
         </MenuView>
       </Pressable>
     );

@@ -5,6 +5,8 @@ import { useState } from "react";
 
 import styles from "../common/style/HeaderWithTitle";
 import Archive from "@/db/schema/archive";
+import typos from "@/assets/fonts/typos";
+import SvgIcon from "../common/SvgIcon";
 
 export function RecordDetailHeader({ archive }: { archive?: Archive }) {
   return (
@@ -15,12 +17,12 @@ export function RecordDetailHeader({ archive }: { archive?: Archive }) {
           router.back();
         }}
       >
-        <MaterialCommunityIcons name="chevron-left" size={32} color="black" />
+        <SvgIcon name="Back_icon" size={24} />
       </Pressable>
-      <Text style={styles.headerTitle}>{archive?.name}</Text>
+      <Text style={typos.header_typo}>{archive?.name}</Text>
       {/* ========================= 추가 버튼 ========================= */}
       <Pressable onPress={() => router.navigate("/create-record")}>
-        <MaterialCommunityIcons name="plus" size={32} color="black" />
+        <SvgIcon name="Add_icon" size={24} />
       </Pressable>
     </View>
   );

@@ -17,11 +17,11 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     backgroundColor: colors.yellow0,
-    height: 32,
     paddingHorizontal: 16,
+    paddingVertical: 8,
     justifyContent: "center",
     borderColor: colors.black0,
-    borderRadius: 16,
+    borderRadius: 20,
     borderWidth: 1,
   },
   itemContainer: {
@@ -31,12 +31,12 @@ const styles = StyleSheet.create({
   },
   selectedItemContainer: {
     backgroundColor: colors.yellow0,
-    height: 32,
     paddingHorizontal: 8,
+    paddingVertical: 8,
     justifyContent: "center",
     borderColor: colors.black0,
     borderWidth: 1,
-    borderRadius: 16,
+    borderRadius: 20,
   },
   textContainer: {
     marginHorizontal: 8,

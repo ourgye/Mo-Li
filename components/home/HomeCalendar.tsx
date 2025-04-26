@@ -14,6 +14,7 @@ import { useArchive } from "@/hooks/useArchive";
 import { useRealm } from "@realm/react";
 import { useRecordArchiveFiltered } from "@/hooks/useRecordArchiveFilterd";
 import Record from "@/db/schema/record";
+import typos from "@/assets/fonts/typos";
 
 export function HomeCalendar() {
   const realm = useRealm();
@@ -23,7 +24,7 @@ export function HomeCalendar() {
   const records = useRecordArchiveFiltered(realm, currentArchiveId);
   const customHeaderProps: any = useRef();
   const [currentMonth, setCurrentMonth] = useState<number>(
-    dayjs(selectedDate, "YYYY-MM-DD").get("month") + 1,
+    dayjs(selectedDate, "YYYY-MM-DD").get("month") + 1
   );
 
   const recordStyle = {
@@ -88,7 +89,7 @@ export function HomeCalendar() {
       <View style={styles.dayNamesStyle}>
         {daysKo.dayNamesShort.map((day) => (
           <View key={day} style={styles.customDayContainer}>
-            <Text key={day} style={styles.customDay}>
+            <Text key={day} style={typos.body2_typo}>
               {day}
             </Text>
           </View>
@@ -106,7 +107,7 @@ export function HomeCalendar() {
               <TouchableOpacity onPress={movePrevious}>
                 <SvgIcon name="Left_icon" size={24} />
               </TouchableOpacity>
-              <Text style={styles.customHeaderText}>
+              <Text style={typos.header_typo}>
                 {daysKo.monthNames[currentMonth]}
               </Text>
               <TouchableOpacity onPress={moveNext}>

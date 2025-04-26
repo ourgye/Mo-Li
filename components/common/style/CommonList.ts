@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  paddingleft: {
+    paddingLeft: 16,
+  },
 });
 
 export default styles;
