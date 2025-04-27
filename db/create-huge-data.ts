@@ -5,9 +5,10 @@ import Record from "./schema/record";
 
 import { Asset } from "expo-asset";
 
-const howManyRecord: number = 1000;
+const howManyRecord: number = 200;
 
 const dummyImages = [
+  // 이미지 경로에 추가해서 사용해유
   require("@/assets/images/dummy-images/beach.jpeg"),
   require("@/assets/images/dummy-images/gapo1.jpeg"),
   require("@/assets/images/dummy-images/gapo2.jpeg"),

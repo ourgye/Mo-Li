@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { store } from "@/store";
 import * as SplashScreen from "expo-splash-screen";
 import { RealmProvider, createRealmContext } from "@realm/react";
+import mobileAds from "react-native-google-mobile-ads";
 
 import { useEffect } from "react";
 import Archive from "@/db/schema/archive";
@@ -16,6 +17,12 @@ import naviList from "@/constants/navigation";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+mobileAds()
+  .initialize()
+  .then((adapterStatuses) => {
+    console.log(adapterStatuses);
+  });
 
 export default function RootLayout() {
   const [loaded] = useFonts({

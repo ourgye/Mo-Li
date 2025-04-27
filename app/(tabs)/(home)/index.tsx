@@ -15,9 +15,14 @@ import { createHugeData, deleteAllData } from "@/db/create-huge-data";
 export default function HomeScreen() {
   // create dummy
   const realm = useRealm();
-  createDummyData(realm);
+
+  // 아카이브 3 + 레코드 4개
+  // createDummyData(realm);
+
+  // 모든 데이터 삭제
   // deleteAllData(realm);
 
+  // 레코드 100개
   // createHugeData(realm);
 
   return (
