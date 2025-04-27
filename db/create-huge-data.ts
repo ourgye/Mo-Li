@@ -22,7 +22,7 @@ const saveDummyImageToDocuments = async (): Promise<string[]> => {
 
     const imagePathArray = await Promise.all(
       assets.map(async (asset, i) => {
-        const fileUri = `${FileSystem.documentDirectory}dummy-image-${i}.jpg`;
+        const fileUri = `${FileSystem.documentDirectory}-dummy-image-${i}.jpg`;
 
         await FileSystem.copyAsync({
           from: asset.localUri || asset.uri,

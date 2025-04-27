@@ -2,6 +2,8 @@ import Realm from "realm";
 import Archive from "./schema/archive";
 import Record from "./schema/record";
 import { createNewArchive } from "./crud/archive-method";
+import * as FileSystem from "expo-file-system";
+import { Asset } from "expo-asset";
 
 const dummyArchives = [
   {
@@ -18,32 +20,66 @@ const dummyArchives = [
   },
 ];
 
+// 원하는 사진 images는 dummyImages에 추가해서 사용해유
+// 이름도 같이 바꿔줘야함
+const dummyImages = [
+  require("@/assets/images/dummy-images/beach.jpeg"),
+  require("@/assets/images/dummy-images/gapo1.jpeg"),
+  require("@/assets/images/dummy-images/gapo2.jpeg"),
+  require("@/assets/images/dummy-images/joshua.jpeg"),
+  require("@/assets/images/dummy-images/octopus.jpeg"),
+];
+
 const dummyRecords = [
   {
     date: new Date(),
-    imagePath: ["@/assets/images/dummy-images/beach.jpeg"],
-    imageRatio: [1.5],
-    body: "첫 번째 레코드",
+    imagePath: [
+      dummyImages[Math.floor(Math.random() * dummyImages.length)],
+      dummyImages[Math.floor(Math.random() * dummyImages.length)],
+    ],
+    imageRatio: [Math.random() + 0.5, Math.random() + 0.5],
+    body: "첫 번째 레코드, 사진 2개",
   },
   {
     date: new Date(),
-    imagePath: ["@/assets/images/dummy-images/gapo1.jpeg"],
-    imageRatio: [1.5],
+    imagePath: [dummyImages[Math.floor(Math.random() * dummyImages.length)]],
+    imageRatio: [Math.random() + 0.5],
     body: "두 번째 레코드",
   },
   {
     date: new Date(),
-    imagePath: ["@/assets/images/dummy-images/gapo2.jpeg"],
-    imageRatio: [1.5],
+    imagePath: [dummyImages[Math.floor(Math.random() * dummyImages.length)]],
+    imageRatio: [Math.random() + 0.5],
     body: "세 번째 레코드",
   },
   {
     date: new Date(),
-    imagePath: ["@/assets/images/dummy-images/joshua.jpeg"],
-    imageRatio: [1.5],
+    imagePath: [dummyImages[Math.floor(Math.random() * dummyImages.length)]],
+    imageRatio: [Math.random() + 0.5],
     body: "네 번째 레코드",
   },
 ];
+
+const saveDummyImageToDocument = async (
+  imagePath: string,
+  imageIndex: number,
+  recordIndex: number,
+): Promise<string> => {
+  try {
+    const asset = await Asset.loadAsync(imagePath);
+    const fileUri = `${FileSystem.documentDirectory}-dummy-image-${recordIndex}-${imageIndex}.jpg`;
+
+    await FileSystem.copyAsync({
+      from: asset[0].localUri || asset[0].uri,
+      to: fileUri,
+    });
+
+    return fileUri;
+  } catch (error) {
+    console.error("Error saving dummy images:", error);
+    throw error;
+  }
+};
 
 const createDummyData = (realm: Realm) => {
   // check if the database is empty
@@ -63,27 +99,41 @@ const createDummyData = (realm: Realm) => {
   }
 
   if (!records || records.length === 0) {
-    realm.write(() => {
+    try {
       const archive = realm.objects<Archive>("Archive")[0];
-      dummyRecords.forEach((record) => {
-        const newRecord = realm.create<Record>(
-          "Record",
-          Record.generate(
-            record.date,
-            record.imagePath,
-            record.imageRatio,
-            record.body,
-          ),
+      dummyRecords.forEach(async (record, index) => {
+        const imagePathArray = await Promise.all(
+          record.imagePath.map(async (path, i) => {
+            return await saveDummyImageToDocument(path, i, index);
+          }),
         );
-        archive.records.push(newRecord);
-        archive.count += 1;
-        archive.lastDate = archive.lastDate
-          ? new Date(
-              Math.max(archive.lastDate.getTime(), record.date.getTime()),
-            )
-          : record.date;
+        try {
+          realm.write(() => {
+            const newRecord = realm.create<Record>(
+              "Record",
+              Record.generate(
+                record.date,
+                imagePathArray,
+                record.imageRatio,
+                record.body,
+              ),
+            );
+            archive.records.push(newRecord);
+            archive.count += 1;
+            archive.lastDate = archive.lastDate
+              ? new Date(
+                  Math.max(archive.lastDate.getTime(), record.date.getTime()),
+                )
+              : record.date;
+          });
+        } catch (error) {
+          console.error("Error creating record:", error);
+          throw error;
+        }
       });
-    });
+    } catch (error) {
+      console.error("Error creating dummy data:", error);
+    }
   }
 
   console.log("Dummy data created");
