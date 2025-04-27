@@ -32,4 +32,4 @@ expo-env.d.ts
 %ProgramData%
 
 # dummy data files
-assets/images/dummy-images/*
+# assets/images/dummy-images/*

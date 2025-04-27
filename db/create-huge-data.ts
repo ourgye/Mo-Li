@@ -8,12 +8,10 @@ import { Asset } from "expo-asset";
 const howManyRecord: number = 200;
 
 const dummyImages = [
-  // 이미지 경로에 추가해서 사용해유
-  require("@/assets/images/dummy-images/beach.jpeg"),
-  require("@/assets/images/dummy-images/gapo1.jpeg"),
-  require("@/assets/images/dummy-images/gapo2.jpeg"),
-  require("@/assets/images/dummy-images/joshua.jpeg"),
-  require("@/assets/images/dummy-images/octopus.jpeg"),
+  require("@/assets/images/dummy-images/image-1.jpeg"),
+  require("@/assets/images/dummy-images/image-2.jpeg"),
+  require("@/assets/images/dummy-images/image-3.jpeg"),
+  require("@/assets/images/dummy-images/image-4.jpeg"),
 ];
 
 const saveDummyImageToDocuments = async (): Promise<string[]> => {

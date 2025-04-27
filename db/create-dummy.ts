@@ -23,11 +23,10 @@ const dummyArchives = [
 // 원하는 사진 images는 dummyImages에 추가해서 사용해유
 // 이름도 같이 바꿔줘야함
 const dummyImages = [
-  require("@/assets/images/dummy-images/beach.jpeg"),
-  require("@/assets/images/dummy-images/gapo1.jpeg"),
-  require("@/assets/images/dummy-images/gapo2.jpeg"),
-  require("@/assets/images/dummy-images/joshua.jpeg"),
-  require("@/assets/images/dummy-images/octopus.jpeg"),
+  require("@/assets/images/dummy-images/image-1.jpeg"),
+  require("@/assets/images/dummy-images/image-2.jpeg"),
+  require("@/assets/images/dummy-images/image-3.jpeg"),
+  require("@/assets/images/dummy-images/image-4.jpeg"),
 ];
 
 const dummyRecords = [
