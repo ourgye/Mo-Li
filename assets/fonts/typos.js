@@ -53,8 +53,8 @@ const typos = StyleSheet.create({
   },
   body3_typo: {
     fontFamily: "Pretendard-Regular",
-    fontSize: 14,
-    color: colors.black0,
+    fontSize: 16,
+    color: colors.gray4,
   },
   caption1_typo: {
     fontFamily: "Pretendard-Regular",

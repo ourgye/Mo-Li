@@ -9,6 +9,7 @@ import { useState } from "react";
 import { MasonryFlashList } from "@shopify/flash-list";
 import { useRealm } from "@realm/react";
 import { useRecordArchiveFiltered } from "@/hooks/useRecordArchiveFilterd";
+import typos from "@/assets/fonts/typos";
 import RecordAdBlock from "../ad/record-ad-block";
 
 export function RecordList({
@@ -24,6 +25,35 @@ export function RecordList({
 
   return (
     records && (
+      <MasonryFlashList
+        data={records as Array<Record>}
+        estimatedItemSize={128}
+        renderItem={({ item, i }: { item: Record; i: number }) => (
+          <RecordItem
+            item={item}
+            index={i}
+            order={currentOrder}
+            // setSelectedRecord={setSelectedRecord}
+          />
+        )}
+        style={styles.container}
+        // contentContainerStyle={styles.container}
+        numColumns={3}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          !records || records.length === 0 ? (
+            <Text>데이터가 없습니다.</Text>
+          ) : (
+            <View style={styles.bodyHeader}>
+              <Text style={typos.body3_typo}>{records.length}개 레코드</Text>
+              <OrderCustomDropDown
+                current={currentOrder}
+                setOrder={setCurrentOrder}
+              />
+            </View>
+          )
+        }
+      />
       <>
         <RecordAdBlock />
         <MasonryFlashList

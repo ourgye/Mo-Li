@@ -1,11 +1,14 @@
+import colors from "@/assets/colors/colors";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: colors.white0,
+    borderColor: colors.black0,
+    borderRadius: 16,
+    borderWidth: 1,
     padding: 16,
     gap: 16,
-    borderRadius: 16,
     flexDirection: "column",
   },
   itemHeader: {
@@ -15,7 +18,6 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     paddingHorizontal: 8,
-    fontSize: 16,
     lineHeight: 24,
   },
 });

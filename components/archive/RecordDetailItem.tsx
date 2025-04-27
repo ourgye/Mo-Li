@@ -17,6 +17,8 @@ import { useRealm } from "@realm/react";
 import { deleteImageAll } from "@/utils/deleteImageAll";
 import { deleteRecord } from "@/db/crud/record-method";
 import styles from "./style/RecordDetailItem";
+import SvgIcon from "../common/SvgIcon";
+import typos from "@/assets/fonts/typos";
 
 export function RecordDetailItem({
   index,
@@ -61,9 +63,10 @@ export function RecordDetailItem({
     <View onLayout={handleLayout}>
       <View style={styles.container}>
         <View style={styles.itemHeader}>
-          <Text>{dayjs(record.date).format("YYYY-MM-DD")}</Text>
+          <Text style={typos.caption2_typo}>
+            {dayjs(record.date).format("YYYY-MM-DD")}
+          </Text>
           <MenuView
-            title="옵션"
             onPressAction={handleOptions}
             actions={[
               { id: "modify", title: "수정" },
@@ -74,11 +77,7 @@ export function RecordDetailItem({
               },
             ]}
           >
-            <MaterialCommunityIcons
-              name="dots-horizontal-circle"
-              size={16}
-              color="grey"
-            />
+            <SvgIcon name="More_icon" size={20} />
           </MenuView>
         </View>
         <Carousel
@@ -95,7 +94,7 @@ export function RecordDetailItem({
             />
           )}
         />
-        <Text style={styles.bodyText}>{record.body}</Text>
+        <Text style={typos.body1_typo}>{record.body}</Text>
       </View>
       <View style={{ height: 16 }} />
     </View>

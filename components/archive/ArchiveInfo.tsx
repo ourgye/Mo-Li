@@ -8,6 +8,7 @@ import { useArchive } from "@/hooks/useArchive";
 import { useRealm } from "@realm/react";
 import Archive from "@/db/schema/archive";
 import Realm from "realm";
+import typos from "@/assets/fonts/typos";
 
 interface ArchiveInfoProps {
   currentArchive: Archive | undefined;
@@ -33,14 +34,14 @@ export function ArchiveInfo({
   if (!currentArchive)
     return (
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>아카이브가 없습니다. </Text>
+        <Text style={typos.header_typo}>아카이브가 없습니다. </Text>
       </View>
     );
 
   return (
     <>
       <Pressable style={styles.titleContainer} onPress={handleOnPressTitle}>
-        <Text style={styles.title}>{currentArchive?.name}</Text>
+        <Text style={typos.header_typo}>{currentArchive?.name}</Text>
         <SvgIcon name="Dropdown_icon" size={20} />
       </Pressable>
       {showArchives && (
