@@ -31,7 +31,9 @@ export function HomeCalendar() {
     // selected: true,
     customStyles: {
       container: {
-        backgroundColor: "red",
+        backgroundColor: colors.gray2,
+        borderWidth: 1,
+        borderColor: colors.black0,
         justifyContent: "center",
       },
     },
@@ -141,7 +143,7 @@ export function HomeCalendar() {
         initialDate={selectedDate}
         //theme={{ "stylesheet.calendar.main": { borderRadius: 16, header } }}
         theme={{
-          todayTextColor: colors.blue0,
+          todayTextColor: colors.blued1,
           dayTextColor: colors.black0,
           textDisabledColor: colors.gray3,
           textDayFontSize: 14,
