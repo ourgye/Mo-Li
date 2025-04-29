@@ -6,8 +6,6 @@ import {
   LayoutChangeEvent,
   useWindowDimensions,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Carousel from "react-native-reanimated-carousel";
 import { MenuView, NativeActionEvent } from "@react-native-menu/menu";
 import { router } from "expo-router";
 import dayjs from "dayjs";
@@ -19,6 +17,7 @@ import { deleteRecord } from "@/db/crud/record-method";
 import styles from "./style/RecordDetailItem";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
+import ImageCarousel from "./ImageCarousel";
 
 export function RecordDetailItem({
   index,
@@ -80,19 +79,10 @@ export function RecordDetailItem({
             <SvgIcon name="More_icon" size={20} />
           </MenuView>
         </View>
-        <Carousel
-          width={contentWidth}
-          height={contentWidth * (record.imageRatio[0] || 1)}
-          data={record.imagePath}
-          renderItem={({ item, index }) => (
-            <Image
-              source={{ uri: item }}
-              style={{
-                width: contentWidth,
-                height: contentWidth * (record.imageRatio[index] || 1),
-              }}
-            />
-          )}
+        <ImageCarousel
+          imagesPath={record.imagePath}
+          imagesRatio={record.imageRatio}
+          contentWidth={contentWidth}
         />
         <Text style={typos.body1_typo}>{record.body}</Text>
       </View>

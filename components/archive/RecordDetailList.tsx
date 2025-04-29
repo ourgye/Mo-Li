@@ -5,9 +5,12 @@ import { useQuery } from "@realm/react";
 
 import RecordType from "@/db/schema/record";
 import { RecordDetailItem } from "./RecordDetailItem";
-import { Text } from "react-native";
 
-export default function RecordDetailList() {
+export default function RecordDetailList({
+  archive,
+}: {
+  archive: Realm.BSON.UUID | undefined;
+}) {
   const { id } = useLocalSearchParams();
   const data = useQuery<RecordType>("Record").sorted("date", true);
   // const [trimmedData, setTrimmedData] = useState<Record[]>([]);
