@@ -36,43 +36,43 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
   }, []);
 
   return (
-    <Pressable
-      style={[styles.recordImage, !recordImage && { height: 240 }]}
-      onPress={handleImagePicker}
-    >
-      {recordImage?.assets &&
-        recordImage.assets.length > 0 &&
-        recordImage.assets.map((asset, index) => {
-          console.log("asset??", asset);
-          return (
-            <Image
-              key={index}
-              style={[
-                // styles.image,
-                { resizeMode: "cover" },
-                { height: (240 * asset.height) / asset.width },
-              ]}
-              source={{ uri: asset.uri }}
-            />
-          );
-        })}
-      {modify &&
-        recordImage === undefined && // modify일 때 recordImage가 없으면 recordImagePath를 사용
-        recordImagePath.length > 0 &&
-        recordImagePath.map((uri, index) => {
-          console.log("uri", uri);
-          return (
-            <Image
-              key={index}
-              style={[
-                // styles.image,
-                { resizeMode: "cover" },
-                { height: 240 * recordImageRatio[index] },
-              ]}
-              source={{ uri: uri }}
-            />
-          );
-        })}
-    </Pressable>
+    // <Pressable
+    //   style={[styles.recordImage, !recordImage && { height: 240 }]}
+    //   onPress={handleImagePicker}
+    // >
+    //   {recordImage?.assets &&
+    //     recordImage.assets.length > 0 &&
+    //     recordImage.assets.map((asset, index) => {
+    //       console.log("asset??", asset);
+    //       return (
+    //         <Image
+    //           key={index}
+    //           style={[
+    //             // styles.image,
+    //             { resizeMode: "cover" },
+    //             { height: (240 * asset.height) / asset.width },
+    //           ]}
+    //           source={{ uri: asset.uri }}
+    //         />
+    //       );
+    //     })}
+    //   {modify &&
+    //     recordImage === undefined && // modify일 때 recordImage가 없으면 recordImagePath를 사용
+    //     recordImagePath.length > 0 &&
+    //     recordImagePath.map((uri, index) => {
+    //       console.log("uri", uri);
+    //       return (
+    //         <Image
+    //           key={index}
+    //           style={[
+    //             // styles.image,
+    //             { resizeMode: "cover" },
+    //             { height: 240 * recordImageRatio[index] },
+    //           ]}
+    //           source={{ uri: uri }}
+    //         />
+    //       );
+    //     })}
+    // </Pressable>
   );
 }
