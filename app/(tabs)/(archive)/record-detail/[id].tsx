@@ -15,16 +15,15 @@ export default function RecordDetail() {
   // get id
   const { id } = useLocalSearchParams();
   // get record from realm
-  const realm = useRealm();
   const record = useQuery<Record>("Record").filtered(
     "_id == $0",
-    new Realm.BSON.UUID(id as string)
+    new Realm.BSON.UUID(id as string),
   )[0];
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <RecordDetailHeader archive={record?.archive?.[0]} />
-      <RecordDetailList />
+      <RecordDetailList archive={record?.archive?.[0]} />
     </SafeAreaView>
   );
 }

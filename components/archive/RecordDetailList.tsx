@@ -5,15 +5,18 @@ import { useQuery } from "@realm/react";
 
 import RecordType from "@/db/schema/record";
 import { RecordDetailItem } from "./RecordDetailItem";
+import Archive from "@/db/schema/archive";
 
 export default function RecordDetailList({
   archive,
 }: {
-  archive: Realm.BSON.UUID | undefined;
+  archive: Archive | null;
 }) {
   const { id } = useLocalSearchParams();
-  const data = useQuery<RecordType>("Record").sorted("date", true);
-  // const [trimmedData, setTrimmedData] = useState<Record[]>([]);
+  const data = useQuery<RecordType>("Record").filtered(
+    "archive._id == $0",
+    archive?._id,
+  );
 
   const listRef = useRef<FlashList<RecordType>>(null);
   const [ready, setReady] = useState(false);
