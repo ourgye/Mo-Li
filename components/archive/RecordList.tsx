@@ -20,33 +20,34 @@ export function RecordList({
   const realm = useRealm();
   const [currentOrder, setCurrentOrder] = useState<"desc" | "asc">("desc");
   const records = useRecordArchiveFiltered(realm, archiveId, currentOrder);
-  const [recordsWithAd, setRecordsWithAd] = useState<Array<Record> | undefined>(
-    undefined,
-  );
+  // const [recordsWithAd, setRecordsWithAd] = useState<Array<Record> | undefined>(
+  //   undefined,
+  // );
 
-  // 광고 12개에 하나씩, 또 마지막 레코드는 광고
-  useEffect(() => {
-    if (records) {
-      const adIndex = 12;
-      const recordsWithAd = records.reduce((acc: Array<Record>, record, i) => {
-        acc.push(record);
-        if ((i + 1) % adIndex === 0 || i == records.length - 1) {
-          acc.push({} as Record); // Placeholder for ad
-        }
-        return acc;
-      }, []);
+  // // 광고 12개에 하나씩, 또 마지막 레코드는 광고
+  // useEffect(() => {
+  //   if (records) {
+  //     const adIndex = 12;
+  //     const recordsWithAd = records.reduce((acc: Array<Record>, record, i) => {
+  //       acc.push(record);
+  //       if ((i + 1) % adIndex === 0 || i == records.length - 1) {
+  //         acc.push({} as Record); // Placeholder for ad
+  //       }
+  //       return acc;
+  //     }, []);
 
-      setRecordsWithAd(recordsWithAd);
-    }
-  }, [records]);
+  //     setRecordsWithAd(recordsWithAd);
+  //   }
+  // }, [records]);
 
-  console.log("recordsWithAd", recordsWithAd);
+  // console.log("recordsWithAd", recordsWithAd);
 
   return (
     records && (
       <>
         <MasonryFlashList
-          data={recordsWithAd as Array<Record>}
+          // data={records as Array<Record>}
+          data={records}
           estimatedItemSize={128}
           renderItem={({ item, i }: { item: Record; i: number }) => {
             return Object.keys(item).length === 0 ? (

@@ -13,10 +13,9 @@ export default function RecordDetailList({
   archive: Archive | null;
 }) {
   const { id } = useLocalSearchParams();
-  const data = useQuery<RecordType>("Record").filtered(
-    "archive._id == $0",
-    archive?._id,
-  );
+  const data = useQuery<RecordType>("Record")
+    .filtered("archive._id == $0", archive?._id)
+    .sorted("date", true);
 
   const listRef = useRef<FlashList<RecordType>>(null);
   const [ready, setReady] = useState(false);
