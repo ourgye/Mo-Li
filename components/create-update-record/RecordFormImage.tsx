@@ -74,5 +74,6 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
     //       );
     //     })}
     // </Pressable>
+    <></>
   );
 }
