@@ -13,21 +13,18 @@ export default function ImageCarousel({
   imagesRatio,
   contentWidth,
 }: ImageCarouselProps) {
-  // console.log("ImageCarousel rendered");
-  // console.log(imagesPath, imagesRatio, contentWidth);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const currentRatio = imagesRatio?.[currentIndex] ?? 1;
   const carouselHeight = contentWidth * currentRatio;
-  // console.log("contentWidth:", contentWidth);
-  // console.log("carouselHeight:", carouselHeight); // NaN이면 문제
 
   return (
     <Carousel
       width={contentWidth}
       height={contentWidth * currentRatio} // 현재 이미지 비율로 높이 결정
       data={imagesPath}
-      onSnapToItem={(index) => setCurrentIndex(index)} // 인덱스 변경 감지
+      scrollAnimationDuration={50}
+      onSnapToItem={(index) => setCurrentIndex(index)}
       renderItem={({ index, item }) => (
         <Image
           source={{ uri: item }}

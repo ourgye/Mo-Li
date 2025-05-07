@@ -16,14 +16,14 @@ export default function HomeScreen() {
   // create dummy
   const realm = useRealm();
 
-  // 아카이브 3 + 레코드 4개
-  // createDummyData(realm);
-
   // 모든 데이터 삭제
-  // deleteAllData(realm);
+  deleteAllData(realm);
+
+  // 아카이브 3 + 레코드 4개
+  createDummyData(realm);
 
   // 레코드 100개, 아카이브 정보 수정안됨(레코드 개수 등)
-  createHugeData(realm);
+  // createHugeData(realm);
 
   return (
     <SafeAreaView style={styles.container} edges={["right", "top", "left"]}>

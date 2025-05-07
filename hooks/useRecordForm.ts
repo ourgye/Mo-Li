@@ -1,6 +1,6 @@
 import { recordSelector, recordAction } from "@/slices/recordSlice";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
-import { ImagePickerResult, ImagePickerSuccessResult } from "expo-image-picker";
+import { ImagePickerAsset } from "expo-image-picker";
 import { useCallback, useMemo } from "react";
 import Archive from "@/db/schema/archive";
 import Record from "@/db/schema/record";
@@ -28,7 +28,7 @@ export function useRecordForm() {
   const setRecordDate = (date: Date) => {
     dispatch(recordAction.setRecordDate(date));
   };
-  const setRecordImage = useCallback((image: ImagePickerResult) => {
+  const setRecordImage = useCallback((image: ImagePickerAsset[]) => {
     dispatch(recordAction.setRecordImage(image));
   }, []);
   const setRecordBody = useCallback((body: string) => {

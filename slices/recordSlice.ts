@@ -1,10 +1,10 @@
 import Archive from "@/db/schema/archive";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ImagePickerResult } from "expo-image-picker";
+import { ImagePickerAsset } from "expo-image-picker";
 
 interface RecordState {
   date: Date;
-  image: ImagePickerResult | undefined;
+  image: ImagePickerAsset[] | undefined;
   imagePath: string[];
   imageRatio: number[];
   body: string;
@@ -27,7 +27,7 @@ export const recordSlice = createSlice({
     setRecordDate(state, action: PayloadAction<Date>) {
       state.date = action.payload;
     },
-    setRecordImage(state, action: PayloadAction<ImagePickerResult>) {
+    setRecordImage(state, action: PayloadAction<ImagePickerAsset[]>) {
       state.image = action.payload;
     },
     setRecordBody(state, action: PayloadAction<string>) {
