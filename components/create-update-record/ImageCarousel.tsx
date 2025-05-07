@@ -22,11 +22,12 @@ export default function ImageCarousel({
   modify,
 }: ImageCarouselProps) {
   const {
-    recordImage,
+    // recordImage,
     recordImagePath,
     recordImageRatio,
-    setRecordImage,
+    // setRecordImage,
     setImageRatio,
+    setRecordImagePath,
   } = useRecordForm();
 
   const carouselRef = useRef<ICarouselInstance>(null);
@@ -38,20 +39,16 @@ export default function ImageCarousel({
   const handleOnDelete = (index: number) => {
     console.log("delete", index);
 
-    if (!recordImage) return;
+    if (!setRecordImagePath) return;
 
-    const newImages = recordImage?.filter((_, i) => i !== index);
+    const newImagesPath = recordImagePath?.filter((_, i) => i !== index);
     const newRatio = recordImageRatio.filter((_, i) => i !== index);
 
     carouselRef.current?.scrollTo({ index: index - 1 }); // 삭제된 이미지의 이전으로 이동
 
-    setRecordImage(newImages || []);
+    setRecordImagePath(newImagesPath || []);
     setImageRatio(newRatio);
     setCurrentIndex(index ? index - 1 : 0);
-
-    // console.log("newImages", newImages);
-    // console.log("newRatio", newRatio);
-    // console.log("currentIndex", currentIndex);
   };
 
   const snapToItem = (index: number) => {
@@ -64,8 +61,9 @@ export default function ImageCarousel({
       ref={carouselRef}
       width={width}
       height={currentHeight}
-      data={recordImage || []}
+      data={recordImagePath || []}
       overscrollEnabled={false}
+      // 애니메이션 추가해서 부드럽게 전환해야함
       scrollAnimationDuration={50}
       loop={false}
       onProgressChange={progress}
@@ -91,14 +89,13 @@ export default function ImageCarousel({
             style={[
               styles.recordImage,
               { resizeMode: "cover" },
-              { height: (240 * item.height) / item.width },
+              { height: 240 * recordImageRatio[index] },
             ]}
-            source={{ uri: item.uri }}
+            source={{ uri: item }}
           />
         </View>
       )}
       onSnapToItem={snapToItem}
-      // 애니메이션 추가해서 부드럽게 전환해야함
     />
   );
 }

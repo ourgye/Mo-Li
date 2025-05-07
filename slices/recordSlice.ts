@@ -4,7 +4,7 @@ import { ImagePickerAsset } from "expo-image-picker";
 
 interface RecordState {
   date: Date;
-  image: ImagePickerAsset[] | undefined;
+  // image: ImagePickerAsset[] | undefined;
   imagePath: string[];
   imageRatio: number[];
   body: string;
@@ -13,7 +13,7 @@ interface RecordState {
 
 const initialState: RecordState = {
   date: new Date(),
-  image: undefined,
+  // image: undefined,
   imagePath: [],
   imageRatio: [],
   archive: undefined,
@@ -27,14 +27,17 @@ export const recordSlice = createSlice({
     setRecordDate(state, action: PayloadAction<Date>) {
       state.date = action.payload;
     },
-    setRecordImage(state, action: PayloadAction<ImagePickerAsset[]>) {
-      state.image = action.payload;
-    },
+    // setRecordImage(state, action: PayloadAction<ImagePickerAsset[]>) {
+    //   state.image = action.payload;
+    // },
     setRecordBody(state, action: PayloadAction<string>) {
       state.body = action.payload;
     },
     setImageRatio(state, action: PayloadAction<number[]>) {
       state.imageRatio = action.payload;
+    },
+    setImagePath(state, action: PayloadAction<string[]>) {
+      state.imagePath = action.payload;
     },
     setArchive(state, action: PayloadAction<Archive | undefined>) {
       if (action.payload === undefined) {
@@ -51,11 +54,11 @@ export const recordSlice = createSlice({
       if (body) state.body = body;
       if (archive) state.archive = archive;
 
-      state.image = undefined;
+      // state.image = undefined;
     },
     resetRecord(state) {
       state.date = new Date();
-      state.image = undefined;
+      // state.image = undefined;
       state.imagePath = [];
       state.imageRatio = [];
       state.body = "";
@@ -64,7 +67,7 @@ export const recordSlice = createSlice({
   },
   selectors: {
     selectRecordDate: (state) => state.date,
-    selectRecordImage: (state) => state.image,
+    // selectRecordImage: (state) => state.image,
     selectRecordBody: (state) => state.body,
     selectImageRatio: (state) => state.imageRatio,
     selectArchive: (state) => state.archive,

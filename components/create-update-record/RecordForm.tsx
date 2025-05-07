@@ -42,7 +42,6 @@ export function RecordForm({
     recordWhole,
     recordDate,
     recordBody,
-    recordImage,
     recordImageRatio,
     recordImagePath,
     recordArchive,
@@ -63,7 +62,7 @@ export function RecordForm({
 
   const createRecord = () => {
     // 사진 있는 지 확인
-    if (!recordWhole.image) {
+    if (!recordWhole.imagePath) {
       throw new Error("사진을 선택해주세요");
     }
     // 아카이브 있는 지 확인
@@ -87,7 +86,7 @@ export function RecordForm({
     );
     const createRec = async () => {
       const imagePath = await saveImage2File(
-        recordWhole.image,
+        recordWhole.imagePath,
         record._id.toString(),
       );
 
@@ -110,7 +109,7 @@ export function RecordForm({
     const record = realm.objectForPrimaryKey<Record>(Record, recordId);
 
     // 사진 있는 지 확인
-    if (!recordWhole.image) {
+    if (!recordWhole.imagePath) {
       throw new Error("사진을 선택해주세요");
     }
     // 아카이브 있는 지 확인
@@ -128,13 +127,16 @@ export function RecordForm({
 
     let imagePath: string[] = [];
     const updateRec = async () => {
-      if (recordImage) {
-        const deleteSuccess = await deleteImageAll(recordImagePath);
+      if (recordImagePath && record) {
+        const toBeDeleted = record.imagePath.filter(
+          (path) => !recordImagePath.includes(path),
+        );
+        const deleteSuccess = await deleteImageAll(toBeDeleted);
         if (!deleteSuccess) {
           throw new Error("사진 삭제 실패");
         }
         imagePath = await saveImage2File(
-          recordWhole.image,
+          recordWhole.imagePath,
           recordId.toString(),
         );
       }
