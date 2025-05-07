@@ -26,7 +26,7 @@ export function ArchiveItem({
       </View>
       <View style={styles.totalDateWrapper}>
         <Text style={typos.caption2_typo}>
-          {data.count ? data.count + " 개" : "컨텐츠가 없습니다"}
+          {data.count ? data.count + " 개" : "데이터가 없습니다"}
           {data.lastDate && " | " + dayjs(data.lastDate).format("YYYY-MM-DD")}
         </Text>
       </View>

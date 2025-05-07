@@ -16,7 +16,7 @@ export function ArchiveListItem({ archive }: { archive: Archive }) {
               ? archive.count +
                 "개 | " +
                 dayjs(archive.lastDate).format("YYYY-MM-DD")
-              : "컨텐츠가 없습니다"}
+              : "데이터가 없습니다"}
           </Text>
         </View>
       </Pressable>

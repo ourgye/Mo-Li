@@ -26,25 +26,19 @@ export default function ArchiveModal({
   modalVisible,
   setModalVisible,
   modify = false,
-  archiveId,
+  archive,
 }: {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
   modify?: boolean;
-  archiveId?: Realm.BSON.UUID;
+  archive?: Archive;
 }) {
   const realm = useRealm();
-  const archive =
-    modify && archiveId ? getArchiveById(realm, archiveId) : undefined;
-  const [name, setName] = useState<string>(archive?.name ?? "");
+  // const archive =
+  //   modify && archiveId ? getArchiveById(realm, archiveId) : undefined;
+  const [name, setName] = useState<string>("");
 
   // console.log("archiveId", archiveId);
-
-  useEffect(() => {
-    if (modify && archive) {
-      setName(archive.name);
-    }
-  }, [archiveId]);
 
   const handleCreateArchive = () => {
     if (name === "") {
@@ -62,6 +56,12 @@ export default function ArchiveModal({
       setModalVisible(!modalVisible);
     }
   };
+
+  useEffect(() => {
+    if (modify && archive) {
+      setName(archive.name);
+    }
+  }, [archive]);
 
   return (
     <Modal visible={modalVisible} transparent>

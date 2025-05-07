@@ -73,7 +73,7 @@ const ArchiveSelectListItem = ({
         <Text>
           {data.count
             ? data.count + "개 | " + dayjs(data.lastDate).format("YYYY-MM-DD")
-            : "컨텐츠가 없습니다"}
+            : "데이터가 없습니다"}
         </Text>
       </View>
     </Pressable>

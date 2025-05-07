@@ -20,7 +20,7 @@ export default function ArchiveDraggableList() {
   const archive = useArchive(realm);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [selectedArchive, setSelectedArchive] = useState<Archive>();
+  const [selectedArchive, setSelectedArchive] = useState<Archive | undefined>();
 
   const ArchiveSelectListItem = ({
     item,
@@ -48,7 +48,7 @@ export default function ArchiveDraggableList() {
               onPress: () => deleteArchive(realm, item._id as Realm.BSON.UUID),
               style: "destructive",
             },
-          ]
+          ],
         );
       }
     };
@@ -129,9 +129,7 @@ export default function ArchiveDraggableList() {
       <ArchiveModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        archiveId={
-          selectedArchive ? (selectedArchive._id as Realm.BSON.UUID) : undefined
-        }
+        archive={selectedArchive}
         modify={true}
       />
       <DraggableFlatList
