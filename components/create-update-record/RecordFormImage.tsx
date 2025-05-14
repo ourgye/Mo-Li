@@ -1,4 +1,4 @@
-import { Image, Pressable, Text } from "react-native";
+import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { useRecordForm } from "@/hooks/useRecordForm";
 import * as ImagePicker from "expo-image-picker";
 import { memo, useCallback } from "react";
@@ -55,26 +55,25 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
   };
 
   return (
-    <Pressable
-      style={[
-        // styles.recordImage,
-        { alignSelf: "center" },
-        (!recordImagePath || recordImagePath.length === 0) && {
-          height: 240,
-          width: 240,
-          borderWidth: 1,
-          borderRadius: 24,
-        },
-      ]}
-      onPress={handleImagePicker}
-    >
-      {!!recordImagePath && recordImagePath.length > 0 && (
-        <ImageCarousel
-          // images={recordImage}
-          width={styles.recordImage.width}
-          modify={modify}
-        />
-      )}
-    </Pressable>
+    <View style={{ borderWidth: 1, borderColor: "green" }}>
+      <ImageCarousel width={styles.recordImage.width} modify={modify} />
+      <TouchableOpacity
+        onPress={handleImagePicker}
+        style={[
+          {
+            width: 200,
+            height: 40,
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+            backgroundColor: "yellow",
+            borderRadius: 24,
+            marginTop: 14,
+          },
+        ]}
+      >
+        <Text>사진 추가 버튼</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
