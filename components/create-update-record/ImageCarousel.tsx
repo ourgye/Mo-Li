@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Image, Pressable, View } from "react-native";
+import { Image, Pressable, View, Dimensions } from "react-native";
 import Carousel, {
   ICarouselInstance,
   Pagination,
@@ -11,6 +11,7 @@ import styles from "./style/RecordForm";
 import SvgIcon from "../common/SvgIcon";
 import { useRecordForm } from "@/hooks/useRecordForm";
 import { useSharedValue } from "react-native-reanimated";
+import colors from "@/assets/colors/colors";
 
 interface ImageCarouselProps {
   // images: ImagePickerAsset[];
@@ -85,17 +86,10 @@ export default function ImageCarousel({
   }
 
   return (
-    <View
-      style={{
-        width: 300,
-        borderWidth: 1,
-        borderColor: "red",
-        alignSelf: "center",
-      }}
-    >
+    <View>
       <Carousel
         ref={carouselRef}
-        width={300} // 임시 너비
+        width={Dimensions.get("window").width - 48}
         height={currentHeight}
         data={recordImagePath || []}
         overscrollEnabled={false}
@@ -115,18 +109,15 @@ export default function ImageCarousel({
               }}
               onPress={() => handleOnDelete(index)}
             >
-              <MaterialCommunityIcons
-                name="close-circle"
-                size={24}
-                color="white"
-              />
+              <SvgIcon name="Delete_icon" size={20} />
             </Pressable>
             <Image
               key={index}
               style={[
                 styles.recordImage,
                 { resizeMode: "cover" },
-                { height: 240 * recordImageRatio[index] },
+                // { height: 240 * recordImageRatio[index] },
+                { height: currentHeight },
               ]}
               source={{ uri: item }}
             />
@@ -145,24 +136,28 @@ export default function ImageCarousel({
         progress={progress}
         data={recordImagePath || []}
         activeDotStyle={{
-          borderRadius: 100,
-          backgroundColor: "#262626",
+          width: 8,
+          height: 8,
+          borderRadius: 99,
+          backgroundColor: colors.blued1,
         }}
         dotStyle={{
-          borderRadius: 100,
+          width: 8,
+          height: 8,
+          borderRadius: 99,
           overflow: "hidden",
-          backgroundColor: "#D9D9D9",
+          backgroundColor: colors.gray3,
         }}
         containerStyle={[
           {
-            gap: 5,
-            margin: 10,
+            gap: 6,
+            margin: 12,
           },
         ]}
         onPress={onPressPagination}
       />
-      {/* 왼쪽 화살표 */}
-      <View
+      {/* 화살표 */}
+      {/* <View
         style={{
           position: "absolute",
           top: currentHeight / 2 - 20,
@@ -179,7 +174,6 @@ export default function ImageCarousel({
           />
         </Pressable>
       </View>
-      {/* 오른쪽 화살표 */}
       <View
         style={{
           position: "absolute",
@@ -198,7 +192,7 @@ export default function ImageCarousel({
             }}
           />
         </Pressable>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -210,11 +204,13 @@ ImageCarousel.skeleton = () => {
         // styles.recordImage,
         { alignSelf: "center", alignItems: "center" },
         // 임시
-        { width: 300, borderWidth: 1, borderColor: "red" },
         {
-          height: 240,
-          width: 240,
+          borderWidth: 1,
+          borderColor: colors.black0,
           borderRadius: 24,
+          backgroundColor: colors.white0,
+          width: Dimensions.get("window").height / 4,
+          height: Dimensions.get("window").height / 4,
         },
       ]}
     ></View>

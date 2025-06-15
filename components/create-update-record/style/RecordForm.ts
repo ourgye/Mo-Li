@@ -1,15 +1,16 @@
 // RecordFormArchive, RecordForm 둘 다 사용
 import colors from "@/assets/colors/colors";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    //height: "100%",
+    //flex: 1,
     backgroundColor: colors.white0,
     flexDirection: "column",
     justifyContent: "flex-start",
     padding: 16,
     gap: 16,
+    marginVertical: 24,
     overflow: "hidden",
     borderColor: colors.black0,
     borderWidth: 1,
@@ -26,22 +27,17 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray3,
   },
   textArea: {
-    //height: 164,
-    height: "auto",
-    flex: 1,
+    // height: "auto",
+    // height: Dimensions.get("window").height / 4,
   },
   recordImage: {
     backgroundColor: colors.white0,
-    width: 240,
-    // fixed width
-    //width: 234,
-    // temp height
-    // height: 234,
+    width: Dimensions.get("window").height / 4,
     alignSelf: "center",
     overflow: "hidden",
     borderColor: colors.black0,
     borderWidth: 1,
-    borderRadius: 24,
+    borderRadius: 16,
   },
 });
 

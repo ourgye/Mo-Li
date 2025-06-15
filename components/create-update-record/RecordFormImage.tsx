@@ -4,7 +4,6 @@ import * as ImagePicker from "expo-image-picker";
 import { memo, useCallback } from "react";
 
 import styles from "./style/RecordForm";
-import SvgIcon from "../common/SvgIcon";
 import ImageCarousel from "./ImageCarousel";
 
 const IMAGE_LIMIT = 5;
@@ -23,7 +22,7 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
     try {
       console.log(
         "image number can add",
-        IMAGE_LIMIT - (recordImagePath?.length || 0),
+        IMAGE_LIMIT - (recordImagePath?.length || 0)
       );
 
       if (recordImagePath?.length === IMAGE_LIMIT) {
@@ -55,24 +54,9 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
   };
 
   return (
-    <View style={{ borderWidth: 1, borderColor: "green" }}>
-      <ImageCarousel width={styles.recordImage.width} modify={modify} />
-      <TouchableOpacity
-        onPress={handleImagePicker}
-        style={[
-          {
-            width: 200,
-            height: 40,
-            justifyContent: "center",
-            alignItems: "center",
-            alignSelf: "center",
-            backgroundColor: "yellow",
-            borderRadius: 24,
-            marginTop: 14,
-          },
-        ]}
-      >
-        <Text>사진 추가 버튼</Text>
+    <View>
+      <TouchableOpacity onPress={handleImagePicker}>
+        <ImageCarousel width={styles.recordImage.width} modify={modify} />
       </TouchableOpacity>
     </View>
   );

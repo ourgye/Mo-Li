@@ -36,6 +36,7 @@ export default function CreateRecordHeader({
       <Pressable onPress={handleOnPressBack} style={styles.iconWrapper}>
         <SvgIcon name="Back_icon" size={24} />
       </Pressable>
+      <Text style={[typos.header_typo, styles.headerTypo]}>레코드 추가</Text>
       {/* =================== 게시 버튼  =================== */}
       <Pressable style={styles.button} onPress={handleOnCreate}>
         <Text style={typos.body1_typo}>게시</Text>

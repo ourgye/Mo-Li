@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { RecordForm } from "@/components/create-update-record/RecordForm";
 import { useEffect } from "react";
 import { useRecordForm } from "@/hooks/useRecordForm";
+import colors from "@/assets/colors/colors";
 
 export default function CreateRecord() {
   const { setInitiailState } = useRecordForm();
@@ -23,9 +24,9 @@ export default function CreateRecord() {
 const styles = StyleSheet.create({
   // body
   container: {
-    backgroundColor: "#F8F8F8",
+    flex: 1,
+    backgroundColor: colors.gray1,
     paddingHorizontal: 24,
     gap: 24,
-    flex: 1,
   },
 });

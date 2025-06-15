@@ -8,22 +8,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 8,
+    marginVertical: 16,
   },
   iconWrapper: {
     padding: 8,
   },
+  headerTypo: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    textAlign: "center",
+  },
   button: {
     backgroundColor: colors.blue0,
-    width: 60,
-    height: 32,
-    //paddingHorizontal: 16,
-    //paddingVertical: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     alignItems: "center",
     justifyContent: "center",
     borderColor: colors.black0,
     borderWidth: 1,
-    borderRadius: 16,
+    borderRadius: 99,
   },
 });
 
