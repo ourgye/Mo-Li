@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     padding: 8,
+    zIndex: 5,
   },
   headerTypo: {
     position: "absolute",

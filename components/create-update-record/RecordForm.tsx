@@ -82,12 +82,12 @@ export function RecordForm({
       recordDate,
       [],
       recordImageRatio,
-      recordBody
+      recordBody,
     );
     const createRec = async () => {
       const imagePath = await saveImage2File(
         recordWhole.imagePath,
-        record._id.toString()
+        record._id.toString(),
       );
 
       console.log("[DEBUG] imagePath", imagePath);
@@ -129,7 +129,7 @@ export function RecordForm({
     const updateRec = async () => {
       if (recordImagePath && record) {
         const toBeDeleted = record.imagePath.filter(
-          (path) => !recordImagePath.includes(path)
+          (path) => !recordImagePath.includes(path),
         );
         const deleteSuccess = await deleteImageAll(toBeDeleted);
         if (!deleteSuccess) {
@@ -137,7 +137,7 @@ export function RecordForm({
         }
         imagePath = await saveImage2File(
           recordWhole.imagePath,
-          recordId.toString()
+          recordId.toString(),
         );
       }
 
@@ -153,7 +153,7 @@ export function RecordForm({
           recordDate,
           imagePath,
           recordImageRatio,
-          recordBody
+          recordBody,
         );
       }
     };
@@ -170,10 +170,6 @@ export function RecordForm({
       ) : (
         <CreateRecordHeader createRecord={createRecord} />
       )}
-      {/* <ScrollView
-        contentContainerStyle={{ gap: 24, paddingTop: 24, paddingBottom: 72 }}
-        showsVerticalScrollIndicator={false}
-      > */}
       <RecordFormImage modify />
       <View style={styles.container}>
         <DateTimePickerModal
@@ -238,7 +234,6 @@ export function RecordForm({
           </View>
         </View>
       </View>
-      {/* </ScrollView> */}
     </>
   );
 }

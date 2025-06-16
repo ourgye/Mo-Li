@@ -22,7 +22,7 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
     try {
       console.log(
         "image number can add",
-        IMAGE_LIMIT - (recordImagePath?.length || 0)
+        IMAGE_LIMIT - (recordImagePath?.length || 0),
       );
 
       if (recordImagePath?.length === IMAGE_LIMIT) {
