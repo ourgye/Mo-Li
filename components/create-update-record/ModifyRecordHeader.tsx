@@ -8,8 +8,10 @@ import { useRecordForm } from "@/hooks/useRecordForm";
 
 export default function ModifyRecordHeader({
   modifyRecord,
+  buttonEnable,
 }: {
   modifyRecord: () => void;
+  buttonEnable: boolean;
 }) {
   const { setInitiailState } = useRecordForm();
 
@@ -36,7 +38,11 @@ export default function ModifyRecordHeader({
         <SvgIcon name="Back_icon" size={24} />
       </Pressable>
       {/* =================== 게시 버튼  =================== */}
-      <Pressable style={styles.button} onPress={handleOnUpdate}>
+      <Pressable
+        style={[styles.button, !buttonEnable && styles.buttonDisable]}
+        disabled={!buttonEnable}
+        onPress={handleOnUpdate}
+      >
         <Text style={typos.body1_typo}>수정</Text>
       </Pressable>
     </View>

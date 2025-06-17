@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -19,7 +19,6 @@ import dayjs from "dayjs";
 import RecordFormImage from "./RecordFormImage";
 import CreateRecordHeader from "./CreateRecordHeader";
 import Record from "@/db/schema/record";
-import Archive from "@/db/schema/archive";
 import { saveImage2File } from "@/utils/saveImage2File";
 import { useRealm } from "@realm/react";
 import { createNewRecord, updateRecord } from "@/db/crud/record-method";
@@ -51,6 +50,7 @@ export function RecordForm({
   } = useRecordForm();
   const [isDatePickerVisible, setDatePickerVisibility] =
     useState<boolean>(false);
+  const [buttonEnable, setButtonEnable] = useState<boolean>(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -60,9 +60,21 @@ export function RecordForm({
     setDatePickerVisibility(false);
   };
 
+  const checkRecordForm = () => {
+    if (
+      !recordWhole.imagePath.length ||
+      !recordArchive ||
+      !recordBody ||
+      !recordDate
+    ) {
+      return setButtonEnable(false);
+    }
+    return setButtonEnable(true);
+  };
+
   const createRecord = () => {
     // 사진 있는 지 확인
-    if (!recordWhole.imagePath) {
+    if (!recordWhole.imagePath.length) {
       throw new Error("사진을 선택해주세요");
     }
     // 아카이브 있는 지 확인
@@ -109,7 +121,7 @@ export function RecordForm({
     const record = realm.objectForPrimaryKey<Record>(Record, recordId);
 
     // 사진 있는 지 확인
-    if (!recordWhole.imagePath) {
+    if (!recordWhole.imagePath.length) {
       throw new Error("사진을 선택해주세요");
     }
     // 아카이브 있는 지 확인
@@ -161,32 +173,43 @@ export function RecordForm({
     setInitiailState();
   };
 
+  useEffect(() => {
+    checkRecordForm();
+    // console.log("[DEBUG] recordWhole", recordWhole);
+  }, [recordWhole]);
+
   return (
-    <>
+    <View style={{ height: "100%" }}>
       {modify ? (
         <ModifyRecordHeader
           modifyRecord={() => (recordId ? modifyRecord(recordId) : null)}
+          buttonEnable={buttonEnable}
         />
       ) : (
-        <CreateRecordHeader createRecord={createRecord} />
+        <CreateRecordHeader
+          createRecord={createRecord}
+          buttonEnable={buttonEnable}
+        />
       )}
       <RecordFormImage modify />
-      <View style={styles.container}>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          date={dayjs().toDate()}
-          mode="date"
-          display="inline"
-          onConfirm={(date: Date) => {
-            setRecordDate(date);
-            hideDatePicker();
-          }}
-          onCancel={hideDatePicker}
-          locale="ko_KR"
-          accentColor={colors.blue0}
-          confirmTextIOS="확인"
-          cancelTextIOS="취소"
-        />
+      <DateTimePickerModal
+        // style={{ flex: 1}}
+        isVisible={isDatePickerVisible}
+        date={dayjs().toDate()}
+        mode="date"
+        display="inline"
+        onConfirm={(date: Date) => {
+          setRecordDate(date);
+          hideDatePicker();
+        }}
+        onCancel={hideDatePicker}
+        locale="ko_KR"
+        accentColor={colors.blue0}
+        confirmTextIOS="확인"
+        cancelTextIOS="취소"
+      />
+      {/* 폼 */}
+      <View style={[styles.container]}>
         {/*============================== 아카이브  ==============================*/}
         <View style={styles.bottomLine}>
           <Text style={typos.subtitle1_typo}>아카이브</Text>
@@ -214,7 +237,7 @@ export function RecordForm({
           </Pressable>
         </View>
         {/* ============================== 내용 ============================== */}
-        <View style={styles.bottomLine}>
+        <View style={[styles.bottomLine, { flex: 1 }]}>
           <Text style={typos.subtitle1_typo}>내용</Text>
           <View style={styles.inputContainer}>
             {/* value from state management */}
@@ -222,7 +245,11 @@ export function RecordForm({
               editable
               multiline
               scrollEnabled
-              style={[typos.body1_typo, styles.textArea]}
+              style={[
+                typos.body1_typo,
+                styles.textArea,
+                { maxHeight: "100%", width: "100%" },
+              ]}
               placeholder="내용을 입력해주세요"
               spellCheck={false}
               autoComplete="off"
@@ -234,6 +261,6 @@ export function RecordForm({
           </View>
         </View>
       </View>
-    </>
+    </View>
   );
 }

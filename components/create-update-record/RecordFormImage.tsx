@@ -56,7 +56,11 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
   return (
     <View>
       <TouchableOpacity onPress={handleImagePicker}>
-        <ImageCarousel width={styles.recordImage.width} modify={modify} />
+        <ImageCarousel
+          modify={modify}
+          width={styles.recordImage.width}
+          height={styles.recordImage.height}
+        />
       </TouchableOpacity>
     </View>
   );

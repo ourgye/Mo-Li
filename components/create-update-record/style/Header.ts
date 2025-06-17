@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     right: 0,
     textAlign: "center",
   },
+  // 임시
+  buttonDisable: {
+    backgroundColor: colors.gray3,
+    color: colors.gray5,
+  },
   button: {
     backgroundColor: colors.blue0,
     paddingHorizontal: 16,

@@ -28,5 +28,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray1,
     paddingHorizontal: 24,
     gap: 24,
+    height: "100%",
   },
 });

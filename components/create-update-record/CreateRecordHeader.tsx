@@ -8,8 +8,10 @@ import typos from "@/assets/fonts/typos";
 
 export default function CreateRecordHeader({
   createRecord,
+  buttonEnable,
 }: {
   createRecord: () => void;
+  buttonEnable: boolean;
 }) {
   const { setInitiailState } = useRecordForm();
 
@@ -38,7 +40,11 @@ export default function CreateRecordHeader({
       </Pressable>
       <Text style={[typos.header_typo, styles.headerTypo]}>레코드 추가</Text>
       {/* =================== 게시 버튼  =================== */}
-      <Pressable style={styles.button} onPress={handleOnCreate}>
+      <Pressable
+        style={[styles.button, !buttonEnable && styles.buttonDisable]}
+        disabled={!buttonEnable}
+        onPress={handleOnCreate}
+      >
         <Text style={typos.body1_typo}>게시</Text>
       </Pressable>
     </View>

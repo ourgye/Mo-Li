@@ -4,7 +4,7 @@ import { Dimensions, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
+    flex: 1,
     backgroundColor: colors.white0,
     flexDirection: "column",
     justifyContent: "flex-start",
@@ -27,12 +27,13 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray3,
   },
   textArea: {
-    // height: "auto",
+    height: "100%",
     // height: Dimensions.get("window").height / 4,
   },
   recordImage: {
     backgroundColor: colors.white0,
     width: Dimensions.get("window").height / 4,
+    height: Dimensions.get("window").height / 4,
     alignSelf: "center",
     overflow: "hidden",
     borderColor: colors.black0,

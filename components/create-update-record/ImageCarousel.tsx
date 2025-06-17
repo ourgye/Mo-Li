@@ -5,8 +5,6 @@ import Carousel, {
   Pagination,
 } from "react-native-reanimated-carousel";
 
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import styles from "./style/RecordForm";
 import SvgIcon from "../common/SvgIcon";
 import { useRecordForm } from "@/hooks/useRecordForm";
@@ -16,12 +14,17 @@ import colors from "@/assets/colors/colors";
 interface ImageCarouselProps {
   // images: ImagePickerAsset[];
   width: number;
+  height: number;
   modify?: boolean;
 }
+
+const screenWidth = Dimensions.get("window").width - 48; // 24 padding left and right
+// const screenHeight = Dimensions.get("window").height / 4;
 
 export default function ImageCarousel({
   // images,
   width,
+  height,
   modify,
 }: ImageCarouselProps) {
   const {
@@ -38,6 +41,7 @@ export default function ImageCarousel({
   const progress = useSharedValue<number>(0);
 
   const currentHeight = width * (recordImageRatio?.[currentIndex] ?? 1);
+  const currentWidth = height * (1 / (recordImageRatio?.[currentIndex] ?? 1));
 
   const handleOnDelete = (index: number) => {
     console.log("delete", index);
@@ -64,22 +68,22 @@ export default function ImageCarousel({
       animated: true,
     });
   };
-  const onPressNext = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollTo({
-        index: (currentIndex + 1) % (recordImagePath?.length || 1),
-        animated: true,
-      });
-    }
-  };
-  const onPressPrev = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollTo({
-        index: (currentIndex - 1) % (recordImagePath?.length || 1),
-        animated: true,
-      });
-    }
-  };
+  // const onPressNext = () => {
+  //   if (carouselRef.current) {
+  //     carouselRef.current.scrollTo({
+  //       index: (currentIndex + 1) % (recordImagePath?.length || 1),
+  //       animated: true,
+  //     });
+  //   }
+  // };
+  // const onPressPrev = () => {
+  //   if (carouselRef.current) {
+  //     carouselRef.current.scrollTo({
+  //       index: (currentIndex - 1) % (recordImagePath?.length || 1),
+  //       animated: true,
+  //     });
+  //   }
+  // };
 
   if (recordImagePath?.length === 0) {
     return <ImageCarousel.skeleton />;
@@ -90,7 +94,7 @@ export default function ImageCarousel({
       <Carousel
         ref={carouselRef}
         width={Dimensions.get("window").width - 48}
-        height={currentHeight}
+        height={height || currentHeight}
         data={recordImagePath || []}
         overscrollEnabled={false}
         // 애니메이션 추가해서 부드럽게 전환해야함
@@ -99,28 +103,42 @@ export default function ImageCarousel({
         pagingEnabled={true}
         onProgressChange={progress}
         renderItem={({ item, index }) => (
-          <View style={{ width: width, alignSelf: "center" }}>
-            <Pressable
-              style={{
-                position: "absolute",
-                top: 10,
-                right: 10,
-                zIndex: 1,
-              }}
-              onPress={() => handleOnDelete(index)}
-            >
-              <SvgIcon name="Delete_icon" size={20} />
-            </Pressable>
-            <Image
-              key={index}
-              style={[
-                styles.recordImage,
-                { resizeMode: "cover" },
-                // { height: 240 * recordImageRatio[index] },
-                { height: currentHeight },
-              ]}
-              source={{ uri: item }}
-            />
+          <View
+            style={{
+              height: height,
+              alignSelf: "center",
+              justifyContent: "center",
+            }}
+          >
+            <View>
+              <Pressable
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  zIndex: 1,
+                }}
+                onPress={() => handleOnDelete(index)}
+              >
+                <SvgIcon name="Delete_icon" size={20} />
+              </Pressable>
+              <Image
+                key={index}
+                style={[
+                  styles.recordImage,
+                  { resizeMode: "cover" },
+                  currentWidth > screenWidth
+                    ? {
+                        width: screenWidth,
+                        height: currentHeight,
+                      }
+                    : {
+                        width: currentWidth,
+                      },
+                ]}
+                source={{ uri: item }}
+              />
+            </View>
           </View>
         )}
         onSnapToItem={snapToItem}
@@ -202,7 +220,7 @@ ImageCarousel.skeleton = () => {
     <View
       style={[
         // styles.recordImage,
-        { alignSelf: "center", alignItems: "center" },
+        { alignSelf: "center", alignItems: "center", justifyContent: "center" },
         // 임시
         {
           borderWidth: 1,
@@ -213,6 +231,8 @@ ImageCarousel.skeleton = () => {
           height: Dimensions.get("window").height / 4,
         },
       ]}
-    ></View>
+    >
+      <SvgIcon name="Add_icon" size={24} color={colors.gray3} />
+    </View>
   );
 };
