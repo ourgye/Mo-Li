@@ -1,4 +1,9 @@
-import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RecordForm } from "@/components/create-update-record/RecordForm";
 import { useEffect } from "react";
@@ -14,7 +19,7 @@ export default function CreateRecord() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-16}>
+      <KeyboardAvoidingView behavior="position">
         <RecordForm modify={false} />
       </KeyboardAvoidingView>
     </SafeAreaView>

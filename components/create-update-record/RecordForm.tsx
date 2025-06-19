@@ -7,6 +7,8 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -179,88 +181,86 @@ export function RecordForm({
   }, [recordWhole]);
 
   return (
-    <View style={{ height: "100%" }}>
-      {modify ? (
-        <ModifyRecordHeader
-          modifyRecord={() => (recordId ? modifyRecord(recordId) : null)}
-          buttonEnable={buttonEnable}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{ height: "100%" }}>
+        {modify ? (
+          <ModifyRecordHeader
+            modifyRecord={() => (recordId ? modifyRecord(recordId) : null)}
+            buttonEnable={buttonEnable}
+          />
+        ) : (
+          <CreateRecordHeader
+            createRecord={createRecord}
+            buttonEnable={buttonEnable}
+          />
+        )}
+        <RecordFormImage modify />
+        <DateTimePickerModal
+          // style={{ flex: 1}}
+          isVisible={isDatePickerVisible}
+          date={dayjs().toDate()}
+          mode="date"
+          display="inline"
+          onConfirm={(date: Date) => {
+            setRecordDate(date);
+            hideDatePicker();
+          }}
+          onCancel={hideDatePicker}
+          locale="ko_KR"
+          accentColor={colors.blue0}
+          confirmTextIOS="확인"
+          cancelTextIOS="취소"
         />
-      ) : (
-        <CreateRecordHeader
-          createRecord={createRecord}
-          buttonEnable={buttonEnable}
-        />
-      )}
-      <RecordFormImage modify />
-      <DateTimePickerModal
-        // style={{ flex: 1}}
-        isVisible={isDatePickerVisible}
-        date={dayjs().toDate()}
-        mode="date"
-        display="inline"
-        onConfirm={(date: Date) => {
-          setRecordDate(date);
-          hideDatePicker();
-        }}
-        onCancel={hideDatePicker}
-        locale="ko_KR"
-        accentColor={colors.blue0}
-        confirmTextIOS="확인"
-        cancelTextIOS="취소"
-      />
-      {/* 폼 */}
-      <View style={[styles.container]}>
-        {/*============================== 아카이브  ==============================*/}
-        <View style={styles.bottomLine}>
-          <Text style={typos.subtitle1_typo}>아카이브</Text>
-          <Pressable
-            style={styles.inputContainer}
-            onPress={() => {
-              router.navigate("/select-archive");
-            }}
-          >
-            {/* value from state management */}
-            <Text style={typos.body1_typo}>
-              {(recordArchive && recordArchive.name) ?? "아카이브 선택"}
-            </Text>
-            <SvgIcon name="Select_icon" size={20} />
-          </Pressable>
-        </View>
-        {/* ============================== 날짜 ============================== */}
-        <View style={styles.bottomLine}>
-          <Text style={typos.subtitle1_typo}>날짜</Text>
-          <Pressable style={styles.inputContainer} onPress={showDatePicker}>
-            <Text style={typos.body1_typo}>
-              {dayjs(recordDate).format("YYYY-MM-DD")}
-            </Text>
-            <SvgIcon name="Select_icon" size={20} />
-          </Pressable>
-        </View>
-        {/* ============================== 내용 ============================== */}
-        <View style={[styles.bottomLine, { flex: 1 }]}>
-          <Text style={typos.subtitle1_typo}>내용</Text>
-          <View style={styles.inputContainer}>
-            {/* value from state management */}
-            <TextInput
-              editable
-              multiline
-              scrollEnabled
-              style={[
-                typos.body1_typo,
-                styles.textArea,
-                { maxHeight: "100%", width: "100%" },
-              ]}
-              placeholder="내용을 입력해주세요"
-              spellCheck={false}
-              autoComplete="off"
-              autoCorrect={false}
-              autoCapitalize="none"
-              value={recordBody}
-              onChangeText={setRecordBody}
-            />
+        {/* 폼 */}
+        <View style={[styles.container]}>
+          {/*============================== 아카이브  ==============================*/}
+          <View style={styles.bottomLine}>
+            <Text style={typos.subtitle1_typo}>아카이브</Text>
+            <Pressable
+              style={styles.inputContainer}
+              onPress={() => {
+                router.navigate("/select-archive");
+              }}
+            >
+              {/* value from state management */}
+              <Text style={typos.body1_typo}>
+                {(recordArchive && recordArchive.name) ?? "아카이브 선택"}
+              </Text>
+              <SvgIcon name="Select_icon" size={20} />
+            </Pressable>
+          </View>
+          {/* ============================== 날짜 ============================== */}
+          <View style={styles.bottomLine}>
+            <Text style={typos.subtitle1_typo}>날짜</Text>
+            <Pressable style={styles.inputContainer} onPress={showDatePicker}>
+              <Text style={typos.body1_typo}>
+                {dayjs(recordDate).format("YYYY-MM-DD")}
+              </Text>
+              <SvgIcon name="Select_icon" size={20} />
+            </Pressable>
+          </View>
+          {/* ============================== 내용 ============================== */}
+          <View style={[styles.bottomLine, { flex: 1 }]}>
+            <Text style={typos.subtitle1_typo}>내용</Text>
+            <View style={styles.inputContainer}>
+              {/* value from state management */}
+              <TextInput
+                editable
+                multiline
+                scrollEnabled
+                style={[typos.body1_typo, styles.textArea]}
+                placeholder="내용을 입력해주세요"
+                spellCheck={false}
+                autoComplete="off"
+                autoCorrect={false}
+                autoCapitalize="none"
+                value={recordBody}
+                onChangeText={setRecordBody}
+              />
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }

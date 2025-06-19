@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray3,
   },
   textArea: {
-    height: "100%",
+    // height: "%",
+    width: "100%",
     // height: Dimensions.get("window").height / 4,
   },
   recordImage: {
