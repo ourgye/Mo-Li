@@ -49,7 +49,7 @@ export function HomeList() {
   }, [currentArchiveId, selectedDate]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, paddingBottom: 16 }}>
       <ArchiveModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}

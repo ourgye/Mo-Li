@@ -11,7 +11,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          position: "absolute",
+          // position: "absolute",
           borderColor: colors.black0,
           backgroundColor: colors.gray2,
           borderTopColor: colors.black0,
@@ -59,6 +59,7 @@ export default function TabLayout() {
         name="(setting)"
         options={{
           title: "Setting",
+
           tabBarIcon: ({ focused }) => (
             <View style={focused && styles.selectedIconWrapper}>
               <TabBarIcon
