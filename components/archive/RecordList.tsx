@@ -49,13 +49,13 @@ export function RecordList({
           // data={records as Array<Record>}
           data={records}
           estimatedItemSize={128}
-          renderItem={({ item, i }: { item: Record; i: number }) => {
+          renderItem={({ item, index }: { item: Record; index: number }) => {
             return Object.keys(item).length === 0 ? (
               <RecordAdBlock />
             ) : (
               <RecordItem
                 item={item}
-                index={i}
+                index={index}
                 order={currentOrder}
                 // setSelectedRecord={setSelectedRecord}
               />

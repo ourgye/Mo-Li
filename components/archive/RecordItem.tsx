@@ -23,8 +23,15 @@ export function RecordItem({
   const _width = Math.round((dimension.width - 48 - 24) / 3);
 
   const onPressItem = () => {
-    // setSelectedRecord(item);
-    router.navigate(`/(tabs)/(archive)/record-detail/${item._id}`);
+    // Pass index and order as params for proper navigation
+    router.push({
+      pathname: "/(tabs)/(archive)/record-detail/[id]",
+      params: {
+        id: item._id.toString(),
+        initialIndex: index.toString(),
+        order: order || "desc",
+      },
+    });
   };
 
   return (
