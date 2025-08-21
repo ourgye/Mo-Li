@@ -37,3 +37,4 @@ expo-env.d.ts
 # claude
 .claude/
 docs/
+AGENTS.md

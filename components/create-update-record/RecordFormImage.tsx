@@ -19,11 +19,6 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
 
   const handleImagePicker = async () => {
     try {
-      console.log(
-        "image number can add",
-        IMAGE_LIMIT - (recordImagePath?.length || 0),
-      );
-
       if (recordImagePath?.length === IMAGE_LIMIT) {
         alert("사진은 최대 5장까지 추가할 수 있습니다.");
         return;
@@ -44,11 +39,8 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
         ...(recordImagePath || []),
         ...image.assets.map((asset) => asset.uri),
       ]);
-
-      console.log("image", image.assets);
-      console.log("ratioArray", ratioArray);
     } catch (e) {
-      console.log(e);
+      // Handle error silently or with proper error handling
     }
   };
 
