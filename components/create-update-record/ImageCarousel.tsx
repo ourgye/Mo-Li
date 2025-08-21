@@ -5,28 +5,19 @@ import Carousel, {
   Pagination,
 } from "react-native-reanimated-carousel";
 
-import styles from "./style/RecordForm";
 import SvgIcon from "../common/SvgIcon";
 import { useRecordForm } from "@/hooks/useRecordForm";
 import { useSharedValue } from "react-native-reanimated";
 import colors from "@/assets/colors/colors";
 
 interface ImageCarouselProps {
-  // images: ImagePickerAsset[];
-  width: number;
-  height: number;
   modify?: boolean;
 }
 
 const screenWidth = Dimensions.get("window").width - 48; // 24 padding left and right
-// const screenHeight = Dimensions.get("window").height / 4;
+const FIXED_HEIGHT = Dimensions.get("window").height / 4; // Fixed height for smooth transitions
 
-export default function ImageCarousel({
-  // images,
-  width,
-  height,
-  modify,
-}: ImageCarouselProps) {
+export default function ImageCarousel({ modify }: ImageCarouselProps) {
   const {
     // recordImage,
     recordImagePath,
@@ -37,12 +28,9 @@ export default function ImageCarousel({
   } = useRecordForm();
 
   const carouselRef = useRef<ICarouselInstance>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const progress = useSharedValue<number>(0);
 
-  const currentHeight = width * (recordImageRatio?.[currentIndex] ?? 1);
-  const currentWidth = height * (1 / (recordImageRatio?.[currentIndex] ?? 1));
-
+  // Removed dynamic height calculations to prevent jumps
   const handleOnDelete = (index: number) => {
     console.log("delete", index);
 
@@ -55,35 +43,14 @@ export default function ImageCarousel({
 
     setRecordImagePath(newImagesPath || []);
     setImageRatio(newRatio);
-    setCurrentIndex(index ? index - 1 : 0);
   };
 
-  const snapToItem = (index: number) => {
-    console.log("snap to item index", index);
-    setCurrentIndex(index);
-  };
   const onPressPagination = (index: number) => {
     carouselRef.current?.scrollTo({
       count: index - progress.value,
       animated: true,
     });
   };
-  // const onPressNext = () => {
-  //   if (carouselRef.current) {
-  //     carouselRef.current.scrollTo({
-  //       index: (currentIndex + 1) % (recordImagePath?.length || 1),
-  //       animated: true,
-  //     });
-  //   }
-  // };
-  // const onPressPrev = () => {
-  //   if (carouselRef.current) {
-  //     carouselRef.current.scrollTo({
-  //       index: (currentIndex - 1) % (recordImagePath?.length || 1),
-  //       animated: true,
-  //     });
-  //   }
-  // };
 
   if (recordImagePath?.length === 0) {
     return <ImageCarousel.skeleton />;
@@ -93,55 +60,80 @@ export default function ImageCarousel({
     <View>
       <Carousel
         ref={carouselRef}
-        width={Dimensions.get("window").width - 48}
-        height={height || currentHeight}
+        width={screenWidth}
+        height={FIXED_HEIGHT}
         data={recordImagePath || []}
         overscrollEnabled={false}
-        // 애니메이션 추가해서 부드럽게 전환해야함
         scrollAnimationDuration={100}
         loop={false}
         pagingEnabled={true}
         onProgressChange={progress}
-        renderItem={({ item, index }) => (
-          <View
-            style={{
-              height: height,
-              alignSelf: "center",
-              justifyContent: "center",
-            }}
-          >
-            <View>
-              <Pressable
+        renderItem={({ item, index }) => {
+          // Calculate actual image dimensions based on aspect ratio
+          const imageAspectRatio = recordImageRatio?.[index] ?? 1;
+          const containerAspectRatio = FIXED_HEIGHT / screenWidth;
+
+          let actualWidth, actualHeight;
+
+          if (imageAspectRatio > containerAspectRatio) {
+            // Image is taller - constrained by height
+            actualHeight = FIXED_HEIGHT;
+            actualWidth = FIXED_HEIGHT / imageAspectRatio;
+          } else {
+            // Image is wider - constrained by width
+            actualWidth = screenWidth;
+            actualHeight = screenWidth * imageAspectRatio;
+          }
+
+          return (
+            <View
+              style={{
+                width: screenWidth,
+                height: FIXED_HEIGHT,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {/* Image wrapper with exact dimensions and border */}
+              <View
                 style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  zIndex: 1,
+                  width: actualWidth,
+                  height: actualHeight,
+                  position: "relative",
+                  borderWidth: 1,
+                  borderColor: colors.black0,
+                  borderRadius: 16,
+                  overflow: "hidden",
                 }}
-                onPress={() => handleOnDelete(index)}
               >
-                <SvgIcon name="Delete_icon" size={20} />
-              </Pressable>
-              <Image
-                key={index}
-                style={[
-                  styles.recordImage,
-                  { resizeMode: "cover" },
-                  currentWidth > screenWidth
-                    ? {
-                        width: screenWidth,
-                        height: currentHeight,
-                      }
-                    : {
-                        width: currentWidth,
-                      },
-                ]}
-                source={{ uri: item }}
-              />
+                {/* Delete button inside image bounds */}
+                <Pressable
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    zIndex: 2,
+                    borderRadius: 15,
+                    padding: 5,
+                  }}
+                  onPress={() => handleOnDelete(index)}
+                >
+                  <SvgIcon name="Delete_icon" size={20} />
+                </Pressable>
+                {/* Image without border */}
+                <Image
+                  key={index}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  source={{ uri: item }}
+                  resizeMode="cover"
+                />
+              </View>
             </View>
-          </View>
-        )}
-        onSnapToItem={snapToItem}
+          );
+        }}
         // 옆에 사진 보이게 하는 부분
         // mode="parallax"
         // modeConfig={{

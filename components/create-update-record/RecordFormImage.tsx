@@ -3,7 +3,6 @@ import { useRecordForm } from "@/hooks/useRecordForm";
 import * as ImagePicker from "expo-image-picker";
 import { memo, useCallback } from "react";
 
-import styles from "./style/RecordForm";
 import ImageCarousel from "./ImageCarousel";
 
 const IMAGE_LIMIT = 5;
@@ -56,11 +55,7 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
   return (
     <View>
       <TouchableOpacity onPress={handleImagePicker}>
-        <ImageCarousel
-          modify={modify}
-          width={styles.recordImage.width}
-          height={styles.recordImage.height}
-        />
+        <ImageCarousel modify={modify} />
       </TouchableOpacity>
     </View>
   );
