@@ -62,7 +62,8 @@ const createHugeData = async (realm: Realm) => {
       const randomRatio = Math.random() + 0.5;
       const randomIndex = Math.floor(Math.random() * imagePathArray.length);
       const record = Record.generate(
-        new Date(),
+        // date + random
+        new Date(Date.now() + Math.random() * 10000000000),
         [imagePathArray[randomIndex]],
         [randomRatio],
         `레코드 ${i}`,
@@ -74,6 +75,12 @@ const createHugeData = async (realm: Realm) => {
       data.forEach((record) => {
         const newRecord = realm.create("Record", record);
         archive.records.push(newRecord);
+        archive.count += 1;
+        archive.lastDate = archive.lastDate
+          ? new Date(
+              Math.max(archive.lastDate.getTime(), record.date.getTime()),
+            )
+          : record.date;
       });
     });
   } catch (error) {

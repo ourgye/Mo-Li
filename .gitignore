@@ -33,3 +33,7 @@ expo-env.d.ts
 
 # dummy data files
 # assets/images/dummy-images/*
+
+# claude
+.claude/
+docs/
