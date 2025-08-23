@@ -3,6 +3,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 import styles from "../common/style/HeaderWithTitle";
+import typos from "@/assets/fonts/typos";
+import SvgIcon from "../common/SvgIcon";
 
 export default function ArchiveSelectHeader({
   title,
@@ -19,14 +21,14 @@ export default function ArchiveSelectHeader({
           router.back();
         }}
       >
-        <MaterialCommunityIcons name="chevron-left" size={32} color="black" />
+        <SvgIcon name="Back_icon" size={24} />
       </Pressable>
-      <Text style={styles.headerTitle}>{title}</Text>
+      <Text style={typos.header_typo}>{title}</Text>
       {/* ========================= + 버튼 ========================= */}
       <Pressable
         onPress={() => (setModalVisible ? setModalVisible(true) : null)}
       >
-        <MaterialCommunityIcons name="plus" size={32} color="black" />
+        <SvgIcon name="Add_icon" size={24} />
       </Pressable>
     </View>
   );

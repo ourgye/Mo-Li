@@ -7,6 +7,8 @@ import { useArchive } from "@/hooks/useArchive";
 import { useRealm } from "@realm/react";
 import Archive from "@/db/schema/archive";
 import dayjs from "dayjs";
+import colors from "@/assets/colors/colors";
+import typos from "@/assets/fonts/typos";
 
 interface ArchiveSelectListItemProps {
   selectedId: string;
@@ -38,7 +40,7 @@ export function ArchiveSelectList({ modalVisible }: { modalVisible: boolean }) {
       keyExtractor={(item) => item._id.toString()}
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => (
-        <View style={{ height: 0.7, backgroundColor: "#CBCBCB" }} />
+        <View style={{ height: 0.7, backgroundColor: colors.gray3 }} />
       )}
       contentContainerStyle={styles.container}
       style={{ flex: 1 }}
@@ -64,13 +66,13 @@ const ArchiveSelectListItem = ({
       >
         <Text
           style={[
-            styles.title,
-            selectedId === data._id.toString() && { color: "#00CFF9" },
+            typos.body1_typo,
+            selectedId === data._id.toString() && { color: colors.blued1 },
           ]}
         >
           {data.name}
         </Text>
-        <Text>
+        <Text style={typos.caption2_typo}>
           {data.count
             ? data.count + "개 | " + dayjs(data.lastDate).format("YYYY-MM-DD")
             : "데이터가 없습니다"}

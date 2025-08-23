@@ -22,8 +22,7 @@ const styles = StyleSheet.create({
   },
   // 임시
   buttonDisable: {
-    backgroundColor: colors.gray3,
-    color: colors.gray5,
+    backgroundColor: colors.gray2,
   },
   button: {
     backgroundColor: colors.blue0,

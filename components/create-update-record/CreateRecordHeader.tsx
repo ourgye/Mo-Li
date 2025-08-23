@@ -45,7 +45,7 @@ export default function CreateRecordHeader({
         disabled={!buttonEnable}
         onPress={handleOnCreate}
       >
-        <Text style={typos.body1_typo}>게시</Text>
+        <Text style={typos.body3_typo}>게시</Text>
       </Pressable>
     </View>
   );
