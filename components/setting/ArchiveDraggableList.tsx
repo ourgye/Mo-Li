@@ -48,7 +48,7 @@ export default function ArchiveDraggableList() {
               onPress: () => deleteArchive(realm, item._id as Realm.BSON.UUID),
               style: "destructive",
             },
-          ],
+          ]
         );
       }
     };
@@ -117,8 +117,8 @@ export default function ArchiveDraggableList() {
             lineHeight: 24,
           }}
         >
-          상단의 <SvgIcon name="Add_icon" size={24} /> 버튼을 눌러 아카이브를
-          추가해주세요.
+          상단의 <SvgIcon name="Add_icon" size={24} fill={colors.blue0} />{" "}
+          버튼을 눌러 아카이브를 추가해주세요.
         </Text>
       </View>
     );

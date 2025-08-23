@@ -7,6 +7,7 @@ import styles from "../common/style/HeaderWithTitle";
 import Archive from "@/db/schema/archive";
 import typos from "@/assets/fonts/typos";
 import SvgIcon from "../common/SvgIcon";
+import colors from "@/assets/colors/colors";
 
 export function RecordDetailHeader({ archive }: { archive?: Archive }) {
   return (
@@ -22,7 +23,7 @@ export function RecordDetailHeader({ archive }: { archive?: Archive }) {
       <Text style={typos.header_typo}>{archive?.name}</Text>
       {/* ========================= 추가 버튼 ========================= */}
       <Pressable onPress={() => router.navigate("/create-record")}>
-        <SvgIcon name="Add_icon" size={24} />
+        <SvgIcon name="Add_icon" size={24} fill={colors.blue0} />
       </Pressable>
     </View>
   );

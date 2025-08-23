@@ -6,6 +6,7 @@ import { useState } from "react";
 import ArchiveModal from "../common/ArchiveModal";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
+import colors from "@/assets/colors/colors";
 
 export function ArchiveDraggableHeader() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -27,7 +28,7 @@ export function ArchiveDraggableHeader() {
       <Pressable
         onPress={() => (setModalVisible ? setModalVisible(true) : null)}
       >
-        <SvgIcon name="Add_icon" size={24} />
+        <SvgIcon name="Add_icon" size={24} fill={colors.blue0} />
       </Pressable>
     </View>
   );

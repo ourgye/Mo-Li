@@ -12,6 +12,7 @@ type IconProps = SvgProps & {
 function SvgIcon({
   name,
   fill,
+  color,
   width: _width,
   height: _height,
   size,
@@ -27,7 +28,7 @@ function SvgIcon({
   };
 
   return (
-    <Comp {...props} fill={fill} strokeWidth={strokeWidth} {...sizeProps} />
+    <Comp {...props} color={fill} strokeWidth={strokeWidth} {...sizeProps} />
   );
 }
 

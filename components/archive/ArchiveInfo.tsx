@@ -9,6 +9,7 @@ import { useRealm } from "@realm/react";
 import Archive from "@/db/schema/archive";
 import Realm from "realm";
 import typos from "@/assets/fonts/typos";
+import colors from "@/assets/colors/colors";
 
 interface ArchiveInfoProps {
   currentArchive: Archive | undefined;
@@ -42,7 +43,7 @@ export function ArchiveInfo({
     <>
       <Pressable style={styles.titleContainer} onPress={handleOnPressTitle}>
         <Text style={typos.header_typo}>{currentArchive?.name}</Text>
-        <SvgIcon name="Dropdown_icon" size={20} />
+        <SvgIcon name="Dropdown_icon" size={20} fill={colors.blue0} />
       </Pressable>
       {showArchives && (
         <FlatList

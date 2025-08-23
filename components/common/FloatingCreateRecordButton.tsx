@@ -10,7 +10,7 @@ export function FloatingCreateRecordButton() {
   return (
     <Link href={"/create-record"} asChild style={styles.addFloatingButton}>
       <Pressable>
-        <SvgIcon name="Floating_add_icon" size={50} fill={colors.white0} />
+        <SvgIcon name="Floating_add_icon" size={50} fill={colors.blue0} />
       </Pressable>
     </Link>
   );

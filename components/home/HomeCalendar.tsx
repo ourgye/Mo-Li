@@ -107,13 +107,13 @@ export function HomeCalendar() {
           <View style={styles.customHeaderWrapper}>
             <View style={styles.customHeader}>
               <TouchableOpacity onPress={movePrevious}>
-                <SvgIcon name="Left_icon" size={24} />
+                <SvgIcon name="Left_icon" size={24} fill={colors.blue0} />
               </TouchableOpacity>
               <Text style={typos.header_typo}>
                 {daysKo.monthNames[currentMonth]}
               </Text>
               <TouchableOpacity onPress={moveNext}>
-                <SvgIcon name="Right_icon" size={24} />
+                <SvgIcon name="Right_icon" size={24} fill={colors.blue0} />
               </TouchableOpacity>
             </View>
             <CustomDropDown />

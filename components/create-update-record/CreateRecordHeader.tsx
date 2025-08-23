@@ -5,6 +5,7 @@ import styles from "./style/Header";
 import { useRecordForm } from "@/hooks/useRecordForm";
 import SvgIcon from "../common/SvgIcon";
 import typos from "@/assets/fonts/typos";
+import colors from "@/assets/colors/colors";
 
 export default function CreateRecordHeader({
   createRecord,
@@ -36,7 +37,7 @@ export default function CreateRecordHeader({
     <View style={styles.headerContainer}>
       {/* =================== 뒤로가기 버튼  =================== */}
       <Pressable onPress={handleOnPressBack} style={styles.iconWrapper}>
-        <SvgIcon name="Back_icon" size={24} />
+        <SvgIcon name="Back_icon" size={24} fill={colors.blue0} />
       </Pressable>
       <Text style={[typos.header_typo, styles.headerTypo]}>레코드 추가</Text>
       {/* =================== 게시 버튼  =================== */}

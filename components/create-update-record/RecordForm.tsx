@@ -96,12 +96,12 @@ export function RecordForm({
       recordDate,
       [],
       recordImageRatio,
-      recordBody,
+      recordBody
     );
     const createRec = async () => {
       const imagePath = await saveImage2File(
         recordWhole.imagePath,
-        record._id.toString(),
+        record._id.toString()
       );
 
       console.log("[DEBUG] imagePath", imagePath);
@@ -143,7 +143,7 @@ export function RecordForm({
     const updateRec = async () => {
       if (recordImagePath && record) {
         const toBeDeleted = record.imagePath.filter(
-          (path) => !recordImagePath.includes(path),
+          (path) => !recordImagePath.includes(path)
         );
         const deleteSuccess = await deleteImageAll(toBeDeleted);
         if (!deleteSuccess) {
@@ -151,7 +151,7 @@ export function RecordForm({
         }
         imagePath = await saveImage2File(
           recordWhole.imagePath,
-          recordId.toString(),
+          recordId.toString()
         );
       }
 
@@ -167,7 +167,7 @@ export function RecordForm({
           recordDate,
           imagePath,
           recordImageRatio,
-          recordBody,
+          recordBody
         );
       }
     };
@@ -207,9 +207,10 @@ export function RecordForm({
           }}
           onCancel={hideDatePicker}
           locale="ko_KR"
-          accentColor={colors.blue0}
+          accentColor={colors.blued1}
           confirmTextIOS="확인"
           cancelTextIOS="취소"
+          textColor={colors.black0}
         />
         {/* 폼 */}
         <View style={[styles.container]}>

@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import styles from "../common/style/HeaderWithTitle";
 import typos from "@/assets/fonts/typos";
 import SvgIcon from "../common/SvgIcon";
+import colors from "@/assets/colors/colors";
 
 export default function ArchiveSelectHeader({
   title,
@@ -28,7 +29,7 @@ export default function ArchiveSelectHeader({
       <Pressable
         onPress={() => (setModalVisible ? setModalVisible(true) : null)}
       >
-        <SvgIcon name="Add_icon" size={24} />
+        <SvgIcon name="Add_icon" size={24} fill={colors.blue0} />
       </Pressable>
     </View>
   );

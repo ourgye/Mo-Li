@@ -232,7 +232,7 @@ ImageCarousel.skeleton = () => {
         },
       ]}
     >
-      <SvgIcon name="Add_icon" size={24} color={colors.gray3} />
+      <SvgIcon name="Add_icon" size={24} fill={colors.blue0} />
     </View>
   );
 };
