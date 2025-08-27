@@ -111,7 +111,8 @@ const createDummyData = (realm: Realm) => {
             const newRecord = realm.create<Record>(
               "Record",
               Record.generate(
-                record.date,
+                // date 하루씩 차이나도록
+                new Date(record.date.getTime() + index * 24 * 60 * 60 * 1000),
                 imagePathArray,
                 record.imageRatio,
                 record.body,

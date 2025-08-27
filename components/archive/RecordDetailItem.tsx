@@ -28,7 +28,6 @@ export function RecordDetailItem({
   record: Record;
   onLayout?: (height: number) => void;
 }) {
-  console.log("rendered index", index, record.body);
   const realm = useRealm();
   const window = useWindowDimensions();
   const contentWidth = window.width - 48 - 32;

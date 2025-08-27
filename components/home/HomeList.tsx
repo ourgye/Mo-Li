@@ -13,7 +13,7 @@ import {
 } from "@/db/crud/record-method";
 import Record from "@/db/schema/record";
 import Archive from "@/db/schema/archive";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState, memo, useCallback } from "react";
 import Realm from "realm";
 import dayjs from "dayjs";
 import { useRealm } from "@realm/react";
@@ -66,35 +66,51 @@ export function HomeList() {
   );
 }
 
-function YesRecordList({
+const YesRecordList = memo(({
   selectedDateRecords,
 }: {
   selectedDateRecords: Realm.Results<Record>;
-}) {
+}) => {
+  const renderItem = useCallback(({ item }: { item: Record }) => (
+    <HomeRecordItem record={item} />
+  ), []);
+
+  const itemSeparator = useCallback(() => (
+    <View style={{ height: 16 }} />
+  ), []);
+
   return (
     <FlatList
       scrollEnabled={false}
       data={selectedDateRecords}
-      ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-      renderItem={({ item }) => <HomeRecordItem record={item} />}
+      ItemSeparatorComponent={itemSeparator}
+      renderItem={renderItem}
       showsVerticalScrollIndicator={false}
     />
   );
-}
+});
 
-function NoRecordList({
+const NoRecordList = memo(({
   archiveList,
   setModalVisible,
 }: {
   archiveList?: Realm.Results<Archive>;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
-}) {
+}) => {
+  const renderItem = useCallback(({ item }: { item: Archive }) => (
+    <ArchiveListItem archive={item} />
+  ), []);
+
+  const itemSeparator = useCallback(() => (
+    <View style={{ height: 16 }} />
+  ), []);
+
   return (
     <FlatList
       scrollEnabled={false}
       data={archiveList}
-      ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-      renderItem={({ item }) => <ArchiveListItem archive={item} />}
+      ItemSeparatorComponent={itemSeparator}
+      renderItem={renderItem}
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={
         <View>
@@ -140,4 +156,4 @@ function NoRecordList({
       }
     />
   );
-}
+});

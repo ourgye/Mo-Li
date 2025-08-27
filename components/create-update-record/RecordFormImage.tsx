@@ -3,7 +3,6 @@ import { useRecordForm } from "@/hooks/useRecordForm";
 import * as ImagePicker from "expo-image-picker";
 import { memo, useCallback } from "react";
 
-import styles from "./style/RecordForm";
 import ImageCarousel from "./ImageCarousel";
 
 const IMAGE_LIMIT = 5;
@@ -20,11 +19,6 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
 
   const handleImagePicker = async () => {
     try {
-      console.log(
-        "image number can add",
-        IMAGE_LIMIT - (recordImagePath?.length || 0),
-      );
-
       if (recordImagePath?.length === IMAGE_LIMIT) {
         alert("사진은 최대 5장까지 추가할 수 있습니다.");
         return;
@@ -45,22 +39,15 @@ export default function RecordFormImage({ modify }: { modify?: boolean }) {
         ...(recordImagePath || []),
         ...image.assets.map((asset) => asset.uri),
       ]);
-
-      console.log("image", image.assets);
-      console.log("ratioArray", ratioArray);
     } catch (e) {
-      console.log(e);
+      // Handle error silently or with proper error handling
     }
   };
 
   return (
     <View>
       <TouchableOpacity onPress={handleImagePicker}>
-        <ImageCarousel
-          modify={modify}
-          width={styles.recordImage.width}
-          height={styles.recordImage.height}
-        />
+        <ImageCarousel modify={modify} />
       </TouchableOpacity>
     </View>
   );
