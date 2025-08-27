@@ -1,8 +1,8 @@
 import typos from "@/assets/fonts/typos";
-import SettingList from "@/components/setting/SettingList";
-import { Text, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import SettingAd from "@/components/ad/setting-ad";
+import SettingList from "@/components/setting/SettingList";
+import { Text, StyleSheet, View, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Header = () => {
   return (
@@ -16,9 +16,11 @@ export default function Setting() {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <Header />
-        <SettingAd />
-        <SettingList />
+        <ScrollView>
+          <Header />
+          <SettingAd />
+          <SettingList />
+        </ScrollView>
       </SafeAreaView>
     </>
   );
