@@ -73,8 +73,10 @@ export default function SettingList() {
   return (
     <View>
       {sections.map((section) => (
-        <View key={section.title}>
-          <Text>{section.title}</Text>
+        <View key={section.title} style={{ marginBottom: 32 }}>
+          <Text style={[typos.subtitle2_typo, { paddingVertical: 8 }]}>
+            {section.title}
+          </Text>
           <FlatList
             data={section.data}
             renderItem={({ item }) => <SettingListItem data={item} />}
