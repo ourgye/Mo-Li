@@ -42,6 +42,14 @@
           "androidAppId": "ca-app-pub-3096257317679782~6144142452",
           "userTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "15.5"
+          }
+        }
       ]
     ],
     "experiments": {

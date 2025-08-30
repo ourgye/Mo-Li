@@ -1,4 +1,4 @@
-import { FlatList, Pressable, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { useMemo } from "react";
 
@@ -12,26 +12,6 @@ interface SettingSection {
   data: navigationType[];
 }
 
-const SettingListItem = ({ data }: { data: navigationType }) => {
-  if (data.name === "setting") return null;
-  return (
-    <Link
-      href={data.path || "/"}
-      style={[
-        styles.itemContainer,
-        {
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 8,
-          flexGrow: 1,
-        },
-      ]}
-    >
-      <Text style={typos.body1_typo}>{data?.nameKo}</Text>
-    </Link>
-  );
-};
-
 export default function SettingList() {
   const setting: navigationType = naviList
     .find((item) => item.name === "(tabs)")
@@ -41,7 +21,6 @@ export default function SettingList() {
     if (!setting?.children) return [];
 
     const functionalSettings = ["archive-manage", "backup-file", "theme"];
-
     const informationalSettings = [
       "help",
       "open-source",
@@ -59,14 +38,8 @@ export default function SettingList() {
     );
 
     return [
-      {
-        title: "사용자 설정",
-        data: functional,
-      },
-      {
-        title: "정보",
-        data: informational,
-      },
+      { title: "사용자 설정", data: functional },
+      { title: "정보", data: informational },
     ];
   }, [setting]);
 
@@ -78,6 +51,7 @@ export default function SettingList() {
             {section.title}
           </Text>
           <FlatList
+            scrollEnabled={false}
             data={section.data}
             renderItem={({ item }) => <SettingListItem data={item} />}
             keyExtractor={(item) => item._id.toString() + "setting"}
@@ -86,10 +60,18 @@ export default function SettingList() {
               <View style={{ height: 0.4, backgroundColor: colors.gray3 }} />
             )}
             contentContainerStyle={styles.container}
-            style={{ flex: 1 }}
           />
         </View>
       ))}
     </View>
   );
 }
+
+const SettingListItem = ({ data }: { data: navigationType }) => {
+  if (data.name === "setting") return null;
+  return (
+    <Link href={data.path || "/"} style={[styles.itemContainer]}>
+      <Text style={typos.body1_typo}>{data?.nameKo}</Text>
+    </Link>
+  );
+};
