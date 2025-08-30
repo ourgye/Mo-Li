@@ -4,9 +4,7 @@ import {
   View,
   Text,
   Pressable,
-  StyleSheet,
   TextInput,
-  ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
@@ -96,12 +94,12 @@ export function RecordForm({
       recordDate,
       [],
       recordImageRatio,
-      recordBody
+      recordBody,
     );
     const createRec = async () => {
       const imagePath = await saveImage2File(
         recordWhole.imagePath,
-        record._id.toString()
+        record._id.toString(),
       );
 
       console.log("[DEBUG] imagePath", imagePath);
@@ -143,7 +141,7 @@ export function RecordForm({
     const updateRec = async () => {
       if (recordImagePath && record) {
         const toBeDeleted = record.imagePath.filter(
-          (path) => !recordImagePath.includes(path)
+          (path) => !recordImagePath.includes(path),
         );
         const deleteSuccess = await deleteImageAll(toBeDeleted);
         if (!deleteSuccess) {
@@ -151,7 +149,7 @@ export function RecordForm({
         }
         imagePath = await saveImage2File(
           recordWhole.imagePath,
-          recordId.toString()
+          recordId.toString(),
         );
       }
 
@@ -167,7 +165,7 @@ export function RecordForm({
           recordDate,
           imagePath,
           recordImageRatio,
-          recordBody
+          recordBody,
         );
       }
     };
@@ -177,7 +175,6 @@ export function RecordForm({
 
   useEffect(() => {
     checkRecordForm();
-    // console.log("[DEBUG] recordWhole", recordWhole);
   }, [recordWhole]);
 
   return (
@@ -197,6 +194,7 @@ export function RecordForm({
         <RecordFormImage modify />
         <DateTimePickerModal
           // style={{ flex: 1}}
+          backdropStyleIOS={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}
           isVisible={isDatePickerVisible}
           date={dayjs().toDate()}
           mode="date"
