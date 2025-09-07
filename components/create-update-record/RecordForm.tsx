@@ -1,5 +1,11 @@
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import {
   View,
   Text,
@@ -7,20 +13,22 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Calendar, DateData } from "react-native-calendars";
+import { useRealm } from "@realm/react";
+import dayjs from "dayjs";
 
 import { useRecordForm } from "@/hooks/useRecordForm";
 import styles from "./style/RecordForm";
 import colors from "@/assets/colors/colors";
 import typos from "@/assets/fonts/typos";
 import SvgIcon from "../common/SvgIcon";
-import dayjs from "dayjs";
 import RecordFormImage from "./RecordFormImage";
 import CreateRecordHeader from "./CreateRecordHeader";
 import Record from "@/db/schema/record";
 import { saveImage2File } from "@/utils/saveImage2File";
-import { useRealm } from "@realm/react";
 import { createNewRecord, updateRecord } from "@/db/crud/record-method";
 import {
   updateArchiveCount,
@@ -28,6 +36,7 @@ import {
 } from "@/db/crud/archive-method";
 import ModifyRecordHeader from "./ModifyRecordHeader";
 import { deleteImageAll } from "@/utils/deleteImageAll";
+import daysKo from "@/constants/dayko";
 
 export function RecordForm({
   modify = false,
@@ -51,6 +60,7 @@ export function RecordForm({
   const [isDatePickerVisible, setDatePickerVisibility] =
     useState<boolean>(false);
   const [buttonEnable, setButtonEnable] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState(recordDate);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -177,6 +187,105 @@ export function RecordForm({
     checkRecordForm();
   }, [recordWhole]);
 
+  const CustomCalendarPicker = () => {
+    // calendar varaiables and functions, it renders too much. selectedDate 바뀔때마다 렌더링됨
+    const selectedDateString = dayjs(selectedDate).format("YYYY-MM-DD");
+    const [currentMonth, setCurrentMonth] = useState<number>(
+      dayjs(selectedDate, "YYYY-MM-DD").get("month"),
+    );
+    const customHeaderProps: any = useRef();
+
+    const handleDayPress = (day: DateData) => {
+      console.log(day);
+      const selectedDay = dayjs(day.dateString).startOf("day").toDate();
+      setSelectedDate(selectedDay);
+    };
+
+    const markedDates = {
+      [selectedDateString]: {
+        selected: true,
+        disableTouchEvent: true,
+        customStyles: {
+          container: styles.calendarSelectedDay,
+        },
+      },
+    };
+
+    const calendarTheme = useMemo(
+      () => ({
+        todayTextColor: colors.blued1,
+        dayTextColor: colors.black0,
+        textDisabledColor: colors.gray3,
+        textDayFontSize: 14,
+      }),
+      [],
+    );
+
+    const setCustomHeaderNewMonth = useCallback((next = false) => {
+      console.log("setCustomHeaderNewMonth", next);
+      const add = next ? 1 : -1;
+      const month = new Date(customHeaderProps?.current?.month);
+      const newMonth = new Date(month.setMonth(month.getMonth() + add));
+      customHeaderProps?.current?.addMonth(add);
+      setCurrentMonth(newMonth.getMonth());
+    }, []);
+
+    const moveNext = () => {
+      setCustomHeaderNewMonth(true);
+    };
+
+    const movePrevious = () => {
+      setCustomHeaderNewMonth(false);
+    };
+
+    const DayNames = React.memo(() => {
+      return (
+        <View style={styles.dayNamesStyle}>
+          {daysKo.dayNamesShort.map((day) => (
+            <View key={day} style={styles.customDayContainer}>
+              <Text key={day} style={typos.body2_typo}>
+                {day}
+              </Text>
+            </View>
+          ))}
+        </View>
+      );
+    });
+
+    const CustomWeek = React.forwardRef((props, ref) => {
+      customHeaderProps.current = props;
+      return (
+        // @ts-expect-error
+        <View ref={ref} {...props}>
+          <View style={styles.customHeader}>
+            <TouchableOpacity onPress={movePrevious}>
+              <SvgIcon name="Left_icon" size={24} fill={colors.blue0} />
+            </TouchableOpacity>
+            <Text style={typos.header_typo}>
+              {daysKo.monthNames[currentMonth]}
+            </Text>
+            <TouchableOpacity onPress={moveNext}>
+              <SvgIcon name="Right_icon" size={24} fill={colors.blue0} />
+            </TouchableOpacity>
+          </View>
+          <DayNames />
+        </View>
+      );
+    });
+
+    return (
+      <Calendar
+        initialDate={selectedDateString}
+        markingType="custom"
+        style={styles.calendarContainer}
+        onDayPress={handleDayPress}
+        markedDates={markedDates}
+        theme={calendarTheme}
+        customHeader={CustomWeek}
+      />
+    );
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ height: "100%" }}>
@@ -194,21 +303,27 @@ export function RecordForm({
         <RecordFormImage modify />
         <DateTimePickerModal
           // style={{ flex: 1}}
-          backdropStyleIOS={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}
-          isVisible={isDatePickerVisible}
-          date={dayjs().toDate()}
-          mode="date"
-          display="inline"
-          onConfirm={(date: Date) => {
-            setRecordDate(date);
-            hideDatePicker();
-          }}
-          onCancel={hideDatePicker}
-          locale="ko_KR"
+          // ======= styles ======
           accentColor={colors.blued1}
           confirmTextIOS="확인"
           cancelTextIOS="취소"
           textColor={colors.black0}
+          pickerContainerStyleIOS={styles.datePickerContainer}
+          customPickerIOS={() => <CustomCalendarPicker />}
+          // =====================
+          isVisible={isDatePickerVisible}
+          mode="date"
+          display="inline"
+          date={selectedDate}
+          onChange={(date: Date) => {
+            setSelectedDate(date);
+          }}
+          onConfirm={(date: Date) => {
+            setRecordDate(selectedDate);
+            hideDatePicker();
+          }}
+          onCancel={hideDatePicker}
+          locale="ko_KR"
         />
         {/* 폼 */}
         <View style={[styles.container]}>

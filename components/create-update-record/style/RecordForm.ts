@@ -41,6 +41,57 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
   },
+  // calendar
+  datePickerContainer: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.black0,
+    overflow: "hidden",
+  },
+  calendarContainer: {
+    backgroundColor: colors.white0,
+    paddingBottom: 16,
+    borderRadius: 16,
+  },
+  calendarSelectedDay: {
+    backgroundColor: colors.blue0,
+    borderWidth: 1,
+    borderColor: colors.black0,
+    justifyContent: "center",
+  },
+  customCalendarHeader: {
+    width: "100%",
+    borderWidth: 1,
+    backgroundColor: colors.gray1,
+    alignContent: "flex-start",
+    justifyContent: "flex-start",
+    //paddingTop: 16,
+  },
+  dayNamesStyle: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    textAlign: "center",
+  },
+  customHeader: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    //gap: 24,
+  },
+  customDayContainer: {
+    flex: 1,
+    height: 40,
+    marginTop: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  customDay: {
+    textAlign: "center",
+  },
 });
 
 export default styles;

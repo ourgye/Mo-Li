@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useCallback, useRef, useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { Calendar, DateData } from "react-native-calendars";
@@ -10,7 +9,6 @@ import colors from "@/assets/colors/colors";
 import { useCalendar } from "@/hooks/useCalendar";
 import dayjs from "dayjs";
 import daysKo from "@/constants/dayko";
-import { useArchive } from "@/hooks/useArchive";
 import { useRealm } from "@realm/react";
 import { useRecordArchiveFiltered } from "@/hooks/useRecordArchiveFilterd";
 import Record from "@/db/schema/record";
@@ -24,7 +22,7 @@ export function HomeCalendar() {
   const records = useRecordArchiveFiltered(realm, currentArchiveId);
   const customHeaderProps: any = useRef();
   const [currentMonth, setCurrentMonth] = useState<number>(
-    dayjs(selectedDate, "YYYY-MM-DD").get("month") + 1
+    dayjs(selectedDate, "YYYY-MM-DD").get("month") + 1,
   );
 
   const recordStyle = {
